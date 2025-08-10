@@ -20,7 +20,7 @@ async function getAccessToken(): Promise<string | null> {
   }
 
   // --- Environment-Specific Configuration ---
-  const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === "production";
+  const isProduction = process.env.NODE_ENV === "production";
 
   const tokenUrl = isProduction
     ? "https://oauth2.quran.foundation/oauth2/token"
@@ -35,6 +35,9 @@ async function getAccessToken(): Promise<string | null> {
     : process.env.QURAN_CLIENT_SECRET_STAGING;
 
   console.log({ tokenUrl });
+  console.log("Is Production:", isProduction);
+  console.log("Client ID loaded:", !!clientId); // Should log: true
+  console.log("Client Secret loaded:", !!clientSecret); // Should log: true
   if (!clientId || !clientSecret) {
     console.error(
       "SERVER_ERROR: Missing client credentials for the current environment."
@@ -83,7 +86,7 @@ async function handler(
 ) {
   const { slug } = await params;
   const apiPath = slug.join("/");
-  const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === "production";
+  const isProduction = process.env.NODE_ENV === "production";
 
   const clientId = isProduction
     ? process.env.QURAN_CLIENT_ID_PRODUCTION
