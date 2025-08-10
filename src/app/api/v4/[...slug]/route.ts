@@ -86,8 +86,8 @@ async function handler(
   const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === "production";
 
   const clientId = isProduction
-    ? process.env.NEXT_PUBLIC_CLIENT_ID_PRODUCTION
-    : process.env.NEXT_PUBLIC_CLIENT_ID_STAGING;
+    ? process.env.QURAN_CLIENT_ID_PRODUCTION
+    : process.env.QURAN_CLIENT_ID_STAGING;
 
   const accessToken = await getAccessToken();
   if (!accessToken) {
