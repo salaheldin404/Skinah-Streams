@@ -1,26 +1,291 @@
 @import "tailwindcss";
+@plugin "tailwindcss-animate";
+@custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: "Uthmanic Hafs";
+  src: url("/fonts/Uthmanic-Hafs.ttf") format("truetype"),
+    url("/fonts/Uthmanic-Hafs.woff2") format("woff2"),
+    url("/fonts/Uthmanic_Script.otf") format("opentype");
+
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+@font-face {
+  font-family: "Almushaf";
+  src: url("/fonts/Al-Mushaf-Quran.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Almajeed";
+  src: url("/fonts/Al-Majeed-Quranic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ayah";
+  src: url("/fonts/ayah/AyatQuran2.ttf") format("truetype");
+
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ayah-1";
+  src: url("/fonts/ayah/AyatQuran1.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ayah-2";
+  src: url("/fonts/ayah/AyatQuran2.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ayah-3";
+  src: url("/fonts/ayah/AyatQuran3.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ayah-4";
+  src: url("/fonts/ayah/AyatQuran4.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ayah-5";
+  src: url("/fonts/ayah/AyatQuran5.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  --font-naskh: var(--font-noto-naskh);
+  --font-cairo: var(--font-cairo);
+  --font-uthmanic: "Uthmanic Hafs", serif;
+  --font-amiri: var(--font-amiri);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+/* 
+body {
+  font-family: var(--font-cairo);
+} */
+
+.uthmanic-text {
+  font-family: "Uthmanic Hafs", serif;
+}
+.mushaf-text {
+  font-family: "Almushaf", serif;
+}
+.almajeed-text {
+  font-family: "Almajeed", serif;
 }
 
-@media (prefers-color-scheme: dark) {
+.aya-text {
+  font-family: "Ayah", serif;
+}
+
+.ayah-1 {
+  font-family: "Ayah-1", serif;
+}
+.ayah-2 {
+  font-family: "Ayah-2", serif;
+}
+.ayah-3 {
+  font-family: "Ayah-3", serif;
+}
+.ayah-4 {
+  font-family: "Ayah-4", serif;
+}
+.ayah-5 {
+  font-family: "Ayah-5", serif;
+}
+
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Light Mode Colors - wrapped in hsl() */
+    --background: hsl(0 0% 100%);
+    --foreground: hsl(224 71.4% 4.1%);
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(224 71.4% 4.1%);
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(224 71.4% 4.1%);
+    --primary: hsl(262.1 83.3% 57.8%);
+    --primary-foreground: hsl(210 20% 98%);
+    --secondary: hsl(220 14.3% 95.9%);
+    --secondary-foreground: hsl(220.9 39.3% 11%);
+    --muted: hsl(220 14.3% 95.9%);
+    --muted-foreground: hsl(220 8.9% 46.1%);
+    --accent: hsl(220 14.3% 95.9%);
+    --accent-foreground: hsl(220.9 39.3% 11%);
+    --destructive: hsl(0 84.2% 60.2%);
+    --destructive-foreground: hsl(210 20% 98%);
+    --border: hsl(220 13% 91%);
+    --input: hsl(220 13% 91%);
+    --ring: hsl(262.1 83.3% 57.8%);
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Dark Mode Colors - wrapped in hsl() */
+    --background: hsl(240 10% 5%);
+    --foreground: hsl(210 10% 95%);
+    --card: hsl(240 8% 10%);
+    --card-foreground: hsl(210 10% 95%);
+    --popover: hsl(240 12% 8%);
+    --popover-foreground: hsl(210 10% 95%);
+    --primary: hsl(263.4 70% 50.4%);
+    --primary-foreground: hsl(210 10% 95%);
+    --secondary: hsl(220 15% 18%);
+    --secondary-foreground: hsl(210 10% 95%);
+    --muted: hsl(220 10% 15%);
+    --muted-foreground: hsl(210 8% 70%);
+    --accent: hsl(260 60% 40%);
+    --accent-foreground: hsl(210 10% 95%);
+    --destructive: hsl(0 80% 50%);
+    --destructive-foreground: hsl(210 10% 95%);
+    --border: hsl(240 5% 20%);
+    --input: hsl(240 5% 20%);
+    --ring: hsl(260 70% 60%);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .surah-card {
+    @apply rounded-lg p-4 transition-colors  bg-card;
+  }
+
+  .surah-card:hover {
+    @apply dark:bg-secondary bg-gray-50;
+  }
+
+  .gradient-card {
+    @apply rounded-lg flex items-center justify-center text-white font-bold;
+  }
+
+  .gradient-green {
+    background: linear-gradient(to bottom right, #1dd75f, #0f7c2f);
+  }
+
+  .gradient-blue {
+    background: linear-gradient(to bottom right, #2563eb, #1d4ed8);
+  }
+
+  .gradient-purple {
+    background: linear-gradient(to bottom right, #9333ea, #7c3aed);
+  }
+
+  .gradient-orange {
+    background: linear-gradient(to bottom right, #ea580c, #dc2626);
+  }
+
+  .gradient-teal {
+    background: linear-gradient(to bottom right, #0d9488, #0891b2);
+  }
+
+  .gradient-rose {
+    background: linear-gradient(to bottom right, #e11d48, #be123c);
+  }
+
+  .gradient-amber {
+    background: linear-gradient(to bottom right, #d97706, #b45309);
+  }
+
+  .gradient-emerald {
+    background: linear-gradient(to bottom right, #059669, #047857);
+  }
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply font-cairo bg-background text-foreground;
+  }
+  .main-container {
+    @apply mx-auto px-4 md:px-8 lg:px-16 xl:px-32;
+  }
 }

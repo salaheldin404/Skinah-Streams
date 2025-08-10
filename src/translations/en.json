@@ -1,0 +1,158 @@
+{
+  "HomePage": {
+    "title": "Welcome to our Website!",
+    "description": "This is an example of a multi-language application using next-intl."
+  },
+  "LanguageSwitcher": {
+    "label": "Change language",
+    "english": "English",
+    "arabic": "Arabic"
+  },
+  "ModeSwitcher": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "SearchBar": {
+    "placeholder": "Search in the Holy Quran",
+    "label": "Search",
+    "no-results": "No results found"
+  },
+  "SideNav": {
+    "home": "Home",
+    "favorites": "Favorites",
+    "reciters": "Reciters",
+    "settings": "Settings",
+    "radio": "Radio",
+    "title": "Menu"
+  },
+  "QuickAccess": {
+    "message": "Continue your spiritual journey",
+    "favorite-verses": "Favorite Verses",
+    "favourite-surahs": "Favorite Surahs",
+    "recent": "Recently Played",
+    "night-recitation": "Night Recitations",
+    "short-surahs": "Short Surahs",
+    "no-recently": "No recently played",
+    "verses": "verses",
+    "surahs": "surahs",
+    "surah": "surah",
+    "last-read": "Last recitation",
+    "no-last-read": "No last recitation"
+  },
+  "Surah": {
+    "verses": "verses",
+    "verse": "verse",
+    "meccan": "Meccan",
+    "medinan": "Medinan",
+    "style": "style"
+  },
+  "SurahPage": {
+    "not-found": "Surah Not Found",
+    "not-found-description": "We couldn't find a Surah with the specified ID.",
+    "play": "Play Surah",
+    "loading": "Loading, please wait...",
+    "error": "An error occurred while loading data. Please try again.",
+    "reading": "Reading",
+    "translation": "Translation",
+    "save-mark": "Save Mark",
+    "marked-saved": "Marked has been saved"
+  },
+  "FeaturedSurahs": {
+    "title": "Featured Surahs",
+    "show-all": "Show all"
+  },
+  "Reciters": {
+    "title": "Featured Reciters",
+    "show-all": "Show all",
+    "header": "Quran Reciters",
+    "description": "Listen to beautiful Quran recitations from renowned reciters around the world. Each voice carries the divine message with unique beauty and spiritual depth.",
+    "input": "Search reciters by name or style",
+    "no-reciters": "No reciters found",
+    "no-reciters-description": "We couldn't find any reciters matching your search.Try adjusting your search terms or browse all available reciters.",
+    "murattal": "Murattal",
+    "mojawwad": "Mujawwad",
+    "mo'lim": "Muallim"
+  },
+  "ReciterPage": {
+    "search-input": "Search surah by name",
+    "no-surahs": "No surahs found",
+    "no-surahs-description": "We couldn't find any surahs matching your search.Try adjusting your search terms or browse all available surahs.",
+    "radio": "Play radio",
+    "select": "Select moshaf",
+    "loading": "Loading...",
+    "error": "An error occurred"
+  },
+  "Surahs": {
+    "header": "Quran Surahs",
+    "description": "Browse all 114 Surahs of the Holy Quran",
+    "input": "Search surahs by name ",
+    "no-surahs": "No surahs found",
+    "no-surahs-description": "We couldn't find any surahs matching your search.Try adjusting your search terms or browse all available surahs."
+  },
+  "RecentlyPlayed": {
+    "title": "Recently Played",
+    "show-all": "Show all"
+  },
+  "Pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of"
+  },
+  "TranslationContent": {
+    "translation": "Translation",
+    "copy": "Copy Text",
+    "tafsirs": "Tafsirs",
+    "play": "Play"
+  },
+  "VerseAction": {
+    "copy": "Copy Text",
+    "tafsirs": "Tafsirs",
+    "play": "Play",
+    "no-play": "No audio available, try another reciter",
+    "copy-message": "Verse has been copied to clipboard"
+  },
+  "TafsirPage": {
+    "next": "Next Ayah",
+    "previous": "Previous Ayah"
+  },
+  "RadiosPage": {
+    "title": "Radio Stations",
+    "no-stations": "No stations found",
+    "no-stations-description": "We couldn't find any stations matching your search.Try adjusting your search terms or browse all available stations.",
+    "search-input": "Search stations by name",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "show-more": "Show more"
+  },
+  "Settings": {
+    "title": "Settings",
+    "quran-font": "Quran Font",
+    "style": "Style",
+    "size": "Font size",
+    "ayah-style": "Ayah number style"
+  },
+  "Wishlist": {
+    "reciters": "Reciters",
+    "surahs": "Surahs",
+    "add-to-wishlist": "Add to wishlist",
+    "remove-from-wishlist": "Remove from wishlist"
+  },
+  "AudioPlayer": {
+    "audio-player-error": "Unfortunately, we were unable to play the audio clip. Please try another reader."
+  },
+  "FavoritePage": {
+    "favorite": "Favorite",
+    "surahs": "Surahs",
+    "reciters": "Reciters",
+    "verses": "Verses",
+    "no-surahs": "No favorite surahs found",
+    "no-reciters": "No favorite reciters found",
+    "no-verses": "No favorite verses found"
+  },
+  "Loading": {
+    "loading": "Loading, please wait...",
+    "error": "An error occurred while loading data. Please try again."
+  }
+}

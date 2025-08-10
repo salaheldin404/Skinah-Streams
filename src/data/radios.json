@@ -1,0 +1,1662 @@
+{
+  "categories": [
+    {
+      "category_id": "reciters",
+      "category_name": {
+        "en": "Reciters",
+        "ar": "القراء"
+      },
+      "stations": [
+        {
+          "id": 1,
+          "name": {
+            "ar": "إذاعة إبراهيم الأخضر",
+            "en": "Ibrahim Al-Akhdar Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ibrahim_alakdar",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/ibrahim-alkdr.jpg"
+        },
+        {
+          "id": 2,
+          "name": {
+            "ar": "إذاعة شيخ أبو بكر الشاطري",
+            "en": "Sheikh Abu Bakr Al-Shatri Radio"
+          },
+          "url": "https://backup.qurango.net/radio/shaik_abu_bakr_al_shatri",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/abu-bakr.jpg"
+        },
+        {
+          "id": 3,
+          "name": {
+            "ar": "إذاعة أحمد العجمي",
+            "en": "Ahmed Al-Ajmi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ahmad_alajmy",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/ajamy.jpg"
+        },
+        {
+          "id": 4,
+          "name": {
+            "ar": "إذاعة أحمد الحواشي",
+            "en": "Ahmed Al-Hawashi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ahmad_alhawashi",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 5,
+          "name": {
+            "ar": "إذاعة أحمد صابر",
+            "en": "Ahmad Saber Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ahmad_saber",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 6,
+          "name": {
+            "ar": "إذاعة أحمد نعينع",
+            "en": "Ahmad Naina Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ahmad_nauina",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/ahmed-neinaa.jpg"
+        },
+        {
+          "id": 7,
+          "name": {
+            "ar": "إذاعة أكرم العلاقمي",
+            "en": "Akram Al-Alaqmi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/akram_alalaqmi",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 8,
+          "name": {
+            "ar": "إذاعة إدريس أبكر",
+            "en": "Idris Abkar Radio"
+          },
+          "url": "https://backup.qurango.net/radio/idrees_abkr",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 9,
+          "name": {
+            "ar": "إذاعة الزين محمد أحمد",
+            "en": "Al-Zain Muhammad Ahmad Radio"
+          },
+          "url": "https://backup.qurango.net/radio/alzain_mohammad_ahmad",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 10,
+          "name": {
+            "ar": "إذاعة القارئ ياسين",
+            "en": "Al-Qari Yassin Radio"
+          },
+          "url": "https://backup.qurango.net/radio/alqaria_yassen",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 11,
+          "name": {
+            "ar": "إذاعة العيون الكوشي",
+            "en": "Al-Ayoun Al-Koshi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/aloyoon_alkoshi",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 12,
+          "name": {
+            "ar": "إذاعة توفيق الصايغ",
+            "en": "Tawfiq Al-Sayegh Radio"
+          },
+          "url": "https://backup.qurango.net/radio/tawfeeq_assayegh",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 13,
+          "name": {
+            "ar": "إذاعة جمال شاكر عبدالله",
+            "en": "Jamal Shaker Abdullah Radio"
+          },
+          "url": "https://backup.qurango.net/radio/jamal_shaker_abdullah",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 14,
+          "name": {
+            "ar": "إذاعة خالد القحطاني",
+            "en": "Khaled Al-Qahtani Radio"
+          },
+          "url": "https://backup.qurango.net/radio/khaled_alqahtani",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/khaled-qahtany.jpg"
+        },
+        {
+          "id": 15,
+          "name": {
+            "ar": "إذاعة خالد عبدالكافي",
+            "en": "Khalid Abdul-Kafi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/khalid_abdulkafi",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 16,
+          "name": {
+            "ar": "إذاعة خليفة الطنيجي",
+            "en": "Khalifa Al-Tunaiji Radio"
+          },
+          "url": "https://backup.qurango.net/radio/khalifa_altunaiji",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 17,
+          "name": {
+            "ar": "إذاعة سعد الغامدي",
+            "en": "Saad Al-Ghamdi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/saad_alghamdi",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/saad-ghamdi.jpg"
+        },
+        {
+          "id": 18,
+          "name": {
+            "ar": "إذاعة سعود الشريم",
+            "en": "Saud Al-Shuraim Radio"
+          },
+          "url": "https://backup.qurango.net/radio/saud_alshuraim",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 19,
+          "name": {
+            "ar": "إذاعة سهل ياسين",
+            "en": "Sahl Yassin Radio"
+          },
+          "url": "https://backup.qurango.net/radio/sahl_yassin",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 20,
+          "name": {
+            "ar": "إذاعة زكي داغستاني",
+            "en": "Zaki Daghistani Radio"
+          },
+          "url": "https://backup.qurango.net/radio/zaki_daghistani",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 21,
+          "name": {
+            "ar": "إذاعة سيد رمضان",
+            "en": "Sayed Ramadan Radio"
+          },
+          "url": "https://backup.qurango.net/radio/sayeed_ramadan",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 22,
+          "name": {
+            "ar": "إذاعة شيرزاد عبدالرحمن طاهر",
+            "en": "Shirazad Abdul-Rahman Taher Radio"
+          },
+          "url": "https://backup.qurango.net/radio/shirazad_taher",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 23,
+          "name": {
+            "ar": "إذاعة صابر عبدالحكم",
+            "en": "Saber Abdul-Hakam Radio"
+          },
+          "url": "https://backup.qurango.net/radio/saber_abdulhakm",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 24,
+          "name": {
+            "ar": "إذاعة صلاح البدير",
+            "en": "Salah Al-Budair Radio"
+          },
+          "url": "https://backup.qurango.net/radio/salah_albudair",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 25,
+          "name": {
+            "ar": "إذاعة صلاح الهاشم",
+            "en": "Salah Al-Hashim Radio"
+          },
+          "url": "https://backup.qurango.net/radio/salah_alhashim",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 26,
+          "name": {
+            "ar": "إذاعة صلاح بو خاطر",
+            "en": "Salah Bukhatir Radio"
+          },
+          "url": "https://backup.qurango.net/radio/slaah_bukhatir",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 27,
+          "name": {
+            "ar": "إذاعة عادل ريان",
+            "en": "Adel Rayan Radio"
+          },
+          "url": "https://backup.qurango.net/radio/adel_ryyan",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 28,
+          "name": {
+            "ar": "إذاعة عبدالبارئ الثبيتي",
+            "en": "Abdul-Bari Al-Thubaiti Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdelbari_altoubayti",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 29,
+          "name": {
+            "ar": "إذاعة عبدالبارئ محمد",
+            "en": "Abdul-Bari Muhammad Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulbari_mohammad",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 30,
+          "name": {
+            "ar": "إذاعة عبدالباسط عبدالصمد مجود",
+            "en": "Abdul-Basit Abdul-Samad Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulbasit_abdulsamad_mojawwad",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/abdel-basit.jpg"
+        },
+        {
+          "id": 31,
+          "name": {
+            "ar": "إذاعة عبدالباسط عبدالصمد (ورش)",
+            "en": "Abdul-Basit Abdul-Samad (Warsh) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulbasit_abdulsamad_warsh",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/abdel-basit.jpg"
+        },
+        {
+          "id": 32,
+          "name": {
+            "ar": "إذاعة عبدالباسط عبدالصمد",
+            "en": "Abdul-Basit Abdul-Samad Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulbasit_abdulsamad",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/abdel-basit.jpg"
+        },
+        {
+          "id": 33,
+          "name": {
+            "ar": "إذاعة عبدالرحمن السديس",
+            "en": "Abdul-Rahman Al-Sudais Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulrahman_alsudaes",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/saudis.jpg"
+        },
+        {
+          "id": 34,
+          "name": {
+            "ar": "إذاعة عبدالعزيز الأحمد",
+            "en": "Abdul-Aziz Al-Ahmad Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdul_aziz_alahmad",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 35,
+          "name": {
+            "ar": "إذاعة عبدالله المطرود",
+            "en": "Abdullah Al-Matrood Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdullah_almattrod",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 36,
+          "name": {
+            "ar": "إذاعة عبدالله بصفر",
+            "en": "Abdullah Basfar Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdullah_basfer",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/abdulla-basfr.jpg"
+        },
+        {
+          "id": 37,
+          "name": {
+            "ar": "إذاعة عبدالله خياط",
+            "en": "Abdullah Khayyat Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdullah_khayyat",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 38,
+          "name": {
+            "ar": "إذاعة عبدالله عواد الجهني",
+            "en": "Abdullah Awad Al-Juhani Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdullah_aljohany",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 39,
+          "name": {
+            "ar": "إذاعة عبدالرشيد صوفي",
+            "en": "Abdul-Rashid Soufi (Khalaf) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulrasheed_soufi_khalaf",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 40,
+          "name": {
+            "ar": "إذاعة عبدالرشيد صوفي",
+            "en": "Abdul-Rashid Soufi (As-Susi) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulrasheed_soufi_assosi",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 41,
+          "name": {
+            "ar": "إذاعة عبدالمحسن الحارثي",
+            "en": "Abdul-Mohsen Al-Harthy Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulmohsin_alharthy",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 42,
+          "name": {
+            "ar": "إذاعة عبدالمحسن القاسم",
+            "en": "Abdul-Mohsen Al-Qasim Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulmohsen_alqasim",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 43,
+          "name": {
+            "ar": "إذاعة عبدالمحسن العبيكان",
+            "en": "Abdul-Mohsen Al-Obaikan Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulmohsin_alobaikan",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 44,
+          "name": {
+            "ar": "إذاعة عبدالهادي أحمد كناكري",
+            "en": "Abdul-Hadi Ahmad Kanakeri Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulhadi_kanakeri",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 45,
+          "name": {
+            "ar": "إذاعة عبدالودود حنيف",
+            "en": "Abdul-Wadud Haneef Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulwadood_haneef",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 46,
+          "name": {
+            "ar": "إذاعة علي بن عبدالرحمن الحذيفي",
+            "en": "Ali bin Abdul-Rahman Al-Hudhaifi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ali_alhuthaifi",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 47,
+          "name": {
+            "ar": "إذاعة علي الحذيفي",
+            "en": "Ali Al-Hudhaifi (Qalun) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ali_alhuthaifi_qalon",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 48,
+          "name": {
+            "ar": " إذاعة علي جابر",
+            "en": "Ali Jaber Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ali_jaber",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/ali-gaber.jpg"
+        },
+        {
+          "id": 49,
+          "name": {
+            "ar": " إذاعة علي حجاج السويسي",
+            "en": "Ali Hajjaj Al-Souasi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ali_hajjaj_alsouasi",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 50,
+          "name": {
+            "ar": " إذاعة عماد زهير حافظ",
+            "en": "Emad Zuhair Hafez Radio"
+          },
+          "url": "https://backup.qurango.net/radio/emad_hafez",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 51,
+          "name": {
+            "ar": " إذاعة عمر القزابري",
+            "en": "Omar Al-Qazabri Radio"
+          },
+          "url": "https://backup.qurango.net/radio/omar_alqazabri",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 52,
+          "name": {
+            "ar": " إذاعة فارس عباد",
+            "en": "Fares Abbad Radio"
+          },
+          "url": "https://backup.qurango.net/radio/fares_abbad",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/fares-abbad.jpg"
+        },
+        {
+          "id": 53,
+          "name": {
+            "ar": " إذاعة ناصر القطامي",
+            "en": "Nasser Al-Qatami Radio"
+          },
+          "url": "https://backup.qurango.net/radio/nasser_alqatami",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/naser-qtami.jpg"
+        },
+        {
+          "id": 54,
+          "name": {
+            "ar": " إذاعة نبيل الرفاعي",
+            "en": "Nabil Al-Rifai Radio"
+          },
+          "url": "https://backup.qurango.net/radio/nabil_al_rifay",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 55,
+          "name": {
+            "ar": " إذاعة نعمة الحسان",
+            "en": "Neama Al-Hassan Radio"
+          },
+          "url": "https://backup.qurango.net/radio/neamah_alhassan",
+          "recent_date": "2020-04-25 22:04:04"
+        },
+        {
+          "id": 56,
+          "name": {
+            "ar": " إذاعة هاني الرفاعي",
+            "en": "Hani Al-Rifai Radio"
+          },
+          "url": "https://backup.qurango.net/radio/hani_arrifai",
+          "recent_date": "2020-04-25 22:04:04",
+          "image_url": "/images/reciters/hany-rafay.jpg"
+        },
+        {
+          "id": 57,
+          "name": {
+            "ar": " إذاعة وليد النائحي",
+            "en": "Waleed Al-Naehi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/waleed_alnaehi",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 58,
+          "name": {
+            "ar": " إذاعة ياسر الدوسري",
+            "en": "Yasser Al-Dosari Radio"
+          },
+          "url": "https://backup.qurango.net/radio/yasser_aldosari",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/yasser-aldosri.jpg"
+        },
+        {
+          "id": 59,
+          "name": {
+            "ar": " إذاعة ياسر القرشي",
+            "en": "Yasser Al-Qurashi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/yasser_alqurashi",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 60,
+          "name": {
+            "ar": " إذاعة ياسر المزروعي ",
+            "en": "Yasser Al-Mazrouei Radio"
+          },
+          "url": "https://backup.qurango.net/radio/yasser_almazroyee",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 61,
+          "name": {
+            "ar": " إذاعة يحيى حوا",
+            "en": "Yahya Hawwa Radio"
+          },
+          "url": "https://backup.qurango.net/radio/yahya_hawwa",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 62,
+          "name": {
+            "ar": " إذاعة يوسف الشويعي",
+            "en": "Yousef Al-Shuwaie Radio"
+          },
+          "url": "https://backup.qurango.net/radio/yousef_alshoaey",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 63,
+          "name": {
+            "ar": " إذاعة ماهر المعيقلي",
+            "en": "Maher Al-Muaiqly Radio"
+          },
+          "url": "https://backup.qurango.net/radio/maher",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/maher-almaqily.jpg"
+        },
+        {
+          "id": 64,
+          "name": {
+            "ar": " إذاعة محمد الطبلاوي",
+            "en": "Muhammad Al-Tablawi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammad_altablaway",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/mohamed-tablawy.jpg"
+        },
+        {
+          "id": 65,
+          "name": {
+            "ar": " إذاعة محمد اللحيدان",
+            "en": "Mohammed Al-Luhaidan Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammed_allohaidan",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/mohamed-alahydan.jpg"
+        },
+        {
+          "id": 66,
+          "name": {
+            "ar": " إذاعة محمد أيوب",
+            "en": "Mohammed Ayyub Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammed_ayyub",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/mohamed-ayoub.jpg"
+        },
+        {
+          "id": 67,
+          "name": {
+            "ar": " إذاعة محمد صالح عالم شاه",
+            "en": "Muhammad Salih Alim Shah Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammad_saleh_alim_shah",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 68,
+          "name": {
+            "ar": " إذاعة محمد جبريل",
+            "en": "Mohammed Jibreel Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammed_jibreel",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 69,
+          "name": {
+            "ar": " إذاعة محمد صديق المنشاوي",
+            "en": "Mohammed Siddiq Al-Minshawi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammed_siddiq_alminshawi",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/minshawi.jpg"
+        },
+        {
+          "id": 70,
+          "name": {
+            "ar": "  إذاعة محمد صديق المنشاوي (مجود)",
+            "en": "Mohammed Siddiq Al-Minshawi (Mujawwad) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammed_siddiq_alminshawi_mojawwad",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/minshawi.jpg"
+        },
+        {
+          "id": 71,
+          "name": {
+            "ar": " إذاعة محمد عبدالكريم",
+            "en": "Muhammad Abdul-Karim Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammad_abdullkarem",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 72,
+          "name": {
+            "ar": " إذاعة محمد عبدالحكيم سعيد العبدالله",
+            "en": "Muhammad Abdul-Hakim Saeed Al-Abdullah (Al-Bizi) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammad_alabdullah_albizi",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 73,
+          "name": {
+            "ar": " إذاعة محمد عبدالحكيم سعيد العبدالله",
+            "en": "Muhammad Abdul-Hakim Saeed Al-Abdullah (Al-Duri) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammad_alabdullah_aldorai",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 74,
+          "name": {
+            "ar": " إذاعة محمود خليل الحصري",
+            "en": "Mahmoud Khalil Al-Hussary Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/mahmoud-housry.jpg"
+        },
+        {
+          "id": 75,
+          "name": {
+            "ar": " إذاعة محمود خليل الحصري (مجود)",
+            "en": "Mahmoud Khalil Al-Hussary (Mujawwad) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary_mojawwad",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/mahmoud-housry.jpg"
+        },
+        {
+          "id": 76,
+          "name": {
+            "ar": " إذاعة محمود خليل الحصري (ورش)",
+            "en": "Mahmoud Khalil Al-Hussary (Warsh) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary_warsh",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/mahmoud-housry.jpg"
+        },
+        {
+          "id": 77,
+          "name": {
+            "ar": " إذاعة محمود علي البنا",
+            "en": "Mahmoud Ali Al-Banna Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mahmoud_ali__albanna",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/mahmoud-albana.jpg"
+        },
+        {
+          "id": 78,
+          "name": {
+            "ar": " إذاعة محمود علي البنا",
+            "en": "Mahmoud Ali Al-Banna (Mujawwad) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mahmoud_ali__albanna_mojawwad",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 79,
+          "name": {
+            "ar": " إذاعة مشارى العفاسي",
+            "en": "Mishary Al-Afasy Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mishary_alafasi",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/mishary-rashid.jpg"
+        },
+        {
+          "id": 80,
+          "name": {
+            "ar": " إذاعة مصطفى إسماعيل",
+            "en": "Mustafa Ismail Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mustafa_ismail",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 81,
+          "name": {
+            "ar": " إذاعة مصطفى اللاهوني",
+            "en": "Mustafa Al-Lahouni Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mustafa_allahoni",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 82,
+          "name": {
+            "ar": " إذاعة مصطفى رعد العزاوي",
+            "en": "Mustafa Raad Al-Azzawi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mustafa_raad_alazawy",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 83,
+          "name": {
+            "ar": " إذاعة مفتاح السلطني",
+            "en": "Muftah Al-Sultany (Al-Duri an Abi Amr) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/muftah_alsaltany_aldori_an_abi_amr ",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 84,
+          "name": {
+            "ar": " إذاعة ماهر شخاشيرو",
+            "en": "Maher Shakhashero Radio"
+          },
+          "url": "https://backup.qurango.net/radio/maher_shakhashero",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 85,
+          "name": {
+            "ar": " إذاعة محمود الشيمي",
+            "en": "Mahmoud Al-Sheimy Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mahmood_alsheimy",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 86,
+          "name": {
+            "ar": " إذاعة خالد المهنا",
+            "en": "Khalid Al-Muhanna Radio"
+          },
+          "url": "https://backup.qurango.net/radio/khalid_almohana",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 87,
+          "name": {
+            "ar": " إذاعة عادل الكلباني",
+            "en": "Adel Al-Kalbani Radio"
+          },
+          "url": "https://backup.qurango.net/radio/adel_alkhalbany",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 88,
+          "name": {
+            "ar": " إذاعة موسى بلال",
+            "en": "Mousa Bilal Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mousa_bilal",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 89,
+          "name": {
+            "ar": "حاتم فريد الواعر",
+            "en": "Hatem Farid Al-Waer"
+          },
+          "url": "https://backup.qurango.net/radio/hatem_fareed_alwaer",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 90,
+          "name": {
+            "ar": " إذاعة محمود الرفاعي",
+            "en": "Mahmoud Al-Rifai Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mahmood_al_rifai",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 91,
+          "name": {
+            "ar": " إذاعة ابراهيم الدوسري",
+            "en": "Ibrahim Al-Dosari Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ibrahim_aldosari",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 92,
+          "name": {
+            "ar": " إذاعة مفتاح السلطني",
+            "en": "Muftah Al-Sultany (Al-Duri) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/muftah_alsaltany_aldorai",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 93,
+          "name": {
+            "ar": " إذاعة جمعان العصيمي",
+            "en": "Jamaan Al-Osaimi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/jamaan_alosaimi",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 94,
+          "name": {
+            "ar": " إذاعة مفتاح السلطني",
+            "en": "Muftah Al-Sultany Radio"
+          },
+          "url": "https://backup.qurango.net/radio/muftah_alsaltany",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 95,
+          "name": {
+            "ar": " إذاعة يوسف بن نوح أحمد",
+            "en": "Yousef bin Noah Ahmad Radio"
+          },
+          "url": "https://backup.qurango.net/radio/yousef_bin_noah_ahmad",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 96,
+          "name": {
+            "ar": " إذاعة مفتاح السلطني",
+            "en": "Muftah Al-Sultany (Ibn Thakwan an Ibn Amr) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/muftah_alsaltany_ibn_thakwan_an_ibn_amr",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 97,
+          "name": {
+            "ar": " إذاعة معيض الحارثي",
+            "en": "Mueedh Al-Harthy Radio"
+          },
+          "url": "https://backup.qurango.net/radio/moeedh_alharthi",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 98,
+          "name": {
+            "ar": " إذاعة محمد رشاد الشريف",
+            "en": "Muhammad Rashad Al-Sharif Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammad_rashad_alshareef",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 99,
+          "name": {
+            "ar": " إذاعة أحمد خضر الطرابلسي",
+            "en": "Ahmad Khidr Al-Tarabulsi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ahmad_khader_altarabulsi",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 100,
+          "name": {
+            "ar": " إذاعة أحمد الطرابلسي",
+            "en": "Ahmed Al-Tarabulsi Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ahmed_altrabulsi",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 101,
+          "name": {
+            "ar": " إذاعة عبدالله الكندري",
+            "en": "Abdullah Al-Kandari Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdullah_alkandari",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 102,
+          "name": {
+            "ar": " إذاعة أحمد عامر",
+            "en": "Ahmed Amer Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ahmed_amer",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 103,
+          "name": {
+            "ar": "إذاعة محمد عثمان خان",
+            "en": "Mohammed Osman Khan Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammed_osman_khan",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 104,
+          "name": {
+            "ar": " إذاعة الدوكالي محمد العالم",
+            "en": "Al-Dukali Muhammad Al-Alim Radio"
+          },
+          "url": "https://backup.qurango.net/radio/addokali_mohammad_alalim",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 105,
+          "name": {
+            "ar": " إذاعة محمد عبدالكريم",
+            "en": "Muhammad Abdul-Karim (Al-Asbahani) Radio"
+          },
+          "url": "https://backup.qurango.net/radio/mohammad_abdullkarem_alasbahani",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 106,
+          "name": {
+            "ar": " إذاعة الفاتح محمد الزبير",
+            "en": "Al-Fatih Muhammad Al-Zubair Radio"
+          },
+          "url": "https://backup.qurango.net/radio/alfateh_alzubair",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 107,
+          "name": {
+            "ar": " إذاعة طارق عبدالغني دعوب",
+            "en": "Tareq Abdul-Ghani Daawob Radio"
+          },
+          "url": "https://backup.qurango.net/radio/tareq_abdulgani_daawob",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 111,
+          "name": {
+            "ar": " إذاعة عبدالرحمن الماجد",
+            "en": "Abdul-Rahman Al-Majed Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdulrahman_almajed",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 117,
+          "name": {
+            "ar": "إذاعة خالد الجليل",
+            "en": "Khalid Al-Jaleel Radio"
+          },
+          "url": "https://backup.qurango.net/radio/khalid_aljileel",
+          "recent_date": "2020-04-25 22:04:05",
+          "image_url": "/images/reciters/galil.jpg"
+        },
+        {
+          "id": 118,
+          "name": {
+            "ar": "إذاعة ناصر الماجد",
+            "en": "Nasser Al-Majed Radio"
+          },
+          "url": "https://backup.qurango.net/radio/nasser_almajed",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 119,
+          "name": {
+            "ar": "إذاعة هيثم الجدعاني",
+            "en": "Hitham Al-Jadani Radio"
+          },
+          "url": "https://backup.qurango.net/radio/hitham_aljadani",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 120,
+          "name": {
+            "ar": "إذاعة أحمد خليل شاهين",
+            "en": "Ahmad Khalil Shaheen Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ahmad_shaheen",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 121,
+          "name": {
+            "ar": "إذاعة عبدالله الموسى",
+            "en": "Abdullah Al-Mousa Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdullah_almousa",
+          "recent_date": "2020-06-27 02:46:31"
+        },
+        {
+          "id": 122,
+          "name": {
+            "ar": "إذاعة عبدالله الخلف",
+            "en": "Abdullah Al-Khalaf Radio"
+          },
+          "url": "https://backup.qurango.net/radio/abdullah_alkhalaf",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 139,
+          "name": {
+            "ar": "إذاعة ماجد الزامل",
+            "en": "Majed Al-Zamel Radio"
+          },
+          "url": "https://backup.qurango.net/radio/majed_alzamel",
+          "recent_date": "2020-06-27 01:43:46"
+        },
+        {
+          "id": 217,
+          "name": {
+            "ar": "إذاعة بندر بليلة",
+            "en": "Bandar Balilah Radio"
+          },
+          "url": "https://backup.qurango.net/radio/bandar_balilah",
+          "recent_date": "2021-09-06 22:14:27"
+        },
+        {
+          "id": 248,
+          "name": {
+            "ar": "إذاعة ناصر العصفور",
+            "en": "Nasser Al-Osfor Radio"
+          },
+          "url": "https://backup.qurango.net/radio/nasser_alosfor",
+          "recent_date": "2020-05-05 02:27:02"
+        },
+        {
+          "id": 261,
+          "name": {
+            "ar": "إذاعة محمد أيوب - قراءة مميزة-",
+            "en": "Mohammed Ayyub Radio - Special Recitation"
+          },
+          "url": "https://backup.qurango.net/radio/ayyoub2",
+          "recent_date": "2020-06-27 02:35:33",
+          "image_url": "/images/reciters/mohamed-ayoub.jpg"
+        },
+        {
+          "id": 265,
+          "name": {
+            "ar": "إذاعة أحمد ديبان",
+            "en": "Ahmad Deban Radio"
+          },
+          "url": "https://backup.qurango.net/radio/ahmad_deban",
+          "recent_date": "2020-06-27 01:46:13"
+        },
+        {
+          "id": 274,
+          "name": {
+            "ar": "أذاعة محمد أبوسنينة",
+            "en": "Mohammed Abu Sneineh Radio"
+          },
+          "url": "https://backup.qurango.net/radio/sneineh",
+          "recent_date": "2022-08-17 16:40:49"
+        },
+        {
+          "id": 275,
+          "name": {
+            "ar": "إذاعة محمد الأمين قنيوة",
+            "en": "Mohammed Al-Amin Qeniwa Radio"
+          },
+          "url": "https://backup.qurango.net/radio/qeniwa",
+          "recent_date": "2022-08-17 16:44:08"
+        },
+        {
+          "id": 287,
+          "name": {
+            "ar": "إذاعة عبدالرحمن الشحات",
+            "en": "Abdul-Rahman Al-Shahhat Radio"
+          },
+          "url": "https://backup.qurango.net/radio/a_alshahhat",
+          "recent_date": "2022-09-20 17:28:01"
+        },
+        {
+          "id": 307,
+          "name": {
+            "ar": "عبدالعزيز سحيم",
+            "en": "Abdulaziz Suhaim"
+          },
+          "url": "https://backup.qurango.net/radio/a_sheim",
+          "recent_date": "2023-10-11 04:18:00"
+        },
+        {
+          "id": 109038,
+          "name": {
+            "ar": "صالح الهبدان",
+            "en": "Saleh Al-Habdan"
+          },
+          "url": "https://backup.qurango.net/radio/saleh_alhabdan",
+          "recent_date": "2020-06-27 01:47:04"
+        },
+        {
+          "id": 109074,
+          "name": {
+            "ar": "عبدالله البعيجان",
+            "en": "Abdullah Al-Baijan"
+          },
+          "url": "https://backup.qurango.net/radio/buajan",
+          "recent_date": "2025-07-20 19:47:08"
+        },
+        {
+          "id": 109075,
+          "name": {
+            "ar": "أحمد طالب بن حميد",
+            "en": "Ahmad Talib bin Hameed"
+          },
+          "url": "https://backup.qurango.net/radio/a_binhameed",
+          "recent_date": "2025-07-20 19:54:30"
+        }
+      ]
+    },
+    {
+      "category_id": "tafsir",
+      "category_name": {
+        "en": "Tafsir",
+        "ar": "التفسير"
+      },
+      "stations": [
+        {
+          "id": 116,
+          "name": {
+            "ar": "إذاعة --تفسير القران الكريم--",
+            "en": "Quran Tafsir Radio"
+          },
+          "url": "https://backup.qurango.net/radio/tafseer",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 10904,
+          "name": {
+            "ar": "المختصر في تفسير القرآن الكريم",
+            "en": "Abridged Tafsir of the Holy Quran"
+          },
+          "url": "https://backup.qurango.net/radio/mukhtasartafsir",
+          "recent_date": "2021-03-25 17:28:18"
+        },
+        {
+          "id": 21117,
+          "name": {
+            "ar": "تفسير القران الكريم-الخلاصة من تفسير الطبري",
+            "en": "Tafsir of the Holy Quran - Summary of Tafsir Al-Tabari"
+          },
+          "url": "https://backup.qurango.net/radio/tabri",
+          "recent_date": "2023-12-02 20:42:00"
+        }
+      ]
+    },
+    {
+      "category_id": "translations",
+      "category_name": {
+        "en": "Translations",
+        "ar": "ترجمات معاني القرآن"
+      },
+      "stations": [
+        {
+          "id": 109039,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الأوردية - عبدالباسط عبدالصمد",
+            "en": "Translation of Quran Meanings in Urdu - Abdul-Basit Abdul-Samad"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_urdu_basit",
+          "recent_date": "2024-04-13 04:18:10"
+        },
+        {
+          "id": 109040,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الأسبانية",
+            "en": "Translation of Quran Meanings in Spanish"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_spanish_afs",
+          "recent_date": "2024-04-13 04:21:03"
+        },
+        {
+          "id": 109041,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الألبانية",
+            "en": "Translation of Quran Meanings in Albanian"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_albanian",
+          "recent_date": "2024-04-13 04:22:03"
+        },
+        {
+          "id": 109042,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الألمانية",
+            "en": "Translation of Quran Meanings in German"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_german",
+          "recent_date": "2024-04-13 04:23:33"
+        },
+        {
+          "id": 109043,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الأمازيغية",
+            "en": "Translation of Quran Meanings in Tamazight"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_tamazight",
+          "recent_date": "2024-04-13 04:25:33"
+        },
+        {
+          "id": 109044,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الأوردية",
+            "en": "Translation of Quran Meanings in Urdu"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_urdu_sds_shur",
+          "recent_date": "2024-04-13 04:26:22"
+        },
+        {
+          "id": 109045,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الأوردية",
+            "en": "Translation of Quran Meanings in Urdu"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_urdu_minsh",
+          "recent_date": "2024-04-13 04:27:09"
+        },
+        {
+          "id": 109046,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الإنجليزية",
+            "en": "Translation of Quran Meanings in English"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_english_basit",
+          "recent_date": "2024-04-13 04:28:32"
+        },
+        {
+          "id": 109047,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الإنجليزية",
+            "en": "Translation of Quran Meanings in English"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_english_bsfr",
+          "recent_date": "2024-04-13 04:29:17"
+        },
+        {
+          "id": 109048,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الإنجليزية -ترجمة والك-",
+            "en": "Translation of Quran Meanings in English - Walk Translation"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_english_walk_basit",
+          "recent_date": "2024-04-13 04:30:25"
+        },
+        {
+          "id": 109049,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة البرتغالية",
+            "en": "Translation of Quran Meanings in Portuguese"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_portuguese",
+          "recent_date": "2024-04-13 04:31:18"
+        },
+        {
+          "id": 109050,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة البوسنية",
+            "en": "Translation of Quran Meanings in Bosnian"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_bosnia",
+          "recent_date": "2024-04-13 04:32:27"
+        },
+        {
+          "id": 109051,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة التركية",
+            "en": "Translation of Quran Meanings in Turkish"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_turkish",
+          "recent_date": "2024-04-13 04:33:38"
+        },
+        {
+          "id": 109052,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الروسية",
+            "en": "Translation of Quran Meanings in Russian"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_Russia",
+          "recent_date": "2024-04-13 04:35:33"
+        },
+        {
+          "id": 109053,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الصينية",
+            "en": "Translation of Quran Meanings in Chinese"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_chinese",
+          "recent_date": "2024-04-13 04:36:48"
+        },
+        {
+          "id": 109054,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الفارسية",
+            "en": "Translation of Quran Meanings in Farsi"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_farsi",
+          "recent_date": "2024-04-13 05:07:34"
+        },
+        {
+          "id": 109055,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الفرنسية",
+            "en": "Translation of Quran Meanings in French"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_french",
+          "recent_date": "2024-04-13 05:08:08"
+        },
+        {
+          "id": 109056,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الكردية",
+            "en": "Translation of Quran Meanings in Kurdish"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_kurdish",
+          "recent_date": "2024-04-13 05:10:28"
+        },
+        {
+          "id": 109057,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الكورية",
+            "en": "Translation of Quran Meanings in Korean"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_Korean",
+          "recent_date": "2024-04-13 05:10:52"
+        },
+        {
+          "id": 109058,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة المجرية",
+            "en": "Translation of Quran Meanings in Hungarian"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_hungarian",
+          "recent_date": "2024-04-13 05:16:54"
+        },
+        {
+          "id": 109059,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة اليونانية",
+            "en": "Translation of Quran Meanings in Greek"
+          },
+          "url": "https://backup.qurango.net/radio/translation_quran_greek",
+          "recent_date": "2024-04-13 05:17:34"
+        },
+        {
+          "id": 109062,
+          "name": {
+            "ar": "ترجمة معاني القرآن باللغة الهوسا",
+            "en": "Translation of Quran Meanings in Hausa"
+          },
+          "url": "https://backup.qurango.net/radio/Translation_Quran_Hausa",
+          "recent_date": "2024-09-26 00:18:57"
+        }
+      ]
+    },
+    {
+      "category_id": "adhkar_and_supplications",
+      "category_name": {
+        "en": "Adhkar and Supplications",
+        "ar": "أذكار وأدعية"
+      },
+      "stations": [
+        {
+          "id": 10906,
+          "name": {
+            "ar": "أذكار الصباح",
+            "en": "Morning Adhkar"
+          },
+          "url": "https://backup.qurango.net/radio/athkar_sabah",
+          "recent_date": "2021-08-27 12:48:42"
+        },
+        {
+          "id": 10907,
+          "name": {
+            "ar": "أذكار المساء",
+            "en": "Evening Adhkar"
+          },
+          "url": "https://backup.qurango.net/radio/athkar_masa",
+          "recent_date": "2021-08-27 12:49:07"
+        },
+        {
+          "id": 10902,
+          "name": {
+            "ar": "آيات السكينة",
+            "en": "Verses of Tranquility"
+          },
+          "url": "https://backup.qurango.net/radio/sakeenah",
+          "recent_date": "2020-07-17 14:39:15"
+        }
+      ]
+    },
+    {
+      "category_id": "ruqyah",
+      "category_name": {
+        "en": "Ruqyah",
+        "ar": "الرقية الشرعية"
+      },
+      "stations": [
+        {
+          "id": 114,
+          "name": {
+            "ar": "إذاعة الرقية الشرعية",
+            "en": "Ruqyah Shariah Radio"
+          },
+          "url": "https://backup.qurango.net/radio/roqiah",
+          "recent_date": "2020-06-27 02:38:21"
+        }
+      ]
+    },
+    {
+      "category_id": "seerah_and_stories",
+      "category_name": {
+        "en": "Seerah and Stories",
+        "ar": "السيرة والقصص"
+      },
+      "stations": [
+        {
+          "id": 10903,
+          "name": {
+            "ar": "---إذاعة صور من حياة الصحابة والتابعين رضوان الله عليهم---",
+            "en": "Radio: Glimpses from the Lives of the Companions and Followers"
+          },
+          "url": "https://backup.qurango.net/radio/sahabah",
+          "recent_date": "2020-07-17 14:40:45"
+        },
+        {
+          "id": 21114,
+          "name": {
+            "ar": "في ظلال السيرة النبوية - 400 حلقة عن سيرة نبينا محمد صلى الله عليه وسلم",
+            "en": "In the Shade of the Prophetic Seerah - 400 Episodes about the life of our Prophet Muhammad (PBUH)"
+          },
+          "url": "https://backup.qurango.net/radio/fi_zilal_alsiyra",
+          "recent_date": "2021-09-27 01:36:41"
+        },
+        {
+          "id": 21115,
+          "name": {
+            "ar": "المختصر في السيرة النبوية",
+            "en": "Abridged Prophetic Seerah"
+          },
+          "url": "https://backup.qurango.net/radio/almukhtasar_fi_alsiyra",
+          "recent_date": "2025-05-30 11:38:35"
+        },
+        {
+          "id": 109069,
+          "name": {
+            "ar": "***قصص الأنبياء***",
+            "en": "Stories of the Prophets"
+          },
+          "url": "https://backup.qurango.net/radio/alanbiya",
+          "recent_date": "2025-07-04 18:34:32"
+        }
+      ]
+    },
+    {
+      "category_id": "hadith_and_books",
+      "category_name": {
+        "en": "Hadith and Books",
+        "ar": "الحديث والكتب"
+      },
+      "stations": [
+        {
+          "id": 21116,
+          "name": {
+            "ar": "كتاب الاختيارات الفقهية في مسائل العبادات والمعاملات",
+            "en": "Book of Fiqh Choices in Matters of Worship and Transactions"
+          },
+          "url": "https://backup.qurango.net/radio/alaikhtiarat_alfiqhayh_bin_baz",
+          "recent_date": "2022-02-13 23:48:06"
+        },
+        {
+          "id": 109066,
+          "name": {
+            "ar": "صحيح مسلم",
+            "en": "Sahih Muslim"
+          },
+          "url": "https://backup.qurango.net/radio/saheh-muslim",
+          "recent_date": "2025-05-20 18:30:06"
+        },
+        {
+          "id": 109067,
+          "name": {
+            "ar": "صحيح البخاري",
+            "en": "Sahih Al-Bukhari"
+          },
+          "url": "https://backup.qurango.net/radio/saheh-bokharee",
+          "recent_date": "2025-05-20 18:34:32"
+        },
+        {
+          "id": 109073,
+          "name": {
+            "ar": "رياض الصالحين",
+            "en": "Riyad as-Salihin"
+          },
+          "url": "https://backup.qurango.net/radio/riyad",
+          "recent_date": "2025-07-20 13:36:55"
+        }
+      ]
+    },
+    {
+      "category_id": "fatwa",
+      "category_name": {
+        "en": "Fatwa",
+        "ar": "الفتاوى"
+      },
+      "stations": [
+        {
+          "id": 113,
+          "name": {
+            "ar": "إذاعة الفتاوى العامة",
+            "en": "General Fatwas Radio"
+          },
+          "url": "https://backup.qurango.net/radio/fatwa",
+          "recent_date": "2020-06-27 02:39:55"
+        }
+      ]
+    },
+    {
+      "category_id": "special_occasions",
+      "category_name": {
+        "en": "Special Occasions",
+        "ar": "مناسبات خاصة"
+      },
+      "stations": [
+        {
+          "id": 110,
+          "name": {
+            "ar": "إذاعة تكبيرات العيد",
+            "en": "Eid Takbirat Radio"
+          },
+          "url": "https://backup.qurango.net/radio/eid",
+          "recent_date": "2020-06-27 02:41:26"
+        },
+        {
+          "id": 109061,
+          "name": {
+            "ar": "فضل شهر رمضان",
+            "en": "Virtues of Ramadan"
+          },
+          "url": "https://backup.qurango.net/radio/ramadan",
+          "recent_date": "2024-04-13 05:33:01"
+        }
+      ]
+    },
+    {
+      "category_id": "general_and_miscellaneous",
+      "category_name": {
+        "en": "General and Miscellaneous",
+        "ar": "عام ومتنوع"
+      },
+      "stations": [
+        {
+          "id": 108,
+          "name": {
+            "ar": "-الإذاعة العامة - اذاعة متنوعة لمختلف القراء",
+            "en": "General Radio - Various Reciters"
+          },
+          "url": "https://backup.qurango.net/radio/mix",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 109,
+          "name": {
+            "ar": "إذاعة -تلاوات خاشعة-",
+            "en": "Humble Recitations Radio"
+          },
+          "url": "https://backup.qurango.net/radio/salma",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 115,
+          "name": {
+            "ar": "إذاعة ---سورة البقرة - لعدد من القراء---",
+            "en": "Surah Al-Baqarah Radio - Various Reciters"
+          },
+          "url": "https://backup.qurango.net/radio/albaqarah",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 123,
+          "name": {
+            "ar": "-تراتيل قصيرة متميزة-",
+            "en": "Distinguished Short Recitations"
+          },
+          "url": "https://backup.qurango.net/radio/tarateel",
+          "recent_date": "2020-04-25 22:04:05"
+        },
+        {
+          "id": 109060,
+          "name": {
+            "ar": "سورة الملك",
+            "en": "Surah Al-Mulk"
+          },
+          "url": "https://backup.qurango.net/radio/Surah_Al-Mulk",
+          "recent_date": "2024-04-13 05:32:01"
+        }
+      ]
+    }
+  ]
+}
