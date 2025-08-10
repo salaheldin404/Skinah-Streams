@@ -1,5 +1,6 @@
 import { Reciter } from "@/types/reciter";
 import { Radio } from "@/types/radio";
+import { LIGHT_DEFAULT_RECITER_IMAGE } from "@/constatnts/images";
 export const reciterImageMap: Record<string, string> = {
   "عبد الباسط عبد الصمد": "/images/reciters/abdel-basit.jpg",
   "Abdul Basit Abdul Samad": "/images/reciters/abdel-basit.jpg",
@@ -131,12 +132,15 @@ export const reciterImageMap: Record<string, string> = {
 
 // Helper function to get reciter image by name
 
-export function getReciterImage(reciterName: string, fallbackImage: string) {
+export function getReciterImage(reciterName: string, fallbackImage?: string) {
   // Normalize the name by trimming whitespace
   const normalizedName = reciterName?.trim();
 
-  if (!normalizedName) {
+  if (!normalizedName && fallbackImage) {
     return fallbackImage;
+  }
+  if (!fallbackImage && !normalizedName) {
+    return LIGHT_DEFAULT_RECITER_IMAGE;
   }
 
   // Direct lookup
@@ -150,7 +154,9 @@ export function getReciterImage(reciterName: string, fallbackImage: string) {
     (key) => key.toLowerCase() === lowerCaseName
   );
 
-  return foundKey ? reciterImageMap[foundKey] : fallbackImage;
+  return foundKey
+    ? reciterImageMap[foundKey]
+    : fallbackImage || LIGHT_DEFAULT_RECITER_IMAGE;
 }
 
 export function getReciterRadio(reciterName: string, radioData: Radio[]) {
