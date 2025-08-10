@@ -19,7 +19,7 @@ const LANGUAGES = [
 const LanguageSwitcher = () => {
   const locale = useLocale();
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const pathname = usePathname();
   const onSelect = useCallback(
     (lang: (typeof LANGUAGES)[number]["code"]) => {

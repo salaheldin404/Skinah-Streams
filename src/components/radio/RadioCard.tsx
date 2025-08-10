@@ -3,7 +3,6 @@ import { memo, useCallback, useMemo } from "react";
 import { LuPause, LuPlay } from "react-icons/lu";
 import { Button } from "../ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import { useLocale } from "next-intl";
 import {
   setOpenRadioPlayer,
   setRadio,

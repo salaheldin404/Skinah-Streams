@@ -1,6 +1,6 @@
 "use client";
-import { Category, Station } from "@/types/radio";
-import { useMemo, memo, useState } from "react";
+import { Category } from "@/types/radio";
+import { memo, useState } from "react";
 import ReciterRadioCard from "./ReciterRadioCard";
 import RadioCard from "./RadioCard";
 import { Button } from "../ui/button";

@@ -1,8 +1,7 @@
 "use client";
 import SearchInput from "@/components/common/SearchInput";
 import CategorySection from "@/components/radio/CategorySection";
-import RadioCard from "@/components/radio/RadioCard";
-import ReciterRadioCard from "@/components/radio/ReciterRadioCard";
+
 import radiosData from "@/data/radios.json";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useLocale, useTranslations } from "next-intl";
