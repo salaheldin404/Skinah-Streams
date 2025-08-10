@@ -8,7 +8,6 @@ import { Surah } from "@/types/surah";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { useFont } from "@/hooks/useFont";
 
-import { setGoToVerse } from "@/lib/store/slices/surah-slice";
 interface ReadingContentProps {
   pageNumber: string;
   verses: Verse[];
