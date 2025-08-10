@@ -20,22 +20,16 @@ async function getAccessToken(): Promise<string | null> {
   }
 
   // --- Environment-Specific Configuration ---
-  const isProduction = process.env.NODE_ENV === "production";
+  // const isProduction = process.env.NODE_ENV === "production";
 
-  const tokenUrl = isProduction
-    ? "https://oauth2.quran.foundation/oauth2/token"
-    : "https://prelive-oauth2.quran.foundation/oauth2/token";
+  const tokenUrl = "https://oauth2.quran.foundation/oauth2/token";
+  //  "https://prelive-oauth2.quran.foundation/oauth2/token";
 
-  const clientId = isProduction
-    ? process.env.QURAN_CLIENT_ID_PRODUCTION
-    : process.env.QURAN_CLIENT_ID_STAGING;
+  const clientId = process.env.QURAN_CLIENT_ID_PRODUCTION;
 
-  const clientSecret = isProduction
-    ? process.env.QURAN_CLIENT_SECRET_PRODUCTION
-    : process.env.QURAN_CLIENT_SECRET_STAGING;
+  const clientSecret = process.env.QURAN_CLIENT_SECRET_PRODUCTION;
 
   console.log({ tokenUrl });
-  console.log("Is Production:", isProduction);
   console.log("Client ID loaded:", !!clientId); // Should log: true
   console.log("Client Secret loaded:", !!clientSecret); // Should log: true
   if (!clientId || !clientSecret) {
@@ -59,6 +53,7 @@ async function getAccessToken(): Promise<string | null> {
       body: `grant_type=client_credentials&scope=content`,
     });
 
+    console.log({ response });
     if (!response.ok) {
       const errorText = await response.text();
       console.error("SERVER_TOKEN_ERROR:", errorText);
@@ -86,11 +81,9 @@ async function handler(
 ) {
   const { slug } = await params;
   const apiPath = slug.join("/");
-  const isProduction = process.env.NODE_ENV === "production";
+  // const isProduction = process.env.NODE_ENV === "production";
 
-  const clientId = isProduction
-    ? process.env.QURAN_CLIENT_ID_PRODUCTION
-    : process.env.QURAN_CLIENT_ID_STAGING;
+  const clientId = process.env.QURAN_CLIENT_ID_PRODUCTION;
 
   const accessToken = await getAccessToken();
   if (!accessToken) {
@@ -99,9 +92,8 @@ async function handler(
       { status: 500 }
     );
   }
-  const baseApiUrl = isProduction
-    ? "https://apis.quran.foundation/content/api/v4/"
-    : "https://apis-prelive.quran.foundation/content/api/v4/";
+  const baseApiUrl = "https://apis.quran.foundation/content/api/v4/";
+
   const queryString = req.nextUrl.search;
 
   const apiUrl = `${baseApiUrl}${apiPath}${queryString}`;
