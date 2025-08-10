@@ -27,12 +27,12 @@ async function getAccessToken(): Promise<string | null> {
     : "https://prelive-oauth2.quran.foundation/oauth2/token";
 
   const clientId = isProduction
-    ? process.env.NEXT_PUBLIC_CLIENT_ID_PRODUCTION
-    : process.env.NEXT_PUBLIC_CLIENT_ID_STAGING;
+    ? process.env.QURAN_CLIENT_ID_PRODUCTION
+    : process.env.QURAN_CLIENT_ID_STAGING;
 
   const clientSecret = isProduction
-    ? process.env.NEXT_PUBLIC_SECRET_ID_PRODUCTION
-    : process.env.NEXT_PUBLIC_SECRET_ID_STAGING;
+    ? process.env.QURAN_CLIENT_SECRET_PRODUCTION
+    : process.env.QURAN_CLIENT_SECRET_STAGING;
 
   console.log({ tokenUrl });
   if (!clientId || !clientSecret) {
