@@ -43,6 +43,8 @@ async function getAccessToken(): Promise<string | null> {
   }
 
   const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+
+  console.log({ auth });
   try {
     const response = await fetch(tokenUrl, {
       method: "POST",
