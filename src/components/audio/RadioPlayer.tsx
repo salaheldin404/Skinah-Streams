@@ -54,9 +54,12 @@ const RadioPlayer = memo(() => {
     }
   }, [volume, audioRef]);
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       // Ignore keyboard events if an input is focused.
-      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement
+      ) {
         return;
       }
       // Handle "Escape" to close the player
