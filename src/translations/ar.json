@@ -131,7 +131,8 @@
     "quran-font": "خط القرآن",
     "style": "النمط",
     "size": "حجم الخط",
-    "ayah-style": "شكل رقم الاية"
+    "ayah-style": "شكل رقم الاية",
+    "theme": "المظهر"
   },
   "Wishlist": {
     "reciters": "القراء",

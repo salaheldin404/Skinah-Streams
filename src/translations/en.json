@@ -131,7 +131,8 @@
     "quran-font": "Quran Font",
     "style": "Style",
     "size": "Font size",
-    "ayah-style": "Ayah number style"
+    "ayah-style": "Ayah number style",
+    "theme": "Theme"
   },
   "Wishlist": {
     "reciters": "Reciters",
