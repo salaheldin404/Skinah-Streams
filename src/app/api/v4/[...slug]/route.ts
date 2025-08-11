@@ -29,7 +29,6 @@ async function getAccessToken(): Promise<string | null> {
 
   const clientSecret = process.env.QURAN_CLIENT_SECRET_PRODUCTION;
 
-  console.log({ tokenUrl });
   console.log("Client ID loaded:", !!clientId); // Should log: true
   console.log("Client Secret loaded:", !!clientSecret); // Should log: true
   if (!clientId || !clientSecret) {
@@ -41,7 +40,6 @@ async function getAccessToken(): Promise<string | null> {
 
   const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
 
-  console.log({ auth });
   try {
     const response = await fetch(tokenUrl, {
       method: "POST",
@@ -53,7 +51,6 @@ async function getAccessToken(): Promise<string | null> {
       body: `grant_type=client_credentials&scope=content`,
     });
 
-    console.log({ response });
     if (!response.ok) {
       const errorText = await response.text();
       console.error("SERVER_TOKEN_ERROR:", errorText);
