@@ -111,9 +111,10 @@ const VerseDisplay = memo(({ verse, surah, scrollId }: VerseDisplayProps) => {
       <Popover open={isOpen} onOpenChange={handleOpenChange}>
         <PopoverTrigger id={scrollId} asChild>
           <div
-            className={`${fontFamily} transition-colors py-2 inline text-justify cursor-pointer hover:bg-primary/10 dark:hover:bg-secondary ${
-              isHighlighted && "bg-primary/10 dark:bg-secondary"
-            } ${savedVerseActive && "bg-primary/10 dark:bg-secondary"}`}
+            className={`${fontFamily} transition-colors py-2 inline text-justify cursor-pointer   hover:bg-primary/10 dark:hover:bg-secondary 
+                    data-[state=open]:bg-primary/10 dark:data-[state=open]:bg-secondary 
+            ${isHighlighted && "bg-primary/10 dark:bg-secondary"} 
+            ${savedVerseActive && "bg-primary/10 dark:bg-secondary"}`}
           >
             <span className="rounded-md inline ">
               {splText.map((word, index) => (
