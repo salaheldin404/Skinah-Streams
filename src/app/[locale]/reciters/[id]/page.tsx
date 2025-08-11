@@ -79,7 +79,7 @@ const ReciterPage = () => {
   const defaultImage = isDark
     ? LIGHT_DEFAULT_RECITER_IMAGE
     : DARK_DEFAULT_RECITER_IMAGE;
-  const imageUrl = getReciterImage(reciter?.name || "", defaultImage);
+  const imageUrl = getReciterImage(reciter?.name || "") || defaultImage;
 
   const selectedMoshaf = useMemo(() => {
     if (!reciter?.moshaf?.length || !selectMoshafId) return null;
