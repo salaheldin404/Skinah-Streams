@@ -10,6 +10,7 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import { LuSettings, LuX } from "react-icons/lu";
 import FontControl from "../font/FontControl";
+import { ModeToggle } from "./mode-toggle";
 
 const Setting = () => {
   const locale = useLocale();
@@ -20,11 +21,11 @@ const Setting = () => {
         <LuSettings size={20} />
       </SheetTrigger>
       <SheetContent
-        className={`py-7 px-4`}
+        className={`py-2  overflow-y-auto`}
         side={locale === "en" ? "left" : "right"}
         aria-describedby={undefined}
       >
-        <SheetHeader className="flex flex-row justify-between items-center gap-3 mb-3 border-b">
+        <SheetHeader className="flex flex-row py-2 px-4 justify-between items-center gap-3 mb-3 border-b">
           <SheetTitle>{t("title")}</SheetTitle>
 
           <SheetClose
@@ -34,7 +35,11 @@ const Setting = () => {
           </SheetClose>
         </SheetHeader>
 
-        <div>
+        <div className="space-y-4">
+          <div className="space-y-4  px-4 border-b pb-3">
+            <h2 className="text-lg font-bold">{t("theme")}</h2>
+            <ModeToggle />
+          </div>
           <FontControl />
         </div>
         {/* <SheetClose
