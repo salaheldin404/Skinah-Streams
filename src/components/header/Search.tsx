@@ -58,7 +58,7 @@ const Search = () => {
     setActiveSearch(false);
   }, [pathname]);
   return (
-    <div className={`relative md:w-full max-w-lg font-cairo`}>
+    <div className={`relative md:w-[50%] lg:w-full max-w-lg font-cairo`}>
       <div
         className="relative hidden md:block"
         onFocus={() => setActiveSearch(true)}
