@@ -24,7 +24,7 @@ const ReciterCard = memo(({ reciter }: { reciter: Reciter }) => {
     ? LIGHT_DEFAULT_RECITER_IMAGE
     : DARK_DEFAULT_RECITER_IMAGE;
 
-  const imageUrl = getReciterImage(reciter.name, defaultImage);
+  const imageUrl = getReciterImage(reciter.name) || defaultImage;
 
   const recitationTypes = {
     murattal: t("murattal"),
