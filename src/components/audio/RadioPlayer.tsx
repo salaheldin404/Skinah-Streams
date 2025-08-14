@@ -11,12 +11,19 @@ import PlayButton from "./PlayButton";
 import useRadioPlayer from "@/hooks/useRadioPlayer";
 import VolumeControl from "./VolumeControl";
 import useVolume from "@/hooks/useVolume";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 const RadioPlayer = memo(() => {
+  const t = useTranslations("RadioPlayer");
   const { radioUrl, radioName, isRadioPlayerOpen, isRadioPlaying } =
     useAppSelector((state) => state.audio);
 
   const dispatch = useAppDispatch();
-  const { audioRef, isLoading: radioLoading } = useRadioPlayer({
+  const {
+    audioRef,
+    isLoading: radioLoading,
+    isError: isRadioError,
+  } = useRadioPlayer({
     src: radioUrl,
     isPlaying: isRadioPlaying,
   });
@@ -80,6 +87,13 @@ const RadioPlayer = memo(() => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   });
+  useEffect(() => {
+    if (isRadioError) {
+      dispatch(setRadioPlaying(false));
+      toast.error(t("audio-player-error"));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRadioError, dispatch]);
 
   return (
     <div

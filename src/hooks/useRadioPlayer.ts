@@ -10,6 +10,8 @@ interface UseRadioPlayerProps {
 const useRadioPlayer = ({ src, isPlaying }: UseRadioPlayerProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -44,20 +46,27 @@ const useRadioPlayer = ({ src, isPlaying }: UseRadioPlayerProps) => {
     const handlePlaying = () => {
       setIsLoading(false);
     };
+    const handleEerror = () => {
+      setIsLoading(false);
+      setIsError(true);
+    };
+
     // 'waiting' is fired when playback has stopped due to a temporary lack of data.
     audio.addEventListener("waiting", handleLoading);
     // 'playing' is fired when playback is ready to start after having been paused or delayed.
     audio.addEventListener("canplay", handleCanPlay);
     audio.addEventListener("playing", handlePlaying);
+    audio.addEventListener("error", handleEerror);
 
     // Cleanup: remove event listeners when the component unmounts or src changes.
     return () => {
       audio.removeEventListener("waiting", handleLoading);
       audio.removeEventListener("canplay", handleCanPlay);
       audio.removeEventListener("playing", handlePlaying);
+      audio.removeEventListener("error", handleEerror);
     };
   }, [src]); // Re-run if the audio source changes.
-  return { audioRef, isLoading };
+  return { audioRef, isLoading, isError };
 };
 
 export default useRadioPlayer;
