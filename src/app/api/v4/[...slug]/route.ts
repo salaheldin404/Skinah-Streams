@@ -94,7 +94,6 @@ async function handler(
   const queryString = req.nextUrl.search;
 
   const apiUrl = `${baseApiUrl}${apiPath}${queryString}`;
-  console.log({ apiPath, apiUrl }, "api path");
 
   try {
     // Making a simple GET request.

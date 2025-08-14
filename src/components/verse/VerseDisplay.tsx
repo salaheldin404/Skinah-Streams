@@ -18,7 +18,11 @@ import {
 import { Verse } from "@/types/verse";
 
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import { setOpenAudioPlayer } from "@/lib/store/slices/audio-slice";
+import {
+  setOpenAudioPlayer,
+  setIsPlaying,
+  setLastPlay,
+} from "@/lib/store/slices/audio-slice";
 
 import { setClickedVerse, setSurahInfo } from "@/lib/store/slices/surah-slice";
 
@@ -33,17 +37,18 @@ interface VerseDisplayProps {
 }
 const VerseDisplay = memo(({ verse, surah, scrollId }: VerseDisplayProps) => {
   const dispatch = useAppDispatch();
-  const {
-    isOpen: isAudioPlayerOpen,
-    reciter,
-    currentVerse,
-  } = useAppSelector((state) => state.audio);
+
+  const isAudioPlayerOpen = useAppSelector((state) => state.audio.isOpen);
+  const reciter = useAppSelector((state) => state.audio.reciter);
+  const currentVerse = useAppSelector((state) => state.audio.currentVerse);
+  const surahInfo = useAppSelector((state) => state.surah.surahInfo);
+
   const { fontFamily, ayahNumberStyle } = useFont();
   const [isOpen, setIsOpen] = useState(false);
   const [savedVerseActive, setSavedVerseActive] = useState(false);
 
   // const verseRef = useRef<HTMLButtonElement>(null);
-  const verseRef = useRef<HTMLDivElement>(null);
+  const verseRef = useRef<HTMLButtonElement>(null);
   const isHighlighted = useMemo(
     () => currentVerse && currentVerse.verse_key === verse.verse_key,
     [currentVerse, verse]
@@ -88,15 +93,15 @@ const VerseDisplay = memo(({ verse, surah, scrollId }: VerseDisplayProps) => {
   const handleClickVerse = useCallback(() => {
     if (!isAudioPlayerOpen) {
       dispatch(setOpenAudioPlayer(true));
-      dispatch(setSurahInfo({ id: surah.number, name: surah.name }));
-      // setTimeout(() => {
-      dispatch(setClickedVerse(verse.verse_key));
-      // }, 300);
-    } else {
-      dispatch(setClickedVerse(verse.verse_key));
     }
+    if (surah.number !== surahInfo?.id) {
+      dispatch(setSurahInfo({ id: surah.number, name: surah.name }));
+      dispatch(setLastPlay(surah));
+    }
+    dispatch(setClickedVerse(verse.verse_key));
+    dispatch(setIsPlaying(false));
     setIsOpen(false);
-  }, [isAudioPlayerOpen, dispatch, verse, surah]);
+  }, [isAudioPlayerOpen, dispatch, verse, surah, surahInfo?.id]);
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(verse.qpc_uthmani_hafs);
@@ -109,7 +114,7 @@ const VerseDisplay = memo(({ verse, surah, scrollId }: VerseDisplayProps) => {
   return (
     <>
       <Popover open={isOpen} onOpenChange={handleOpenChange}>
-        <PopoverTrigger id={scrollId} asChild>
+        <PopoverTrigger ref={verseRef} id={scrollId} asChild>
           <div
             className={`${fontFamily} transition-colors py-2 inline text-justify cursor-pointer   hover:bg-primary/10 dark:hover:bg-secondary 
                     data-[state=open]:bg-primary/10 dark:data-[state=open]:bg-secondary 

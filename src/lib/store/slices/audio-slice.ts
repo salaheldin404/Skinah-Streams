@@ -17,6 +17,7 @@ interface AudioState {
   chapter_id: number;
   isOpen: boolean;
   isPlaying: boolean;
+  isAudioLoading: boolean;
   currentVerse: VerseTiming | null;
   radioUrl: string | null;
   radioName: string | null;
@@ -34,6 +35,7 @@ export const initialState: AudioState = {
   chapter_id: 0,
   isOpen: false,
   isPlaying: false,
+  isAudioLoading: false,
   currentVerse: null,
   radioUrl: null,
   radioName: null,
@@ -66,6 +68,9 @@ const audioSlice = createSlice({
     },
     setIsPlaying: (state, action: PayloadAction<boolean>) => {
       state.isPlaying = action.payload;
+    },
+    setAudioLoading: (state, action: PayloadAction<boolean>) => {
+      state.isAudioLoading = action.payload;
     },
 
     setRadio: (state, action: PayloadAction<Radio>) => {
@@ -105,6 +110,7 @@ export const {
   setReciter,
   setOpenAudioPlayer,
   setIsPlaying,
+  setAudioLoading,
   setCurrentVerse,
   setRadio,
   setOpenRadioPlayer,

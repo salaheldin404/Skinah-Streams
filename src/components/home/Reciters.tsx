@@ -27,7 +27,6 @@ const Reciters = () => {
       [],
     [data]
   );
-  console.log(reciters, "reciters");
   return (
     <section className="py-10">
       <div className="main-container">

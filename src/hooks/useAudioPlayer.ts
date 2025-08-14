@@ -1,5 +1,8 @@
 import { useAppDispatch } from "@/lib/store/hooks";
 import { useCallback, useEffect, useRef, useState } from "react";
+
+import { setIsPlaying } from "@/lib/store/slices/audio-slice";
+
 interface AudioPlayerProps {
   src: string | null;
   isPlaying: boolean;
@@ -61,6 +64,9 @@ const useAudioPlayer = ({
 
     const handleCanPlay = () => {
       setIsLoading(false);
+      audio.play().catch((e) => console.log("Playback error", e));
+      dispatch(setIsPlaying(true));
+
       // if (isPlaying) {
       //   audio.play().catch((e) => console.log("Playback error", e));
       //   dispatch(setIsPlaying(true));

@@ -30,7 +30,7 @@ const SurahCard = memo(({ surah, isWishlistShow }: SurahCardProps) => {
   const t = useTranslations("Surah");
   const locale = useLocale();
   const dispatch = useAppDispatch();
-  const { isPlaying, audio_url, isOpen } = useAppSelector(
+  const { isPlaying, audio_url, isOpen, isAudioLoading } = useAppSelector(
     (state) => state.audio
   );
   const { surahInfo } = useAppSelector((state) => state.surah);
@@ -150,6 +150,7 @@ const SurahCard = memo(({ surah, isWishlistShow }: SurahCardProps) => {
             handleTogglePlay={handleTogglePlay}
             currentSurah={currentSurah}
             isPlaying={isPlaying}
+            isLoading={isAudioLoading}
           />
 
           {isWishlistShow && (

@@ -143,6 +143,9 @@
   "AudioPlayer": {
     "audio-player-error": "Unfortunately, we were unable to play the audio clip. Please try another reader."
   },
+  "RadioPlayer": {
+    "radio-player-error": "Unfortunately, we were unable to play the audio clip. Please try another station."
+  },
   "FavoritePage": {
     "favorite": "Favorite",
     "surahs": "Surahs",

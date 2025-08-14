@@ -143,6 +143,9 @@
   "AudioPlayer": {
     "audio-player-error": "للأسف لم نستطع تشغيل المقطع الصوتي. من فضلك جرب مقرئا آخر."
   },
+  "RadioPlayer": {
+    "radio-player-error": "للأسف لم نستطع تشغيل المقطع الصوتي. من فضلك جرب محطة راديو اخر."
+  },
   "FavoritePage": {
     "favorite": "المفضلة",
     "surahs": "السور",
