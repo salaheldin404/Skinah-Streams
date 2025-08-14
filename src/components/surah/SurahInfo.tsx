@@ -21,7 +21,9 @@ interface SurahInfoProps {
 
 const SurahInfo = memo(({ surah, locale, t, t2 }: SurahInfoProps) => {
   const dispatch = useAppDispatch();
-  const { reciter, isPlaying, isOpen } = useAppSelector((state) => state.audio);
+  const { reciter, isPlaying, isOpen, isAudioLoading } = useAppSelector(
+    (state) => state.audio
+  );
   const { surahInfo } = useAppSelector((state) => state.surah);
 
   const currentSurah = useMemo(() => {
@@ -79,6 +81,7 @@ const SurahInfo = memo(({ surah, locale, t, t2 }: SurahInfoProps) => {
             currentSurah={currentSurah}
             handleTogglePlay={handlePlay}
             className="!w-auto"
+            isLoading={isAudioLoading}
           >
             {t2("play")}
           </SurahPlayButton>

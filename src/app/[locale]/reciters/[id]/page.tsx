@@ -49,9 +49,8 @@ const ReciterPage = () => {
   const dispatch = useAppDispatch();
 
   const t = useTranslations("ReciterPage");
-  const { isRadioPlaying, radioName, isRadioPlayerOpen } = useAppSelector(
-    (state) => state.audio
-  );
+  const { isRadioPlaying, radioName, isRadioPlayerOpen, isAudioLoading } =
+    useAppSelector((state) => state.audio);
 
   const { resolvedTheme } = useTheme();
   const { data, isLoading, isError } = useGetAllRectitationsDataQuery({
@@ -215,6 +214,7 @@ const ReciterPage = () => {
                 currentSurah={isCurrentRadio}
                 handleTogglePlay={handlePlayRadio}
                 className="!w-auto"
+                isLoading={isAudioLoading}
               >
                 {t("radio")}
               </SurahPlayButton>

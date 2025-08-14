@@ -21,7 +21,7 @@ const QuickRecentlyPlayed = memo(() => {
   useEffect(() => {
     setIsClient(true);
   }, []);
-  const { lastPlay, isOpen, isPlaying } = useAppSelector(
+  const { lastPlay, isOpen, isPlaying, isAudioLoading } = useAppSelector(
     (state) => state.audio
   );
   const { surahInfo } = useAppSelector((state) => state.surah);
@@ -74,6 +74,7 @@ const QuickRecentlyPlayed = memo(() => {
           isPlaying={isPlaying}
           currentSurah={currentSurah}
           handleTogglePlay={handlePlay}
+          isLoading={isAudioLoading}
         />
       )}
     </div>

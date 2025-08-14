@@ -19,7 +19,9 @@ const RecentlyCard = ({ surah }: { surah: Surah }) => {
   const t = useTranslations("Surah");
   const locale = useLocale();
   const dispatch = useAppDispatch();
-  const { isOpen, isPlaying } = useAppSelector((state) => state.audio);
+  const { isOpen, isPlaying, isAudioLoading } = useAppSelector(
+    (state) => state.audio
+  );
   const { surahInfo } = useAppSelector((state) => state.surah);
 
   const currentSurah = useMemo(
@@ -55,6 +57,7 @@ const RecentlyCard = ({ surah }: { surah: Surah }) => {
           currentSurah={currentSurah}
           handleTogglePlay={handlePlay}
           className={`${locale == "ar" ? "ml-2" : "mr-2"}`}
+          isLoading={isAudioLoading}
         />
 
         <div className="">
