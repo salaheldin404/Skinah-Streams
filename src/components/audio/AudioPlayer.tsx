@@ -10,6 +10,7 @@ import {
   setOpenAudioPlayer,
   setIsPlaying,
   setCurrentVerse,
+  setAudioLoading,
 } from "@/lib/store/slices/audio-slice";
 
 import { setClickedVerse, setSurahInfo } from "@/lib/store/slices/surah-slice";
@@ -107,7 +108,10 @@ const AudioPlayer = memo(
       }, [isReciterChanging]),
     });
     const { VolumeIcon, volume, handleVolumeChange } = useVolume();
-    const isLoading = isApiFetching || isAudioPlayerLoading;
+    const isLoading = useMemo(
+      () => isApiFetching || isAudioPlayerLoading,
+      [isApiFetching, isAudioPlayerLoading]
+    );
     const progress = useMemo(() => {
       return duration > 0 ? (currentTime / duration) * 100 : 0;
     }, [duration, currentTime]);
@@ -272,11 +276,15 @@ const AudioPlayer = memo(
     useEffect(() => {
       const audio = audioRef.current;
       if (isOpen && audio && !isLoading) {
-        dispatch(setIsPlaying(true));
-        audio.addEventListener("canplay", () => {
+        const handleCanPlay = () => {
           audio.play();
-        });
-        // audio.play();
+          dispatch(setIsPlaying(true));
+        };
+        audio.addEventListener("canplay", handleCanPlay);
+
+        return () => {
+          audio.removeEventListener("canplay", handleCanPlay);
+        };
       }
     }, [isOpen, audioRef, dispatch, isLoading]);
 
@@ -289,10 +297,21 @@ const AudioPlayer = memo(
           savedVerseRef.current = verseToSeek;
           handleSeek(seekTime);
         }
-        const timer = setTimeout(() => dispatch(setClickedVerse(null)), 300);
+        const timer = setTimeout(() => {
+          if (isPlaying) {
+            dispatch(setClickedVerse(null));
+          }
+        }, 300);
         return () => clearTimeout(timer);
       }
-    }, [clickedVerse, timestampsMap, handleSeek, duration, dispatch]);
+    }, [
+      clickedVerse,
+      timestampsMap,
+      handleSeek,
+      duration,
+      isPlaying,
+      dispatch,
+    ]);
 
     useEffect(() => {
       if (isAudioPlayerError) {
@@ -302,6 +321,9 @@ const AudioPlayer = memo(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAudioPlayerError, dispatch]);
 
+    useEffect(() => {
+      dispatch(setAudioLoading(isLoading));
+    }, [isLoading, dispatch]);
     const reciterList = useMemo(() => {
       return reciters?.map((reciterItem) => (
         <div
