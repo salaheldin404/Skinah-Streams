@@ -1,7 +1,7 @@
 "use client";
 // React and Next.js imports
-import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
 // Third-party library imports
@@ -19,6 +19,7 @@ import SurahInfo from "@/components/surah/SurahInfo";
 import VersesLoadingSkeleton from "@/components/verse/VersesLoadingSkeleton";
 import ReadingContent from "@/components/surah/ReadingContent";
 import TranslationContent from "@/components/surah/TranslationContent";
+import SurahNavigationButton from "@/components/surah/SurahNavigationButton";
 
 // Redux/API imports
 import { useAppDispatch } from "@/lib/store/hooks";
@@ -32,6 +33,7 @@ import { Verse } from "@/types/verse";
 const SurahPage = () => {
   const { id } = useParams<{ id: string }>();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const verseQuery = searchParams.get("verse");
 
   const locale = useLocale();
@@ -41,23 +43,24 @@ const SurahPage = () => {
   const [groupedVerses, setGroupedVerses] = useState<Record<string, Verse[]>>(
     {}
   );
+  const numericId = Number(id);
 
   const [activeTab, setActiveTab] = useState("reading");
-  const chapterParams = new URLSearchParams({
-    fields:
-      "text_uthmani,qpc_uthmani_hafs,image_url,image_width,text_uthmani_tajweed,page_number,audio,chapter_id",
-    per_page: "all",
-    translations: "131,85",
-    translation_fields: "resource_name,language_id",
-    // words: "true",
-    // word_fields:
-    //   "location,line_number,line_v2,line_v1,text_qpc_hafs,chapter_id",
-  });
+  const chapterParams = useMemo(() => {
+    const params = new URLSearchParams({
+      fields:
+        "text_uthmani,qpc_uthmani_hafs,text_uthmani_tajweed,page_number,audio,chapter_id",
+      per_page: "all",
+      translations: "131,85",
+      translation_fields: "resource_name,language_id",
+    });
+    return params.toString();
+  }, []);
 
-  const { data: versesData, isLoading } = useGetVersesChapterQuery(
+  const { data: versesData, isFetching } = useGetVersesChapterQuery(
     {
       params: chapterParams.toString(),
-      chapterId: Number(id),
+      chapterId: numericId,
     },
     {
       skip: !id,
@@ -67,15 +70,43 @@ const SurahPage = () => {
 
   const handleSaveMark = () => {
     dispatch(setSaveMarkRead(true));
+    dispatch(setGoToVerse(null));
     toast.success(t2("marked-saved"));
   };
-  const surah = quranData.data[+id - 1];
+
+  const handleNextSurah = useCallback(() => {
+    if (numericId < 114) {
+      router.push(`/surahs/${numericId + 1}`);
+    }
+  }, [numericId, router]);
+
+  const handlePreviousSurah = useCallback(() => {
+    if (numericId > 1) {
+      router.push(`/surahs/${numericId - 1}`);
+    }
+  }, [numericId, router]);
+
+  const surah = useMemo(() => quranData.data[+id - 1], [id]);
+
+  // Memoize navigation states
+  const navigationState = useMemo(
+    () => ({
+      isPreviousDisabled: numericId === 1,
+      isNextDisabled: numericId === 114,
+    }),
+    [numericId]
+  );
+
+  // Memoize bismillah condition
+  const showBismillah = useMemo(
+    () => surah?.number !== 1 && surah?.number !== 9,
+    [surah?.number]
+  );
 
   useEffect(() => {
     if (versesData) {
       const grouped = groupVersesByPage(versesData.verses);
-      // const groupdLinesByPage = groupLinesByPage(versesData.verses);
-      // setGroupedLines(groupdLinesByPage);
+
       setGroupedVerses(grouped);
     }
   }, [versesData]);
@@ -123,42 +154,19 @@ const SurahPage = () => {
           </TabsList>
 
           <TabsContent value="reading">
-            {isLoading ? (
+            {isFetching ? (
               <VersesLoadingSkeleton />
             ) : (
               <div
                 dir="rtl"
-                className="mt-6  text-center rounded-md py-2 px-2 md:px-4 lg:px-6 leading-loose space-y-6 uthmanic-text "
+                className="mt-6  text-center rounded-md py-2  leading-loose space-y-6 uthmanic-text "
               >
-                {surah?.number !== 1 && surah?.number !== 9 && (
+                {showBismillah && (
                   <div className="text-center grid place-content-center mt-3">
                     <p className="text-7xl mushaf-text">﷽</p>
                   </div>
                 )}
-                {/* <div className="text-center bg-card p-5">
-                  {Object.keys(groupedLines).map((pageNumber) => {
-                    const linesOnPage = groupedLines[pageNumber];
-                    const versesOnPage = Object.keys(linesOnPage).map(
-                      (lineNumber) => {
-                        const wordsOnLine = linesOnPage[lineNumber];
-                        return (
-                          <VerseLine
-                            key={`${pageNumber}-${lineNumber}`}
-                            line={wordsOnLine}
-                          />
-                        );
-                      }
-                    );
-                    return (
-                      <div className="w-[400px] md:w-[600px]" key={pageNumber}>
-                        {versesOnPage}
-                        <div className="text-center my-4 border-b">
-                          {pageNumber}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div> */}
+
                 {Object.keys(groupedVerses).map((pageNumber) => {
                   const versesOnPage = groupedVerses[pageNumber];
                   return (
@@ -176,18 +184,27 @@ const SurahPage = () => {
           </TabsContent>
 
           <TabsContent value="translation">
-            {isLoading ? (
+            {isFetching ? (
               <VersesLoadingSkeleton />
             ) : (
               <TranslationContent verses={versesData?.verses} surah={surah} />
             )}
           </TabsContent>
         </Tabs>
+
+        {!isFetching && (
+          <SurahNavigationButton
+            onNextSurah={handleNextSurah}
+            onPreviousSurah={handlePreviousSurah}
+            isPreviousDisabled={navigationState.isPreviousDisabled}
+            isNextDisabled={navigationState.isNextDisabled}
+          />
+        )}
       </div>
       <Tooltip delayDuration={100}>
         <TooltipTrigger
           onClick={handleSaveMark}
-          className="fixed bottom-2 left-4 cursor-pointer grid place-content-center w-8 h-8 rounded-full hover:bg-secondary transition-colors"
+          className="fixed bottom-4 left-4 cursor-pointer grid place-content-center w-8 h-8 rounded-full hover:bg-secondary transition-colors"
         >
           <LuBookmark />
         </TooltipTrigger>
