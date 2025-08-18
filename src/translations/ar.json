@@ -161,5 +161,9 @@
   "Loading": {
     "loading": "جاري التحميل...",
     "error": "حدث خطاء"
+  },
+  "SurahNavigationButton": {
+    "next": "السورة التالية",
+    "previous": "السورة السابقة"
   }
 }

@@ -162,5 +162,9 @@
   "Loading": {
     "loading": "Loading, please wait...",
     "error": "An error occurred while loading data. Please try again."
+  },
+  "SurahNavigationButton": {
+    "previous": "Previous Surah",
+    "next": "Next Surah"
   }
 }

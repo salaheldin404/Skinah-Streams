@@ -50,7 +50,7 @@ const ReadingContent = memo(
     }, [lastRead, goToVerse, dispatch]);
     return (
       <Fragment key={pageNumber}>
-        <div className="px-2 md:px-4 lg:px-8 py-2  ">
+        <div className="py-2  ">
           <div className="">
             <div
               dir="rtl"
@@ -83,7 +83,7 @@ const ReadingContent = memo(
           </div>
         </div>
 
-        <div className="border-b last:border-0 border-gray-200 dark:border-secondary py-2">
+        <div className="border-b  border-gray-200 dark:border-secondary py-2">
           <span className="font-cairo text-gray-500 text-sm text-center block font-medium">
             {locale === "ar" ? toArabicNumber(+pageNumber) : pageNumber}
           </span>
