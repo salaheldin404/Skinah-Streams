@@ -51,18 +51,6 @@ const SurahPage = () => {
 
   const [activeTab, setActiveTab] = useState("reading");
 
-  const chapterParams = new URLSearchParams({
-    fields: "text_uthmani,qpc_uthmani_hafs,page_number,audio,chapter_id",
-    per_page: "all",
-    translations: "131,85",
-    translation_fields: "resource_name,language_id",
-    // words: "true",
-    // word_fields:
-    //   "location,line_number,line_v2,line_v1,text_qpc_hafs,chapter_id",
-  });
-
-  const { data: versesData, isLoading } = useGetVersesChapterQuery(
-
   const chapterParams = useMemo(() => {
     const params = new URLSearchParams({
       fields:
