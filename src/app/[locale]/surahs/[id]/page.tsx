@@ -22,7 +22,7 @@ import TranslationContent from "@/components/surah/TranslationContent";
 import SurahNavigationButton from "@/components/surah/SurahNavigationButton";
 
 // Redux/API imports
-import { useAppDispatch } from "@/lib/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { useGetVersesChapterQuery } from "@/lib/store/features/versesApi";
 import { setSaveMarkRead, setGoToVerse } from "@/lib/store/slices/surah-slice";
 
@@ -30,11 +30,15 @@ import { setSaveMarkRead, setGoToVerse } from "@/lib/store/slices/surah-slice";
 import { groupVersesByPage } from "@/lib/utils/verse";
 import quranData from "@/data/all-quran-surah.json";
 import { Verse } from "@/types/verse";
+import SurahTopBar from "@/components/surah/SurahTopBar";
 const SurahPage = () => {
   const { id } = useParams<{ id: string }>();
   const searchParams = useSearchParams();
   const router = useRouter();
   const verseQuery = searchParams.get("verse");
+  const currentVerseLocation = useAppSelector(
+    (state) => state.surah.currentVerseLocation
+  );
 
   const locale = useLocale();
   const dispatch = useAppDispatch();
@@ -46,6 +50,19 @@ const SurahPage = () => {
   const numericId = Number(id);
 
   const [activeTab, setActiveTab] = useState("reading");
+
+  const chapterParams = new URLSearchParams({
+    fields: "text_uthmani,qpc_uthmani_hafs,page_number,audio,chapter_id",
+    per_page: "all",
+    translations: "131,85",
+    translation_fields: "resource_name,language_id",
+    // words: "true",
+    // word_fields:
+    //   "location,line_number,line_v2,line_v1,text_qpc_hafs,chapter_id",
+  });
+
+  const { data: versesData, isLoading } = useGetVersesChapterQuery(
+
   const chapterParams = useMemo(() => {
     const params = new URLSearchParams({
       fields:
@@ -129,6 +146,7 @@ const SurahPage = () => {
   }
   return (
     <div className="py-10 relative">
+      <SurahTopBar surah={surah} currentVerseLocation={currentVerseLocation} />
       <div className="max-w-4xl mx-auto p-6 pb-32">
         <SurahInfo surah={surah} locale={locale} t={t} t2={t2} />
         <Tabs

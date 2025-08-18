@@ -41,3 +41,9 @@ export interface VerseTiming {
   duration: number;
   segments: Segment[];
 }
+
+export interface CurrentVerseLocation {
+  hizb_number: number | null;
+  juz_number: number | null;
+  page_number: number | null;
+}

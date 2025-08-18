@@ -1,5 +1,5 @@
 "use client";
-import { memo, useEffect, useRef } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import VersesLoadingSkeleton from "./VersesLoadingSkeleton";
 import { Verse } from "@/types/verse";
 
@@ -11,38 +11,40 @@ interface LazyRenderProps {
   verse: Verse;
   className?: string;
   isTarget?: boolean;
+  onVerseView?: (data: {
+    hizb_number: number;
+    juz_number: number;
+    page_number: number;
+  }) => void;
 }
 
 const LazyRender = memo(
-  ({ children, verse, isTarget, className }: LazyRenderProps) => {
-    // const dispatch = useAppDispatch();
-    // const saveMarkRead = useAppSelector((state) => state.audio.saveMarkRead);
+  ({ children, verse, isTarget, className, onVerseView }: LazyRenderProps) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
+
+    const [hasTriggeredView, setHasTriggeredView] = useState(false);
+
     const { isIntersecting: isCurrentlyInView, wasIntersected } =
       useIntersectionObserver(containerRef);
 
-    const isCurrentlyInViewRef = useRef(isCurrentlyInView);
+    const { isIntersecting: isVerseInView } = useIntersectionObserver(
+      containerRef,
+      "0px",
+      0.75
+    );
 
     useEffect(() => {
-      isCurrentlyInViewRef.current = isCurrentlyInView;
-    }, [isCurrentlyInView]);
-
-    // useEffect(() => {
-    //   if (isCurrentlyInView && verse) {
-    //     if (saveMarkRead) {
-    //       const lastReadData = {
-    //         chapter_id: verse.chapter_id,
-    //         verse_number: verse.verse_number,
-    //         page_number: verse.page_number,
-    //         qpc_uthmani_hafs: verse.qpc_uthmani_hafs,
-    //         verse_key: verse.verse_key,
-    //       };
-    //       console.log({ lastReadData });
-    //       dispatch(setLastRead(lastReadData));
-    //       dispatch(setSaveMarkRead(false));
-    //     }
-    //   }
-    // }, [isCurrentlyInView, verse, dispatch, saveMarkRead]);
+      if (isVerseInView && !hasTriggeredView && onVerseView) {
+        onVerseView({
+          hizb_number: verse.hizb_number,
+          juz_number: verse.juz_number,
+          page_number: verse.page_number,
+        });
+        setHasTriggeredView(true);
+      } else if (!isVerseInView) {
+        setHasTriggeredView(false);
+      }
+    }, [isVerseInView, onVerseView, verse, hasTriggeredView]);
 
     useEffect(() => {
       if (isTarget && containerRef.current) {

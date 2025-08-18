@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, memo, useEffect } from "react";
+import React, { Fragment, memo, useCallback, useEffect } from "react";
 import VerseDisplay from "../verse/VerseDisplay";
 import { Verse } from "@/types/verse";
 import { toArabicNumber } from "@/lib/utils/surah";
@@ -7,6 +7,7 @@ import LazyRender from "../verse/LazyRender";
 import { Surah } from "@/types/surah";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { useFont } from "@/hooks/useFont";
+import { setCurrentVerseLocation } from "@/lib/store/slices/surah-slice";
 
 interface ReadingContentProps {
   pageNumber: string;
@@ -20,6 +21,17 @@ const ReadingContent = memo(
     const { lastRead, goToVerse } = useAppSelector((state) => state.surah);
     const { fontSize } = useFont();
     const dispatch = useAppDispatch();
+
+    const handleVerseView = useCallback(
+      (data: {
+        hizb_number: number;
+        juz_number: number;
+        page_number: number;
+      }) => {
+        dispatch(setCurrentVerseLocation(data));
+      },
+      [dispatch]
+    );
     useEffect(() => {
       const targetId = goToVerse || lastRead?.verse_key; // Example: "1:31"
       const timer = setTimeout(() => {
@@ -56,6 +68,7 @@ const ReadingContent = memo(
                     verse={verse}
                     key={verse.verse_key}
                     isTarget={isTarget}
+                    onVerseView={handleVerseView}
                   >
                     <VerseDisplay
                       key={verse.verse_key}

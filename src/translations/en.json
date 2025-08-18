@@ -56,7 +56,11 @@
     "reading": "Reading",
     "translation": "Translation",
     "save-mark": "Save Mark",
-    "marked-saved": "Marked has been saved"
+    "marked-saved": "Marked has been saved",
+    "juz": "Juz",
+    "page": "Page",
+    "hizb": "Hizb"
+    
   },
   "FeaturedSurahs": {
     "title": "Featured Surahs",
