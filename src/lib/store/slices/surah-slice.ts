@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import type { LastRead } from "@/types/surah";
+import { CurrentVerseLocation } from "@/types/verse";
 
 interface SurahState {
   lastRead: LastRead | null;
@@ -11,6 +12,7 @@ interface SurahState {
     id: number;
   };
   goToVerse: string | null;
+  currentVerseLocation: CurrentVerseLocation;
 }
 
 export const initialState: SurahState = {
@@ -22,6 +24,11 @@ export const initialState: SurahState = {
     id: 0,
   },
   goToVerse: null,
+  currentVerseLocation: {
+    hizb_number: null,
+    juz_number: null,
+    page_number: null,
+  },
 };
 const surahSlice = createSlice({
   name: "surah",
@@ -45,6 +52,12 @@ const surahSlice = createSlice({
     setGoToVerse(state, action: PayloadAction<string | null>) {
       state.goToVerse = action.payload;
     },
+    setCurrentVerseLocation(
+      state,
+      action: PayloadAction<CurrentVerseLocation>
+    ) {
+      state.currentVerseLocation = action.payload;
+    },
   },
 });
 
@@ -54,5 +67,6 @@ export const {
   setLastRead,
   setSaveMarkRead,
   setGoToVerse,
+  setCurrentVerseLocation,
 } = surahSlice.actions;
 export const surahReducer = surahSlice.reducer;

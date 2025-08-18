@@ -21,7 +21,7 @@ import ReadingContent from "@/components/surah/ReadingContent";
 import TranslationContent from "@/components/surah/TranslationContent";
 
 // Redux/API imports
-import { useAppDispatch } from "@/lib/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { useGetVersesChapterQuery } from "@/lib/store/features/versesApi";
 import { setSaveMarkRead, setGoToVerse } from "@/lib/store/slices/surah-slice";
 
@@ -29,10 +29,14 @@ import { setSaveMarkRead, setGoToVerse } from "@/lib/store/slices/surah-slice";
 import { groupVersesByPage } from "@/lib/utils/verse";
 import quranData from "@/data/all-quran-surah.json";
 import { Verse } from "@/types/verse";
+import SurahTopBar from "@/components/surah/SurahTopBar";
 const SurahPage = () => {
   const { id } = useParams<{ id: string }>();
   const searchParams = useSearchParams();
   const verseQuery = searchParams.get("verse");
+  const currentVerseLocation = useAppSelector(
+    (state) => state.surah.currentVerseLocation
+  );
 
   const locale = useLocale();
   const dispatch = useAppDispatch();
@@ -44,8 +48,7 @@ const SurahPage = () => {
 
   const [activeTab, setActiveTab] = useState("reading");
   const chapterParams = new URLSearchParams({
-    fields:
-      "text_uthmani,qpc_uthmani_hafs,image_url,image_width,text_uthmani_tajweed,page_number,audio,chapter_id",
+    fields: "text_uthmani,qpc_uthmani_hafs,page_number,audio,chapter_id",
     per_page: "all",
     translations: "131,85",
     translation_fields: "resource_name,language_id",
@@ -74,8 +77,7 @@ const SurahPage = () => {
   useEffect(() => {
     if (versesData) {
       const grouped = groupVersesByPage(versesData.verses);
-      // const groupdLinesByPage = groupLinesByPage(versesData.verses);
-      // setGroupedLines(groupdLinesByPage);
+
       setGroupedVerses(grouped);
     }
   }, [versesData]);
@@ -98,6 +100,7 @@ const SurahPage = () => {
   }
   return (
     <div className="py-10 relative">
+      <SurahTopBar surah={surah} currentVerseLocation={currentVerseLocation} />
       <div className="max-w-4xl mx-auto p-6 pb-32">
         <SurahInfo surah={surah} locale={locale} t={t} t2={t2} />
         <Tabs
@@ -135,30 +138,7 @@ const SurahPage = () => {
                     <p className="text-7xl mushaf-text">﷽</p>
                   </div>
                 )}
-                {/* <div className="text-center bg-card p-5">
-                  {Object.keys(groupedLines).map((pageNumber) => {
-                    const linesOnPage = groupedLines[pageNumber];
-                    const versesOnPage = Object.keys(linesOnPage).map(
-                      (lineNumber) => {
-                        const wordsOnLine = linesOnPage[lineNumber];
-                        return (
-                          <VerseLine
-                            key={`${pageNumber}-${lineNumber}`}
-                            line={wordsOnLine}
-                          />
-                        );
-                      }
-                    );
-                    return (
-                      <div className="w-[400px] md:w-[600px]" key={pageNumber}>
-                        {versesOnPage}
-                        <div className="text-center my-4 border-b">
-                          {pageNumber}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div> */}
+
                 {Object.keys(groupedVerses).map((pageNumber) => {
                   const versesOnPage = groupedVerses[pageNumber];
                   return (

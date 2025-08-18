@@ -56,7 +56,10 @@
     "reading": "القراءة",
     "translation": "الترجمة",
     "save-mark": "حفظ العلامة",
-    "marked-saved": "تم حفظ العلامة"
+    "marked-saved": "تم حفظ العلامة",
+    "juz": "جزء",
+    "page": "صفحة",
+    "hizb": "حزب"
   },
   "FeaturedSurahs": {
     "title": "السور المميزة",

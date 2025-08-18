@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 
 const useIntersectionObserver = (
   ref: React.RefObject<Element | null>,
-  rootMargin = "50px"
+  rootMargin = "50px",
+  threshold = 0
 ) => {
   const [isIntersecting, setIsIntersecting] = useState(false);
   const [wasIntersected, setWasIntersected] = useState(false);
@@ -28,13 +29,13 @@ const useIntersectionObserver = (
           setIsIntersecting(false);
         }
       },
-      { rootMargin }
+      { rootMargin, threshold }
     );
 
     observer.observe(el);
 
     return () => observer.disconnect();
-  }, [ref, rootMargin]);
+  }, [ref, rootMargin, threshold]);
 
   return { isIntersecting, wasIntersected };
 };
