@@ -10,9 +10,17 @@ interface SearchContentProps {
   className?: string;
   isLoading: boolean;
   noResultsText: string;
+  onClose: () => void;
 }
+
 const SearchContent = memo(
-  ({ data, className, isLoading, noResultsText }: SearchContentProps) => {
+  ({
+    data,
+    className,
+    isLoading,
+    noResultsText,
+    onClose,
+  }: SearchContentProps) => {
     const router = useRouter();
     const hasResults = data && data.results?.length > 0;
 
@@ -20,6 +28,7 @@ const SearchContent = memo(
       const surahId = versekey.split(":")[0];
       const verseNumber = versekey.split(":")[1];
       router.push(`/surahs/${surahId}?verse=${verseNumber}`);
+      onClose();
     };
     return (
       <div

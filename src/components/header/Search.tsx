@@ -16,17 +16,18 @@ import { useDebounce } from "@uidotdev/usehooks";
 import SearchContent from "@/components/common/SearchContent";
 import { useClickAway } from "@uidotdev/usehooks";
 import { usePathname } from "@/i18n/navigation";
+import BodyScrollLocker from "../common/BodyScrollLocker";
 
 const Search = () => {
   const t = useTranslations("SearchBar");
   const locale = useLocale();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [value, setValue] = useState("");
-  const [activeSearch, setActiveSearch] = useState(false);
+  const [isDesktopActive, setIsDesktopActive] = useState(false);
   const debouncedSearchTerm = useDebounce(value, 300);
   const pathname = usePathname();
   const ref = useClickAway<HTMLDivElement>(() => {
-    setActiveSearch(false);
+    setIsDesktopActive(false);
   });
 
   const { data, isFetching } = useSearchQuery(
@@ -43,25 +44,19 @@ const Search = () => {
     setValue(e.target.value);
   };
 
-  const handleOpenChange = (open: boolean) => {
-    setIsOpen(open);
-    if (open) {
-      setActiveSearch(true);
-    } else {
-      setActiveSearch(false);
-    }
-  };
   const showResults = debouncedSearchTerm.trim().length > 0;
 
   useEffect(() => {
-    setIsOpen(false);
-    setActiveSearch(false);
+    setIsMobileOpen(false);
+    setIsDesktopActive(false);
   }, [pathname]);
   return (
     <div className={`relative md:w-[50%] lg:w-full max-w-lg font-cairo`}>
+      {isDesktopActive && showResults && <BodyScrollLocker />}
+
       <div
         className="relative hidden md:block"
-        onFocus={() => setActiveSearch(true)}
+        onFocus={() => setIsDesktopActive(true)}
         ref={ref}
       >
         <LuSearch className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -71,17 +66,18 @@ const Search = () => {
           value={value}
           onChange={handleChange}
         />
-        {activeSearch && showResults && (
+        {isDesktopActive && showResults && (
           <SearchContent
             data={data}
             className="absolute w-full top-full bg-card min-h-[300px] max-h-[50vh] "
             isLoading={isFetching}
             noResultsText={t("no-results")}
+            onClose={() => setIsDesktopActive(false)}
           />
         )}
       </div>
       <div className="md:hidden">
-        <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+        <Dialog open={isMobileOpen} onOpenChange={setIsMobileOpen}>
           <DialogTrigger asChild className="cursor-pointer">
             <LuSearch />
           </DialogTrigger>
@@ -114,6 +110,7 @@ const Search = () => {
                 className="h-[60vh]"
                 isLoading={isFetching}
                 noResultsText={t("no-results")}
+                onClose={() => setIsMobileOpen(false)}
               />
             )}
           </DialogContent>
