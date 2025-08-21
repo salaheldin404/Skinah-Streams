@@ -90,7 +90,7 @@ const RadioPlayer = memo(() => {
   useEffect(() => {
     if (isRadioError) {
       dispatch(setRadioPlaying(false));
-      toast.error(t("audio-player-error"));
+      toast.error(t("radio-player-error"));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRadioError, dispatch]);
