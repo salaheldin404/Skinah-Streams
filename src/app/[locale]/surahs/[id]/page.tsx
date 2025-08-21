@@ -1,7 +1,7 @@
 "use client";
 // React and Next.js imports
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams, useSearchParams, useRouter } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
 // Third-party library imports
@@ -31,13 +31,14 @@ import { groupVersesByPage } from "@/lib/utils/verse";
 import quranData from "@/data/all-quran-surah.json";
 import { Verse } from "@/types/verse";
 import SurahTopBar from "@/components/surah/SurahTopBar";
+import useSurahNavigation from "@/hooks/useSurahNavigation";
+import useScrollToLastRead from "@/hooks/useScrollToLastRead";
 const SurahPage = () => {
   const { id } = useParams<{ id: string }>();
   const searchParams = useSearchParams();
-  const router = useRouter();
   const verseQuery = searchParams.get("verse");
-  const currentVerseLocation = useAppSelector(
-    (state) => state.surah.currentVerseLocation
+  const { currentVerseLocation, lastRead } = useAppSelector(
+    (state) => state.surah
   );
 
   const locale = useLocale();
@@ -72,41 +73,24 @@ const SurahPage = () => {
       refetchOnMountOrArgChange: true,
     }
   );
+  const { handleNextSurah, handlePreviousSurah, navigationState } =
+    useSurahNavigation(numericId);
 
-  const handleSaveMark = () => {
-    dispatch(setSaveMarkRead(true));
+  const handleSaveMark = useCallback(() => {
     dispatch(setGoToVerse(null));
-    toast.success(t2("marked-saved"));
-  };
-
-  const handleNextSurah = useCallback(() => {
-    if (numericId < 114) {
-      router.push(`/surahs/${numericId + 1}`);
-    }
-  }, [numericId, router]);
-
-  const handlePreviousSurah = useCallback(() => {
-    if (numericId > 1) {
-      router.push(`/surahs/${numericId - 1}`);
-    }
-  }, [numericId, router]);
+    dispatch(setSaveMarkRead(true));
+    toast.success(`${t2("marked-saved")}`);
+  }, [dispatch, t2]);
 
   const surah = useMemo(() => quranData.data[+id - 1], [id]);
-
-  // Memoize navigation states
-  const navigationState = useMemo(
-    () => ({
-      isPreviousDisabled: numericId === 1,
-      isNextDisabled: numericId === 114,
-    }),
-    [numericId]
-  );
 
   // Memoize bismillah condition
   const showBismillah = useMemo(
     () => surah?.number !== 1 && surah?.number !== 9,
     [surah?.number]
   );
+
+  useScrollToLastRead({ lastRead, isFetching, verseQuery });
 
   useEffect(() => {
     if (versesData) {
@@ -168,7 +152,7 @@ const SurahPage = () => {
                 className="mt-6  text-center rounded-md py-2  leading-loose space-y-6 uthmanic-text "
               >
                 {showBismillah && (
-                  <div className="text-center grid place-content-center mt-3">
+                  <div className="max-w-full overflow-hidden text-center grid place-content-center mt-3">
                     <p className="text-7xl mushaf-text">﷽</p>
                   </div>
                 )}
