@@ -1,5 +1,6 @@
 "use client";
 
+import useScrollDirection from "@/hooks/useScrollDirection";
 import { toArabicNumber } from "@/lib/utils/surah";
 import { Surah } from "@/types/surah";
 import { CurrentVerseLocation } from "@/types/verse";
@@ -13,6 +14,7 @@ interface SurahTopBarProps {
 const SurahTopBar = ({ surah, currentVerseLocation }: SurahTopBarProps) => {
   const t = useTranslations("SurahPage");
   const locale = useLocale();
+  const scrollDirection = useScrollDirection();
 
   const formattedLocation = useMemo(() => {
     // Helper to format a single number based on the current locale.
@@ -33,7 +35,9 @@ const SurahTopBar = ({ surah, currentVerseLocation }: SurahTopBarProps) => {
   }
   return (
     <div
-      className={` fixed z-50 border-t top-[70px] left-0 w-full h-[30px] bg-white dark:bg-muted`}
+      className={` fixed z-40 border-t ${
+        scrollDirection === "down" ? "top-0" : "top-[70px]"
+      }  left-0 w-full h-[30px] shadow-md bg-white dark:bg-muted  transition-all `}
     >
       <div className="main-container flex justify-between">
         <h1 className="text-lg ">
