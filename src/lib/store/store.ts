@@ -150,6 +150,7 @@ export const makeStore = () => {
         .concat(apiSlice.middleware)
         .concat(newVersionApiSlice.middleware)
         .prepend(listenerMiddleware.middleware),
+    devTools: process.env.NODE_ENV !== "production",
   });
 };
 
