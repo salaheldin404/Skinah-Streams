@@ -1,13 +1,5 @@
 "use client";
-import {
-  Fragment,
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
   Popover,
@@ -47,7 +39,6 @@ const VerseDisplay = memo(({ verse, surah, scrollId }: VerseDisplayProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [savedVerseActive, setSavedVerseActive] = useState(false);
 
-  // const verseRef = useRef<HTMLButtonElement>(null);
   const verseRef = useRef<HTMLButtonElement>(null);
   const isHighlighted = useMemo(
     () => currentVerse && currentVerse.verse_key === verse.verse_key,
@@ -79,10 +70,21 @@ const VerseDisplay = memo(({ verse, surah, scrollId }: VerseDisplayProps) => {
 
   useEffect(() => {
     if (scrollId) {
-      setSavedVerseActive(true);
       const timer = setTimeout(() => {
-        setSavedVerseActive(false);
-      }, 400);
+        const element = document.getElementById(scrollId);
+        if (element) {
+          requestAnimationFrame(() => {
+            element.scrollIntoView({
+              behavior: "auto", // 'auto' is better for an initial load scroll
+              block: "start",
+            });
+          });
+          setSavedVerseActive(true);
+          setTimeout(() => {
+            setSavedVerseActive(false);
+          }, 1000);
+        }
+      }, 150);
       return () => clearTimeout(timer);
     }
   }, [scrollId]);
