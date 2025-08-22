@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, memo, useCallback, useEffect } from "react";
+import React, { Fragment, memo, useCallback, useRef } from "react";
 import VerseDisplay from "../verse/VerseDisplay";
 import { Verse } from "@/types/verse";
 import { toArabicNumber } from "@/lib/utils/surah";
@@ -7,7 +7,11 @@ import LazyRender from "../verse/LazyRender";
 import { Surah } from "@/types/surah";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { useFont } from "@/hooks/useFont";
-import { setCurrentVerseLocation } from "@/lib/store/slices/surah-slice";
+import {
+  setCurrentVerseLocation,
+  setLastRead,
+  setSaveMarkRead,
+} from "@/lib/store/slices/surah-slice";
 
 interface ReadingContentProps {
   pageNumber: string;
@@ -18,9 +22,12 @@ interface ReadingContentProps {
 
 const ReadingContent = memo(
   ({ pageNumber, verses, locale, surah }: ReadingContentProps) => {
-    const { lastRead, goToVerse } = useAppSelector((state) => state.surah);
+    const { goToVerse, saveMarkRead, currentVerseLocation, lastRead } =
+      useAppSelector((state) => state.surah);
     const { fontSize } = useFont();
     const dispatch = useAppDispatch();
+    const isSaveInProgress = useRef(false);
+    const isLastReadPage = lastRead?.page_number === Number(pageNumber);
 
     const handleVerseView = useCallback(
       (data: {
@@ -28,53 +35,62 @@ const ReadingContent = memo(
         juz_number: number;
         page_number: number;
       }) => {
+        if (currentVerseLocation.page_number === data.page_number) return;
         dispatch(setCurrentVerseLocation(data));
       },
-      [dispatch]
+      [dispatch, currentVerseLocation.page_number]
     );
-    useEffect(() => {
-      const targetId = goToVerse || lastRead?.verse_key; // Example: "1:31"
-      const timer = setTimeout(() => {
-        if (!targetId) return;
-        const element = document.getElementById(targetId);
-        if (element) {
-          element.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-        }
-      }, 300);
 
-      // Cleanup function to prevent errors if the component unmounts
-      return () => clearTimeout(timer);
-    }, [lastRead, goToVerse, dispatch]);
+    const handleAttemptSave = useCallback(
+      (verseData: Verse) => {
+        if (saveMarkRead && !isSaveInProgress.current) {
+          isSaveInProgress.current = true;
+
+          const lastReadData = {
+            chapter_id: verseData.chapter_id,
+            verse_number: verseData.verse_number,
+            page_number: verseData.page_number,
+            qpc_uthmani_hafs: verseData.qpc_uthmani_hafs,
+            verse_key: verseData.verse_key,
+          };
+
+          dispatch(setLastRead(lastReadData));
+          dispatch(setSaveMarkRead(false));
+        }
+      },
+      [saveMarkRead, dispatch]
+    );
+
     return (
       <Fragment key={pageNumber}>
-        <div className="py-2  ">
+        <div className="py-2" id={`${surah.number}-${pageNumber}`}>
           <div className="">
             <div
               dir="rtl"
               className={`${fontSize}  leading-relaxed md:leading-loose`}
             >
               {verses.map((verse) => {
-                const isTarget =
-                  verse.verse_key === goToVerse ||
-                  verse.verse_key === lastRead?.verse_key;
-                const scrollId = isTarget ? `${verse.verse_key}` : undefined;
+                const isVerseTarget = verse.verse_key === goToVerse;
+
+                const scrollVerseId = isVerseTarget
+                  ? `${verse.verse_key}`
+                  : undefined;
 
                 return (
                   <LazyRender
                     className="inline"
                     verse={verse}
                     key={verse.verse_key}
-                    isTarget={isTarget}
+                    isTarget={isVerseTarget}
                     onVerseView={handleVerseView}
+                    onAttemptSave={handleAttemptSave}
+                    isLastReadPage={isLastReadPage}
                   >
                     <VerseDisplay
                       key={verse.verse_key}
                       verse={verse}
                       surah={surah}
-                      scrollId={scrollId}
+                      scrollId={scrollVerseId}
                     />
                   </LazyRender>
                 );

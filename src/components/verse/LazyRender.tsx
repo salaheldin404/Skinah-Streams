@@ -1,10 +1,9 @@
 "use client";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef } from "react";
 import VersesLoadingSkeleton from "./VersesLoadingSkeleton";
 import { Verse } from "@/types/verse";
 
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
-import MarkAsReadHandler from "./MarkAsReadHandler";
 
 interface LazyRenderProps {
   children: React.ReactNode;
@@ -16,16 +15,25 @@ interface LazyRenderProps {
     juz_number: number;
     page_number: number;
   }) => void;
+  onAttemptSave?: (verseData: Verse) => void;
+  isLastReadPage?: boolean;
 }
 
 const LazyRender = memo(
-  ({ children, verse, isTarget, className, onVerseView }: LazyRenderProps) => {
+  ({
+    children,
+    verse,
+    isTarget,
+    isLastReadPage,
+    className,
+    onVerseView,
+    onAttemptSave,
+  }: LazyRenderProps) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
 
-    const [hasTriggeredView, setHasTriggeredView] = useState(false);
-
+    const hasTriggeredView = useRef(false);
     const { isIntersecting: isCurrentlyInView, wasIntersected } =
-      useIntersectionObserver(containerRef);
+      useIntersectionObserver(containerRef, "300px");
 
     const { isIntersecting: isVerseInView } = useIntersectionObserver(
       containerRef,
@@ -34,37 +42,29 @@ const LazyRender = memo(
     );
 
     useEffect(() => {
-      if (isVerseInView && !hasTriggeredView && onVerseView) {
+      if (isVerseInView && !hasTriggeredView.current && onVerseView) {
         onVerseView({
           hizb_number: verse.hizb_number,
           juz_number: verse.juz_number,
           page_number: verse.page_number,
         });
-        setHasTriggeredView(true);
+        hasTriggeredView.current = true;
       } else if (!isVerseInView) {
-        setHasTriggeredView(false);
+        hasTriggeredView.current = false;
       }
-    }, [isVerseInView, onVerseView, verse, hasTriggeredView]);
+    }, [isVerseInView, onVerseView, verse]);
 
     useEffect(() => {
-      if (isTarget && containerRef.current) {
-        containerRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
+      if (isCurrentlyInView && onAttemptSave) {
+        onAttemptSave(verse);
       }
-    }, [isTarget]);
-    const showContent = isTarget || wasIntersected;
+    }, [isCurrentlyInView, verse, onAttemptSave]);
+
+    const showContent = isTarget || wasIntersected || isLastReadPage;
 
     return (
       <div ref={containerRef} className={` ${className}`}>
         {showContent ? <>{children}</> : <VersesLoadingSkeleton />}
-        {isCurrentlyInView && (
-          <MarkAsReadHandler
-            verse={verse}
-            isCurrentlyInView={isCurrentlyInView}
-          />
-        )}
       </div>
     );
   }
