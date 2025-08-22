@@ -38,7 +38,8 @@
     "surahs": "surahs",
     "surah": "surah",
     "last-read": "Last recitation",
-    "no-last-read": "No last recitation"
+    "no-last-read": "No last recitation",
+    "page": "Page"
   },
   "Surah": {
     "verses": "verses",
@@ -55,12 +56,11 @@
     "error": "An error occurred while loading data. Please try again.",
     "reading": "Reading",
     "translation": "Translation",
-    "save-mark": "Save Mark",
-    "marked-saved": "Marked has been saved",
+    "save-mark": "Save Mark For This Page",
+    "marked-saved": "Marked has been saved for this page",
     "juz": "Juz",
     "page": "Page",
     "hizb": "Hizb"
-    
   },
   "FeaturedSurahs": {
     "title": "Featured Surahs",
@@ -76,7 +76,9 @@
     "no-reciters-description": "We couldn't find any reciters matching your search.Try adjusting your search terms or browse all available reciters.",
     "murattal": "Murattal",
     "mojawwad": "Mujawwad",
-    "mo'lim": "Muallim"
+    "mo'lim": "Muallim",
+    "error-loading-title": "An error occurred while loading data.",
+    "error-loading-description": "Please try again later."
   },
   "ReciterPage": {
     "search-input": "Search surah by name",
