@@ -39,8 +39,12 @@ const LastRead = () => {
           <h2>{t("last-read")}</h2>
           <div className={`${!lastRead && "hidden"} flex items-center gap-2`}>
             <p className="text-sm text-gray-500">{surah?.name}</p>
-
             <span className="text-sm text-gray-500">{lastRead?.verse_key}</span>
+            <span className="text-gray-500 text-sm">-</span>
+            <p className="text-sm text-gray-500 flex items-center gap-1">
+              {t("page")}
+              <span>{lastRead?.page_number}</span>
+            </p>
           </div>
           <p
             className={`text-sm text-gray-500  ${
