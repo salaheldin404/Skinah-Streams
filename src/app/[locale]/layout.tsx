@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cairo, Amiri_Quran } from "next/font/google";
+import { Cairo, Tajawal } from "next/font/google";
 import "../globals.css";
 
 import { NextIntlClientProvider } from "next-intl";
@@ -23,11 +23,17 @@ const cairo = Cairo({
   variable: "--font-cairo", // The CSS variable we'll use in Tailwind
 });
 
-const amiri = Amiri_Quran({
+const tajawal = Tajawal({
   subsets: ["arabic"],
-  weight: ["400"], // Choose the weights you need
-  variable: "--font-amiri", // The CSS variable we'll use in Tailwind
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-tajawal",
 });
+
+// const amiri = Amiri_Quran({
+//   subsets: ["arabic"],
+//   weight: ["400"], // Choose the weights you need
+//   variable: "--font-amiri", // The CSS variable we'll use in Tailwind
+// });
 
 export const metadata: Metadata = {
   title: "Sakinah Streams",
@@ -53,7 +59,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={`${cairo.variable} ${amiri.variable}  dark:bg-background bg-gray-100`}
+        className={`${cairo.variable} ${tajawal.variable} dark:bg-background bg-gray-100`}
       >
         <ThemeProvider
           attribute="class"
