@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useLocale, useTranslations } from "next-intl";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaPrayingHands } from "react-icons/fa";
 
 import { LuX } from "react-icons/lu";
 import { IoHome } from "react-icons/io5";
@@ -39,6 +39,11 @@ const LINKS = [
     title: "radio",
     href: "/radios",
     icon: FaRadio,
+  },
+  {
+    title: "hisn-muslim",
+    href: "/hisn-muslim",
+    icon: FaPrayingHands,
   },
 ];
 

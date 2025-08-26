@@ -38,6 +38,15 @@ import fontReducer, {
   setAyahNumberStyle,
 } from "./slices/font-slice";
 
+import athkarReducer, {
+  initialState as initialAthkarState,
+  resetAthkar,
+  setAthkarCount,
+  checkAndResetIfExpired,
+  resetCustomAthkar,
+  resetCustomCardAthkar,
+} from "./slices/athkar-slice";
+
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
   [newVersionApiSlice.reducerPath]: newVersionApiSlice.reducer,
@@ -45,6 +54,7 @@ const rootReducer = combineReducers({
   font: fontReducer,
   surah: surahReducer,
   wishlist: wishlistReducer,
+  athkar: athkarReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -67,7 +77,12 @@ startAppListening({
     addReciterToWishlist,
     addSurahToWishlist,
     removeReciterFromWishlist,
-    removeSurahFromWishlist
+    removeSurahFromWishlist,
+    resetAthkar,
+    setAthkarCount,
+    checkAndResetIfExpired,
+    resetCustomAthkar,
+    resetCustomCardAthkar
   ),
   effect: (action, listenerApi) => {
     console.log(`Action matched: ${action.type}. Persisting state...`);
@@ -88,6 +103,17 @@ startAppListening({
         wishlist: {
           reciters: state.wishlist.reciters,
           surahs: state.wishlist.surahs,
+        },
+        athkar: {
+          expirationDate: state.athkar.expirationDate,
+          "morning-athkar": state.athkar["morning-athkar"],
+          "evening-athkar": state.athkar["evening-athkar"],
+          "post-prayer-athkar": state.athkar["post-prayer-athkar"],
+          tasabih: state.athkar.tasabih,
+          "sleep-athkar": state.athkar["sleep-athkar"],
+          "waking-up-athkar": state.athkar["waking-up-athkar"],
+          "quranic-duas": state.athkar["quranic-duas"],
+          "prophets-duas": state.athkar["prophets-duas"],
         },
       };
 
@@ -134,6 +160,13 @@ const reHydrateStore = (): Partial<RootState> | undefined => {
         ...loadedState.wishlist, // Override with the loaded 'reciter'
       };
     }
+    if (loadedState.athkar) {
+      loadedState.athkar = {
+        ...initialAthkarState, // Start with the complete default state
+        ...loadedState.athkar, // Override with the loaded 'reciter'
+      };
+    }
+
     return loadedState;
   } catch (e) {
     console.warn("Could not load state from localStorage", e);
