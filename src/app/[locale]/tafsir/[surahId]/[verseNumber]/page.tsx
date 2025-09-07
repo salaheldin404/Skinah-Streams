@@ -1,15 +1,18 @@
 "use client";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+
+import DOMPurify from "dompurify";
 
 import SurahAyahSelectors from "@/components/surah/SurahAyaSelectors";
-import { useTafsirSelection } from "@/hooks/useTafsirSelection";
-import { useGetTafsirsQuery } from "@/lib/store/features/tafsirsApi";
-import { useParams } from "next/navigation";
-import { useLocale } from "next-intl";
 import TafsirCarousel from "@/components/surah/TafsirCarousel";
 import TafsirSkeleton from "@/components/surah/TafsirSkeleton";
-import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+
+import { useTafsirSelection } from "@/hooks/useTafsirSelection";
+
+import { useGetTafsirsQuery } from "@/lib/store/features/tafsirsApi";
 
 const TafsirPage = () => {
   const { surahId, verseNumber } = useParams<{
@@ -87,17 +90,21 @@ const TafsirPage = () => {
           {isTafsirFetching ? (
             <TafsirSkeleton />
           ) : (
-            <div dir="rtl">
+            <div dir="rtl" className="">
               <div className="pb-6 border-b">
                 <p className="font-uthmanic text-2xl">
                   {tafsirForAyah?.verses?.[ayahKey]?.text_qpc_hafs}
                 </p>
               </div>
-              <div className=" p-4 overflow-y-auto">
-                <p className="text-lg leading-8 ">
-                  {tafsirForAyah?.text ||
-                    "Select a surah and ayah to view the tafsir."}
-                </p>
+              <div className=" p-4 overflow-y-auto tajwal-text">
+                <div
+                  className="text-lg leading-8"
+                  dangerouslySetInnerHTML={{
+                    __html: tafsirForAyah?.text
+                      ? DOMPurify.sanitize(tafsirForAyah.text)
+                      : "Select a surah and ayah to view the tafsir.",
+                  }}
+                />
               </div>
             </div>
           )}

@@ -1,24 +1,28 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+
+import DOMPurify from "dompurify";
+import { LuX } from "react-icons/lu";
+
 import { useRouter } from "@/i18n/navigation";
-import { useGetTafsirsQuery } from "@/lib/store/features/tafsirsApi";
-import { useTafsirSelection } from "@/hooks/useTafsirSelection";
 import SurahAyahSelectors from "@/components/surah/SurahAyaSelectors";
 import TafsirCarousel from "@/components/surah/TafsirCarousel";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { useLocale, useTranslations } from "next-intl";
-import { LuX } from "react-icons/lu";
 import TafsirSkeleton from "@/components/surah/TafsirSkeleton";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+import { useTafsirSelection } from "@/hooks/useTafsirSelection";
+
+import { useGetTafsirsQuery } from "@/lib/store/features/tafsirsApi";
 
 const TafsirModal = () => {
   const router = useRouter();
@@ -124,11 +128,15 @@ const TafsirModal = () => {
                 {tafsirForAyah?.verses?.[ayahKey]?.text_qpc_hafs}
               </p>
             </div>
-            <div className=" p-4">
-              <p className="text-lg leading-8 ">
-                {tafsirForAyah?.text ||
-                  "Select a surah and ayah to view the tafsir."}
-              </p>
+            <div className=" p-4 tajwal-text">
+              <div
+                className="text-lg leading-8"
+                dangerouslySetInnerHTML={{
+                  __html: tafsirForAyah?.text
+                    ? DOMPurify.sanitize(tafsirForAyah.text)
+                    : "Select a surah and ayah to view the tafsir.",
+                }}
+              />
             </div>
           </div>
         )}
