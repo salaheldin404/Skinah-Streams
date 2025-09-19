@@ -71,11 +71,9 @@ const ReadingContent = memo(
             >
               {verses.map((verse) => {
                 const isVerseTarget = verse.verse_key === goToVerse;
-
                 const scrollVerseId = isVerseTarget
                   ? `${verse.verse_key}`
                   : undefined;
-
                 return (
                   <LazyRender
                     className="inline"

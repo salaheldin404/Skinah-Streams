@@ -139,7 +139,8 @@
     "style": "النمط",
     "size": "حجم الخط",
     "ayah-style": "شكل رقم الاية",
-    "theme": "المظهر"
+    "theme": "المظهر",
+    "language": "اللغة"
   },
   "Wishlist": {
     "reciters": "القراء",
@@ -169,5 +170,26 @@
   "SurahNavigationButton": {
     "next": "السورة التالية",
     "previous": "السورة السابقة"
+  },
+  "QuickAccessNavigation": {
+    "triggerButton": "وصول سريع",
+    "dialogTitle": "وصول سريع",
+    "dialogDescription": "انتقل بسرعة إلى سورة وآية معينة.",
+    "labels": {
+      "surah": "سورة",
+      "ayah": "آية"
+    },
+    "placeholders": {
+      "selectSurah": "اختر سورة",
+      "selectAyah": "اختر آية"
+    },
+    "selectLabels": {
+      "surahs": "السور",
+      "ayahs": "الآيات"
+    },
+    "buttons": {
+      "go": "اذهب",
+      "cancel": "إلغاء"
+    }
   }
 }

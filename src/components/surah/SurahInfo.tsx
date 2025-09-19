@@ -48,7 +48,9 @@ const SurahInfo = memo(({ surah, locale, t, t2 }: SurahInfoProps) => {
     <header className="p-6  mx-auto bg-card rounded-md">
       <div className="flex justify-between">
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold">{surah.name}</h2>
+          <h2 className="text-xl md:text-2xl font-bold font-sans">
+            {surah.name}
+          </h2>
           {locale === "en" && (
             <>
               <p className="text-gray-500">{surah.englishName}</p>

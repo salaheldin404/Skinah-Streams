@@ -1,11 +1,11 @@
 "use client";
-import LanguageSwitcher from "./LanguageSwitcher";
 import Search from "./Search";
 import SideNav from "./SideNav";
 import { Link } from "@/i18n/navigation";
 import Setting from "./Setting";
 
 import useScrollDirection from "@/hooks/useScrollDirection";
+import QuickAccessNavigation from "../surah/QuickAccessNavigation";
 const Navbar = () => {
   const scrollDirection = useScrollDirection();
   return (
@@ -22,7 +22,7 @@ const Navbar = () => {
         <Search />
 
         <div className="flex items-center gap-2 md:gap-3 ">
-          <LanguageSwitcher />
+          <QuickAccessNavigation />
           <SideNav />
           <Setting />
         </div>

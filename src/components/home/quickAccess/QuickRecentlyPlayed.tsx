@@ -63,7 +63,9 @@ const QuickRecentlyPlayed = memo(() => {
         <div>
           <h3 className="font-medium">{t("recent")}</h3>
           {lastPlay.length > 0 ? (
-            <p className="text-sm text-gray-500">{lastPlay[0].name}</p>
+            <p className="text-sm text-gray-500 font-sans">
+              {lastPlay[0].name}
+            </p>
           ) : (
             <p className="text-sm text-gray-500">{t("no-recently")}</p>
           )}

@@ -1,6 +1,5 @@
 "use client";
 import { memo, useEffect, useRef } from "react";
-import VersesLoadingSkeleton from "./VersesLoadingSkeleton";
 import { Verse } from "@/types/verse";
 
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
@@ -30,7 +29,6 @@ const LazyRender = memo(
     onAttemptSave,
   }: LazyRenderProps) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
-
     const hasTriggeredView = useRef(false);
     const { isIntersecting: isCurrentlyInView, wasIntersected } =
       useIntersectionObserver(containerRef, "300px");
@@ -64,7 +62,7 @@ const LazyRender = memo(
 
     return (
       <div ref={containerRef} className={` ${className}`}>
-        {showContent ? <>{children}</> : <VersesLoadingSkeleton />}
+        {showContent ? <>{children}</> : null}
       </div>
     );
   }

@@ -75,14 +75,14 @@ const VerseDisplay = memo(({ verse, surah, scrollId }: VerseDisplayProps) => {
         if (element) {
           requestAnimationFrame(() => {
             element.scrollIntoView({
-              behavior: "auto", // 'auto' is better for an initial load scroll
+              behavior: "smooth",
               block: "start",
             });
           });
           setSavedVerseActive(true);
           setTimeout(() => {
             setSavedVerseActive(false);
-          }, 1000);
+          }, 2000);
         }
       }, 150);
       return () => clearTimeout(timer);
