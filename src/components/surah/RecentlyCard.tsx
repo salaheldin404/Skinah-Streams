@@ -63,9 +63,7 @@ const RecentlyCard = ({ surah }: { surah: Surah }) => {
         <div className="">
           <Link className="w-fit" href={`/surahs/${surah.number}`}>
             <h3
-              className={`font-bold ${
-                locale == "ar" && "font-uthmanic text-2xl"
-              }`}
+              className={`font-bold ${locale == "ar" && "font-sans text-xl"}`}
             >
               {locale === "ar" ? surah.name : surah.englishName}
             </h3>
