@@ -11,6 +11,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { LuSettings, LuX } from "react-icons/lu";
 import FontControl from "../font/FontControl";
 import { ModeToggle } from "./mode-toggle";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const Setting = () => {
   const locale = useLocale();
@@ -39,6 +40,10 @@ const Setting = () => {
           <div className="space-y-4  px-4 border-b pb-3">
             <h2 className="text-lg font-bold">{t("theme")}</h2>
             <ModeToggle />
+          </div>
+          <div className="space-y-4  px-4 border-b pb-3">
+            <h2 className="text-lg font-bold">{t("language")}</h2>
+            <LanguageSwitcher />
           </div>
           <FontControl />
         </div>
