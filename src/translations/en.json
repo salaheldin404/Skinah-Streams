@@ -30,7 +30,7 @@
   "QuickAccess": {
     "message": "Continue your spiritual journey",
     "favorite-verses": "Favorite Verses",
-    "favourite-surahs": "Favorite Surahs",
+    "favorite-surahs": "Favorite Surahs",
     "recent": "Recently Played",
     "night-recitation": "Night Recitations",
     "short-surahs": "Short Surahs",
@@ -139,7 +139,8 @@
     "style": "Style",
     "size": "Font size",
     "ayah-style": "Ayah number style",
-    "theme": "Theme"
+    "theme": "Theme",
+    "language": "Language"
   },
   "Wishlist": {
     "reciters": "Reciters",
@@ -169,5 +170,26 @@
   "SurahNavigationButton": {
     "previous": "Previous Surah",
     "next": "Next Surah"
+  },
+  "QuickAccessNavigation": {
+    "triggerButton": "Quick Access",
+    "dialogTitle": "Quick Access",
+    "dialogDescription": "Quickly navigate to a specific Surah and Ayah.",
+    "labels": {
+      "surah": "Surah",
+      "ayah": "Ayah"
+    },
+    "placeholders": {
+      "selectSurah": "Select Surah",
+      "selectAyah": "Select Ayah"
+    },
+    "selectLabels": {
+      "surahs": "Surahs",
+      "ayahs": "Ayahs"
+    },
+    "buttons": {
+      "go": "Go",
+      "cancel": "Cancel"
+    }
   }
 }
