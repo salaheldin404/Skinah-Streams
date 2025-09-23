@@ -21,6 +21,8 @@ import { setClickedVerse, setSurahInfo } from "@/lib/store/slices/surah-slice";
 import VerseAction from "./VerseAction";
 import { Surah } from "@/types/surah";
 import { useFont } from "@/hooks/useFont";
+import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
 
 interface VerseDisplayProps {
   verse: Verse;
@@ -29,7 +31,9 @@ interface VerseDisplayProps {
 }
 const VerseDisplay = memo(({ verse, surah, scrollId }: VerseDisplayProps) => {
   const dispatch = useAppDispatch();
-
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
   const isAudioPlayerOpen = useAppSelector((state) => state.audio.isOpen);
   const reciter = useAppSelector((state) => state.audio.reciter);
   const currentVerse = useAppSelector((state) => state.audio.currentVerse);
@@ -44,6 +48,13 @@ const VerseDisplay = memo(({ verse, surah, scrollId }: VerseDisplayProps) => {
     () => currentVerse && currentVerse.verse_key === verse.verse_key,
     [currentVerse, verse]
   );
+
+  const handleRemoveQuery = useCallback(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("verse");
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [pathname, searchParams, router]);
+
   const { text, number, splText } = useMemo(() => {
     const verseText = verse.qpc_uthmani_hafs;
     const match = verseText.match(/^(.*?)(\s*[\d\u0660-\u0669]+)$/);
@@ -82,12 +93,13 @@ const VerseDisplay = memo(({ verse, surah, scrollId }: VerseDisplayProps) => {
           setSavedVerseActive(true);
           setTimeout(() => {
             setSavedVerseActive(false);
+            handleRemoveQuery();
           }, 2000);
         }
       }, 150);
       return () => clearTimeout(timer);
     }
-  }, [scrollId]);
+  }, [scrollId, handleRemoveQuery]);
 
   const handleOpenChange = useCallback((open: boolean) => {
     setIsOpen(open);
