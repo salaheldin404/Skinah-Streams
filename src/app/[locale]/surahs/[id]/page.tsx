@@ -1,208 +1,118 @@
-"use client";
-// React and Next.js imports
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
-
-// Third-party library imports
-import { toast } from "sonner";
-import { LuBookOpen, LuFileText, LuBookmark } from "react-icons/lu";
-
-// UI Component imports
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import SurahInfo from "@/components/surah/SurahInfo";
-import VersesLoadingSkeleton from "@/components/verse/VersesLoadingSkeleton";
-import ReadingContent from "@/components/surah/ReadingContent";
-import TranslationContent from "@/components/surah/TranslationContent";
-import SurahNavigationButton from "@/components/surah/SurahNavigationButton";
-
-// Redux/API imports
-import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import { useGetVersesChapterQuery } from "@/lib/store/features/versesApi";
-import { setSaveMarkRead, setGoToVerse } from "@/lib/store/slices/surah-slice";
-
-// Utility, Data, and Type imports
-import { groupVersesByPage } from "@/lib/utils/verse";
+import SurahClientPage from "../_components/SurahClientPage";
+import { Metadata } from "next";
 import quranData from "@/data/all-quran-surah.json";
-import { Verse } from "@/types/verse";
-import SurahTopBar from "@/components/surah/SurahTopBar";
-import useSurahNavigation from "@/hooks/useSurahNavigation";
-import useScrollToLastRead from "@/hooks/useScrollToLastRead";
-const SurahPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const searchParams = useSearchParams();
-  const verseQuery = searchParams.get("verse");
-  const { currentVerseLocation, lastRead } = useAppSelector(
-    (state) => state.surah
-  );
+import { notFound } from "next/navigation";
 
-  const locale = useLocale();
-  const dispatch = useAppDispatch();
-  const t = useTranslations("Surah");
-  const t2 = useTranslations("SurahPage");
-  const [groupedVerses, setGroupedVerses] = useState<Record<string, Verse[]>>(
-    {}
-  );
-  const numericId = Number(id);
+export const revalidate = 86400; // 24 hours
 
-  const [activeTab, setActiveTab] = useState("reading");
+export async function generateStaticParams() {
+  const locales = ["ar", "en"];
 
-  const chapterParams = useMemo(() => {
-    const params = new URLSearchParams({
-      fields:
-        "text_uthmani,qpc_uthmani_hafs,text_uthmani_tajweed,page_number,audio,chapter_id",
-      per_page: "all",
-      translations: "131,85",
-      translation_fields: "resource_name,language_id",
-    });
-    return params.toString();
-  }, []);
+  const ids = quranData.data.map((surah) => surah.number.toString());
+  return locales.flatMap((locale) => ids.map((id) => ({ locale, id })));
+}
 
-  const { data: versesData, isFetching } = useGetVersesChapterQuery(
-    {
-      params: chapterParams.toString(),
-      chapterId: numericId,
-    },
-    {
-      skip: !id,
-      refetchOnMountOrArgChange: true,
-    }
-  );
-  const { handleNextSurah, handlePreviousSurah, navigationState } =
-    useSurahNavigation(numericId);
-
-  const handleSaveMark = useCallback(() => {
-    dispatch(setGoToVerse(null));
-    dispatch(setSaveMarkRead(true));
-    toast.success(`${t2("marked-saved")}`);
-  }, [dispatch, t2]);
-
-  const surah = useMemo(() => quranData.data[+id - 1], [id]);
-
-  // Memoize bismillah condition
-  const showBismillah = useMemo(
-    () => surah?.number !== 1 && surah?.number !== 9,
-    [surah?.number]
-  );
-
-  useScrollToLastRead({ lastRead, isFetching, verseQuery });
-
-  useEffect(() => {
-    if (versesData) {
-      const grouped = groupVersesByPage(versesData.verses);
-
-      setGroupedVerses(grouped);
-    }
-  }, [versesData]);
-
-  useEffect(() => {
-    if (verseQuery) {
-      dispatch(setGoToVerse(`${id}:${verseQuery}`));
-    } else {
-      dispatch(setGoToVerse(null));
-    }
-  }, [verseQuery, dispatch, id]);
-
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: "en" | "ar"; id: string }>;
+}): Promise<Metadata> {
+  const { locale, id } = await params;
+  const isArabic = locale === "ar";
+  const surah = quranData.data[+id - 1];
   if (!surah) {
-    return (
-      <div className="text-center py-10 space-y-3">
-        <h3 className="text-2xl font-bold">{t2("not-found")}</h3>
-        <p className="text-gray-500">{t2("not-found-description")}</p>
-      </div>
-    );
+    return {
+      title: isArabic ? "سورة غير موجودة" : "Surah Not Found",
+      description: isArabic
+        ? "عذراً، السورة التي تبحث عنها غير موجودة."
+        : "Sorry, the surah you are looking for does not exist.",
+    };
   }
+
+  const title = isArabic
+    ? `سورة ${surah.shortName}`
+    : `Surah ${surah.englishName}`;
+  const shortDesc = isArabic
+    ? `استمع إلى سورة ${surah.shortName} بتلاوة خاشعة وجودة عالية. عدد الآيات: ${surah.numberOfAyahs}.`
+    : `Listen to Surah ${surah.englishName} with soulful recitation and high quality. Number of verses: ${surah.numberOfAyahs}.`;
+
+  const longDesc = isArabic
+    ? `${shortDesc} تلاوات عالية الجودة مع خيارات الاستماع والتنزيل.`
+    : `${shortDesc} High-quality recitations with listening and download options.`;
+  const keywords = isArabic
+    ? [
+        surah.name,
+        "سور القرآن",
+        "تلاوة",
+        "تلاوات قرآنية",
+        "استماع للقرآن",
+        `${surah.name} تلاوة`,
+      ]
+    : [
+        surah.englishName,
+        "Quran Surah",
+        "Quran Recitation",
+        "Listen to Quran",
+        `${surah.englishName} recitation`,
+      ];
+  const canonical = `/${locale}/surah/${id}`;
+
+  return {
+    title,
+    description: longDesc,
+    keywords,
+    alternates: {
+      canonical,
+      languages: {
+        en: `/en/surahs/${id}`,
+        ar: `/ar/surahs/${id}`,
+      },
+    },
+    openGraph: {
+      title,
+      description: longDesc,
+      url: canonical,
+      siteName: "Sakinah Streams",
+      locale: locale,
+      type: "article",
+    },
+  };
+}
+
+const SurahPage = async ({
+  params,
+}: {
+  params: Promise<{ locale: "en" | "ar"; id: string }>;
+}) => {
+  const { id, locale } = await params;
+
+  const surah = quranData.data[+id - 1];
+  const isArabic = locale === "ar";
+  if (!surah) {
+    notFound();
+  }
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: isArabic ? `سورة ${surah.shortName}` : `Surah ${surah.englishName}`,
+    description: isArabic
+      ? `استمع إلى سورة ${surah.shortName} بتلاوة خاشعة وجودة عالية. عدد الآيات: ${surah.numberOfAyahs}.`
+      : `Listen to Surah ${surah.englishName} with soulful recitation and high quality. Number of verses: ${surah.numberOfAyahs}.`,
+    inLanguage: isArabic ? "ar" : "en",
+    mainEntity: {
+      "@type": "CreativeWork",
+      name: isArabic ? `سورة ${surah.shortName}` : `Surah ${surah.englishName}`,
+    },
+  };
+
   return (
-    <div className="py-10 relative">
-      <SurahTopBar surah={surah} currentVerseLocation={currentVerseLocation} />
-      <div className="max-w-4xl mx-auto p-6 pb-32">
-        <SurahInfo surah={surah} locale={locale} t={t} t2={t2} />
-        <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="w-full my-4"
-        >
-          <TabsList className="grid w-full grid-cols-2 h-auto rounded-0">
-            <TabsTrigger
-              value="reading"
-              className="flex items-center gap-2 cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-white py-3"
-            >
-              <LuFileText className="h-4 w-4" />
-              {t2("reading")}
-            </TabsTrigger>
-            <TabsTrigger
-              value="translation"
-              className="flex items-center gap-2 cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-white py-3"
-            >
-              <LuBookOpen className="h-4 w-4" />
-              {t2("translation")}
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="reading">
-            {isFetching ? (
-              <VersesLoadingSkeleton />
-            ) : (
-              <div
-                dir="rtl"
-                className="mt-6  text-center rounded-md py-2  leading-loose space-y-6 uthmanic-text "
-              >
-                {showBismillah && (
-                  <div className="max-w-full overflow-hidden text-center grid place-content-center mt-3">
-                    <p className="text-7xl mushaf-text">﷽</p>
-                  </div>
-                )}
-
-                {Object.keys(groupedVerses).map((pageNumber) => {
-                  const versesOnPage = groupedVerses[pageNumber];
-                  return (
-                    <ReadingContent
-                      key={pageNumber}
-                      pageNumber={pageNumber}
-                      verses={versesOnPage}
-                      locale={locale}
-                      surah={surah}
-                    />
-                  );
-                })}
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="translation">
-            {isFetching ? (
-              <VersesLoadingSkeleton />
-            ) : (
-              <TranslationContent verses={versesData?.verses} surah={surah} />
-            )}
-          </TabsContent>
-        </Tabs>
-
-        {!isFetching && (
-          <SurahNavigationButton
-            onNextSurah={handleNextSurah}
-            onPreviousSurah={handlePreviousSurah}
-            isPreviousDisabled={navigationState.isPreviousDisabled}
-            isNextDisabled={navigationState.isNextDisabled}
-          />
-        )}
-      </div>
-      <Tooltip delayDuration={100}>
-        <TooltipTrigger
-          onClick={handleSaveMark}
-          className="fixed bottom-4 left-4 cursor-pointer grid place-content-center w-8 h-8 rounded-full hover:bg-secondary transition-colors"
-        >
-          <LuBookmark />
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>{t2("save-mark")}</p>
-        </TooltipContent>
-      </Tooltip>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <SurahClientPage initialSurah={surah} locale={locale} />;
+    </>
   );
 };
 

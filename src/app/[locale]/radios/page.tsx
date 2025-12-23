@@ -1,79 +1,78 @@
-"use client";
-import SearchInput from "@/components/common/SearchInput";
-import CategorySection from "@/components/radio/CategorySection";
+import { Metadata } from "next";
+import RadiosClientPage from "./_components/RadiosClientPage";
 
-import radiosData from "@/data/radios.json";
-import { useDebounce } from "@uidotdev/usehooks";
-import { useLocale, useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: "en" | "ar" }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  if (locale === "ar") {
+    return {
+      title: "راديو القرآن الكريم",
+      description:
+        "استمع إلى راديو القرآن الكريم مباشر من سكينة ستريمز. مجموعة واسعة من المحطات الإذاعية القرآنية بمختلف القراء والتلاوات.",
+      keywords: [
+        "راديو قرآن",
+        "راديو القرآن الكريم",
+        "استماع مباشر",
+        "محطات قرآنية",
+        "إذاعة قرآن",
+        "تلاوات مباشرة",
+        "سكينة ستريمز",
+      ].join(", "),
+      alternates: {
+        canonical: `/${locale}/radios`,
+        languages: {
+          en: `/en/radios`,
+          ar: `/ar/radios`,
+        },
+      },
+      openGraph: {
+        title: "راديو القرآن الكريم",
+        description:
+          "استمع إلى راديو القرآن الكريم مباشر بمختلف المحطات والقراء",
+        url: `/${locale}/radios`,
+        siteName: "Sakinah Streams",
+        type: "website",
+      },
+    };
+  }
+
+  return {
+    title: "Quran Radio Stations",
+    description:
+      "Listen to live Quran radio stations on Sakinah Streams. Wide range of Islamic radio channels with various reciters and recitations.",
+    keywords: [
+      "quran radio",
+      "islamic radio",
+      "live quran",
+      "radio stations",
+      "quran streaming",
+      "islamic channels",
+      "Sakinah Streams",
+    ].join(", "),
+    alternates: {
+      canonical: `/en/radios`,
+      languages: {
+        en: `/en/radios`,
+        ar: `/ar/radios`,
+      },
+    },
+    openGraph: {
+      title: "Quran Radio Stations",
+      description:
+        "Listen to live Quran radio stations with various channels and reciters",
+      url: `/en/radios`,
+      siteName: "Sakinah Streams",
+      type: "website",
+    },
+  };
+}
 
 const RadiosPage = () => {
-  const categories = radiosData.categories;
-  const t = useTranslations("RadiosPage");
-  const locale = useLocale();
-  const language = useMemo(() => {
-    return locale === "ar" ? "ar" : "en";
-  }, [locale]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchTerm = useDebounce(searchTerm, 300);
-  const filteredRadios = useMemo(() => {
-    if (!debouncedSearchTerm) return categories;
-    const lowercasedTerm = debouncedSearchTerm.toLowerCase();
-
-    return (
-      categories
-        // First, map over each category to filter its stations.
-        .map((category) => {
-          const filteredStations = category.stations.filter(
-            (station) =>
-              station.name.ar.toLowerCase().includes(lowercasedTerm) ||
-              station.name.en.toLowerCase().includes(lowercasedTerm)
-          );
-
-          // Return a new category object with only the filtered stations.
-          return { ...category, stations: filteredStations };
-        })
-        // Finally, filter out any categories that have no stations left after filtering.
-        .filter((category) => category.stations.length > 0)
-    );
-  }, [debouncedSearchTerm, categories]);
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-  return (
-    <div className="py-10">
-      <div className="main-container">
-        <div className="flex gap-4 flex-col md:flex-row justify-between md:items-center mb-8">
-          <h1 className="text-2xl font-bold ">{t("title")}</h1>
-          <div className="flex-1">
-            <SearchInput
-              placeholder={t("search-input")}
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="!mb-0"
-            />
-          </div>
-        </div>
-
-        <div className="">
-          {filteredRadios.map((category) => (
-            <CategorySection
-              key={category.category_id}
-              category={category}
-              language={language}
-            />
-          ))}
-          {filteredRadios.length === 0 && (
-            <div className="text-center py-20">
-              <h3 className="text-xl font-bold">{t("no-stations")}</h3>
-              <p className="text-gray-500">{t("no-stations-description")}</p>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+  return <RadiosClientPage />;
 };
 
 export default RadiosPage;

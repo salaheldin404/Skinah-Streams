@@ -1,81 +1,104 @@
-"use client";
-import SearchInput from "@/components/common/SearchInput";
-
-import React, { useState, useCallback, useMemo } from "react";
-import { useTranslations } from "next-intl";
+import { Metadata } from "next";
+import SurahsClientPage from "./_components/SurahsClientPage";
 
 import quranData from "@/data/all-quran-surah.json";
-import { useDebounce } from "@uidotdev/usehooks";
-import SurahList from "@/components/surah/SurahList";
 
-import { normalizeArabic } from "@/lib/utils/index";
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: "en" | "ar" }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isArabic = locale === "ar";
 
-const SurahsPage = () => {
-  const originalSurahs = quranData.data;
-  const t = useTranslations("Surahs");
+  const title = isArabic ? "سور القرآن الكريم" : "All Quran Surahs";
+  const description = isArabic
+    ? "استعرض جميع سور القرآن الكريم مع إمكانية البحث والتصفية بسهولة."
+    : "Browse all Quran surahs with easy search and filtering options.";
+  const keywords = isArabic
+    ? [
+        "سور القرآن",
+        "تلاوات قرآنية",
+        "بحث في القرآن",
+        "القرآن الكريم",
+        "استماع للقرآن",
+        "تلاوة عالية الجودة",
+        "قراءة القرآن",
+        "المصحف",
+      ].join(", ")
+    : [
+        "Quran Surahs",
+        "Quran Recitations",
+        "Search Quran",
+        "Holy Quran",
+        "Listen to Quran",
+        "High-Quality Recitation",
+        "Quran Reading",
+        "Mushaf",
+      ].join(", ");
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchTerm = useDebounce(searchTerm, 300);
-
-  const enhancedSurahs = useMemo(() => {
-    return originalSurahs.map((surah) => ({
-      ...surah,
-      // Add new properties for efficient searching
-      searchableArabicName: normalizeArabic(surah.name).toLowerCase(),
-      searchableEnglishName: surah.englishName.toLowerCase(),
-    }));
-  }, [originalSurahs]); // Dependency on originalSurahs ensures it runs only if the base data changes.
-
-  const handleSearchChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(e.target.value);
+  const canonical = isArabic ? `/ar/surahs` : `/en/surahs`;
+  return {
+    title,
+    description,
+    keywords,
+    alternates: {
+      canonical,
+      languages: {
+        en: `/en/surahs`,
+        ar: `/ar/surahs`,
+      },
     },
-    []
-  );
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url: canonical,
+      siteName: "Sakinah Streams",
+    },
+  };
+}
 
-  const filteredSurahs = useMemo(() => {
-    if (!debouncedSearchTerm) {
-      return enhancedSurahs;
-    }
-    const lowercasedSearchTerm = debouncedSearchTerm.toLowerCase();
-
-    return enhancedSurahs.filter((surah) => {
-      // Compare against the pre-computed, optimized fields
-      return (
-        surah.searchableArabicName.includes(lowercasedSearchTerm) ||
-        surah.searchableEnglishName.includes(lowercasedSearchTerm)
-      );
-    });
-  }, [debouncedSearchTerm, enhancedSurahs]);
-
-  const renderContent = () => {
-    if (filteredSurahs.length === 0) {
-      return (
-        <div className="text-center py-20">
-          <h3 className="text-xl font-bold">{t("no-surahs")}</h3>
-          <p className="text-gray-500">{t("no-surahs-description")}</p>
-        </div>
-      );
-    }
-
-    return <SurahList surahs={filteredSurahs} />;
+const SurahsPage = async ({
+  params,
+}: {
+  params: Promise<{ locale: "en" | "ar" }>;
+}) => {
+  const { locale } = await params;
+  const isArabic = locale === "ar";
+  const surahs = quranData.data;
+  const SITE_URL = "https://skinah-streams.vercel.app";
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: isArabic ? "سور القرآن الكريم" : "All Quran Surahs",
+    description: isArabic
+      ? "استعرض جميع سور القرآن الكريم مع إمكانية البحث والتصفية بسهولة."
+      : "Browse all Quran surahs with easy search and filtering options.",
+    numberOfItems: 114,
+    itemListElement: surahs.map((surah, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "CreativeWork",
+        name: isArabic
+          ? `سورة ${surah.shortName}`
+          : `Surah ${surah.englishName}`,
+        url: `${SITE_URL}/${locale}/surahs/${surah.number}`,
+        description: isArabic
+          ? `تلاوة سورة ${surah.shortName} مع ${surah.numberOfAyahs} آيات.`
+          : `Recitation of Surah ${surah.englishName} with ${surah.numberOfAyahs} verses.`,
+      },
+    })),
   };
   return (
-    <div className="py-10">
-      <div className="main-container">
-        <div className="text-center space-y-6 mb-12">
-          <h1 className="font-bold text-primary text-4xl">{t("header")}</h1>
-          <p className="text-gray-500 leading-relaxed">{t("description")}</p>
-        </div>
-        <SearchInput
-          onChange={handleSearchChange}
-          value={searchTerm}
-          placeholder={t("input")}
-        />
-
-        {renderContent()}
-      </div>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <SurahsClientPage />
+    </>
   );
 };
 
