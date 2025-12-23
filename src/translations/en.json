@@ -191,5 +191,18 @@
       "go": "Go",
       "cancel": "Cancel"
     }
+  },
+  "PrayerTimes": {
+    "title": "Prayer Times",
+    "button": "My Location",
+    "placeholder": "Search for a city...",
+    "currentLocation": "Current location",
+    "prayerNames": {
+      "Fajr": "Fajr",
+      "Dhuhr": "Dhuhr",
+      "Asr": "Asr",
+      "Maghrib": "Maghrib",
+      "Isha": "Isha"
+    }
   }
 }
