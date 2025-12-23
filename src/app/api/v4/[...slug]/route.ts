@@ -94,7 +94,6 @@ async function handler(
   const queryString = req.nextUrl.search;
 
   const apiUrl = `${baseApiUrl}${apiPath}${queryString}`;
-
   try {
     // Making a simple GET request.
     const apiRes = await fetch(apiUrl, {
