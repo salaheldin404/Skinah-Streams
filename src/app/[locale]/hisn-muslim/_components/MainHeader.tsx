@@ -7,20 +7,20 @@ const MainHeader = () => {
   useEffect(() => {
     const today = new Date();
     const options: Intl.DateTimeFormatOptions = {
-      calendar: "islamic",
+      calendar: "islamic-umalqura",
       day: "numeric",
       month: "long",
       year: "numeric",
     };
     try {
       const date = new Intl.DateTimeFormat(
-        "ar-SA-u-ca-islamic",
+      "ar-SA-u-ca-islamic-umalqura",
         options
       ).format(today);
       setHijriDate(date);
     } catch (e) {
       console.error("Could not format Hijri date:", e);
-      const fallbackDate = new Intl.DateTimeFormat("ar-SA", {
+      const fallbackDate = new Intl.DateTimeFormat("ar-EG-u-ca-islamic", {
         day: "numeric",
         month: "long",
         year: "numeric",
