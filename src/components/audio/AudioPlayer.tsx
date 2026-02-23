@@ -11,6 +11,7 @@ import {
   setIsPlaying,
   setCurrentVerse,
   setAudioLoading,
+  setLastPlay,
 } from "@/lib/store/slices/audio-slice";
 
 import { setClickedVerse, setSurahInfo } from "@/lib/store/slices/surah-slice";
@@ -23,6 +24,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useLocale, useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { LuUser, LuX } from "react-icons/lu";
 
 // import { MdPlaylistPlay } from "react-icons/md";
@@ -39,6 +41,8 @@ import useVolume from "@/hooks/useVolume";
 import { Link } from "@/i18n/navigation";
 import { getCurrentVerse, getVerseByKey } from "@/lib/utils/verse";
 import { toast } from "sonner";
+import quranData from "@/data/all-quran-surah.json";
+import { Surah } from "@/types/surah";
 const formatTime = (time: number) => {
   if (isNaN(time)) return "0:00";
   const minutes = Math.floor(time / 60);
@@ -74,7 +78,7 @@ const AudioPlayer = memo(
       { language: locale },
       {
         skip: !isOpen,
-      }
+      },
     );
     const { data: chapterAudio, isFetching: isApiFetching } =
       useGetAudioChapterQuery(
@@ -86,7 +90,7 @@ const AudioPlayer = memo(
         {
           skip: surahInfo.id === 0 || !isOpen || isSpecificReciters,
           refetchOnMountOrArgChange: true,
-        }
+        },
       );
     const {
       audioRef,
@@ -110,7 +114,7 @@ const AudioPlayer = memo(
     const { VolumeIcon, volume, handleVolumeChange } = useVolume();
     const isLoading = useMemo(
       () => isApiFetching || isAudioPlayerLoading,
-      [isApiFetching, isAudioPlayerLoading]
+      [isApiFetching, isAudioPlayerLoading],
     );
     const progress = useMemo(() => {
       return duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -136,23 +140,54 @@ const AudioPlayer = memo(
           performSeek(value);
         }
       },
-      [performSeek, duration]
+      [performSeek, duration],
     );
+    const searchParams = useSearchParams();
+
     const handleSelectReciter = useCallback(
       ({ id, name }: { id: number; name: string }) => {
         setIsReciterChanging(true);
         if (savedVerseRef.current) {
-          console.log(
-            savedVerseRef.current.verse_key,
-            "verse key from select reciter"
-          );
           pendingSeekRef.current = savedVerseRef.current;
         }
         dispatch(setIsPlaying(false));
         dispatch(setReciter({ id, name }));
         setReciterListOpen(false);
+
+        // Update last play with the new reciter
+        if (surahInfo.id > 0) {
+          const surahData = (quranData.data as Surah[]).find(
+            (s) => s.number === surahInfo.id,
+          );
+          if (surahData) {
+            dispatch(
+              setLastPlay({
+                ...surahData,
+                reciterName: name,
+                reciterId: id,
+              }),
+            );
+          }
+        }
+
+        // Remove reciter-related search params from URL
+        if (
+          searchParams?.has("reciterId") ||
+          searchParams?.has("reciterName") ||
+          searchParams?.has("serverLink")
+        ) {
+          const params = new URLSearchParams(searchParams.toString());
+          params.delete("reciterId");
+          params.delete("reciterName");
+          params.delete("serverLink");
+          const query = params.toString();
+          const newUrl = query
+            ? `${window.location.pathname}?${query}`
+            : window.location.pathname;
+          window.history.replaceState(null, "", newUrl);
+        }
       },
-      [dispatch]
+      [dispatch, searchParams, surahInfo.id],
     );
 
     const handleCloseAudioPlayer = useCallback(() => {
@@ -161,26 +196,40 @@ const AudioPlayer = memo(
       dispatch(setSurahInfo({ name: "", id: 0 }));
       dispatch(setAudioData({ audio_url: "", timestamps: [], chapter_id: 0 }));
       dispatch(setCurrentVerse(null));
-      if (reciter.id === 0) {
+      if (isSpecificReciters) {
         dispatch(setReciter({ id: 7, name: "مشاري راشد العفاسي" }));
       }
-    }, [dispatch, reciter]);
+      // if (reciter.id === 0) {
+      //   dispatch(setReciter({ id: 7, name: "مشاري راشد العفاسي" }));
+      // }
+    }, [dispatch, isSpecificReciters]);
 
     const handleTogglePlay = useCallback(() => {
       dispatch(setIsPlaying(!isPlaying));
     }, [dispatch, isPlaying]);
 
     useEffect(() => {
-      if (chapterAudio && !isSpecificReciters) {
+      if (chapterAudio && !isSpecificReciters && !reciter.source) {
         dispatch(
           setAudioData({
             audio_url: chapterAudio.audio_url,
             timestamps: chapterAudio.timestamps,
             chapter_id: chapterAudio.chapter_id,
-          })
+          }),
         );
+        // Reset reciter changing flag when new audio data with timestamps is loaded
+        if (isReciterChanging && chapterAudio.timestamps?.length > 0) {
+          setIsReciterChanging(false);
+        }
       }
-    }, [chapterAudio, dispatch, audio_url, isSpecificReciters]);
+    }, [
+      chapterAudio,
+      dispatch,
+      audio_url,
+      isSpecificReciters,
+      reciter.source,
+      isReciterChanging,
+    ]);
 
     useEffect(() => {
       if (
@@ -189,7 +238,7 @@ const AudioPlayer = memo(
       ) {
         const verseToSeek = getVerseByKey(
           pendingSeekRef.current.verse_key,
-          timestampsMap
+          timestampsMap,
         );
 
         if (verseToSeek) {
@@ -206,16 +255,16 @@ const AudioPlayer = memo(
         pendingSeekRef.current = null;
       }
     }, [timestampsMap, duration, performSeek, dispatch]);
-    useEffect(() => {
-      const reciterInNewLanguage = reciters?.find((r) => r.id === reciter.id);
-      const newName = reciterInNewLanguage?.translated_name.name;
+    // useEffect(() => {
+    //   const reciterInNewLanguage = reciters?.find((r) => r.id === reciter.id);
+    //   const newName = reciterInNewLanguage?.translated_name.name;
 
-      // If the name for the current reciter ID in the new language is different,
-      // update it in Redux. This will trigger a reload, but we save the time first.
-      if (newName && newName !== reciter.name) {
-        dispatch(setReciter({ id: reciter.id, name: newName }));
-      }
-    }, [reciters, reciter.id, reciter.name, dispatch]);
+    //   // If the name for the current reciter ID in the new language is different,
+    //   // update it in Redux. This will trigger a reload, but we save the time first.
+    //   if (newName && newName !== reciter.name) {
+    //     dispatch(setReciter({ id: reciter.id, name: newName }));
+    //   }
+    // }, [reciters, reciter.id, reciter.name, dispatch]);
 
     useEffect(() => {
       if (audioRef.current) {
@@ -329,7 +378,9 @@ const AudioPlayer = memo(
         <div
           key={reciterItem.id}
           className={`p-2 rounded-md  cursor-pointer transition-colors flex items-center gap-3 hover:bg-gray-200 dark:hover:bg-secondary ${
-            reciterItem.id === reciter.id ? "bg-gray-100 dark:bg-secondary" : ""
+            reciterItem.id === reciter.id && !reciter.source
+              ? "bg-gray-100 dark:bg-secondary"
+              : ""
           }`}
           onClick={() =>
             handleSelectReciter({
@@ -342,7 +393,7 @@ const AudioPlayer = memo(
           <span className="text-sm text-gray-500">{reciterItem?.style}</span>
         </div>
       ));
-    }, [reciters, reciter.id, handleSelectReciter]);
+    }, [reciters, reciter, handleSelectReciter]);
     return (
       <div
         className={`${
@@ -434,7 +485,7 @@ const AudioPlayer = memo(
         </div>
       </div>
     );
-  }
+  },
 );
 
 AudioPlayer.displayName = "AudioPlayer";

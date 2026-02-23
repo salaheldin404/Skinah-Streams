@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { LuBookmark } from "react-icons/lu";
 import LastReadSkeleton from "./loading/LastReadSkeleton";
+import BackgroundOverlay from "@/components/common/BackgroundOverlay";
 
 const LastRead = () => {
   const t = useTranslations("QuickAccess");
@@ -24,7 +25,9 @@ const LastRead = () => {
 
   if (!isClient) return <LastReadSkeleton />;
   return (
-    <div className="surah-card relative  flex items-center  justify-between">
+    <div className="surah-card relative group overflow-hidden flex items-center  justify-between">
+      
+      <BackgroundOverlay className="bg-gradient-to-r from-teal-500/20 to-transparent" />
       {lastRead && (
         <Link
           href={`/surahs/${chapterId}`}

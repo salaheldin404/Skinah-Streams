@@ -1,8 +1,13 @@
 import { Metadata } from "next";
 import FeaturedSurahs from "@/components/home/FeaturedSurahs";
 import QuickAccess from "@/components/home/quickAccess/index";
+import RandomAyah from "@/components/home/RandomAyah";
 import RecentlyPlayed from "@/components/home/RecentlyPlayed";
 import Reciters from "@/components/home/Reciters";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { getKhatmaPlan } from "@/server/db/khatmaPlan";
+import { KhatmaPlan } from "@/types/khatma";
 
 export async function generateMetadata({
   params,
@@ -103,7 +108,12 @@ export default async function Home({
     },
     sameAs: [],
   };
-
+  let khatma: KhatmaPlan | null = null;
+  const session = await getServerSession(authOptions);
+  if (session?.user?.id) {
+    const plan = await getKhatmaPlan(session.user.id);
+    khatma = plan;
+  }
   return (
     <div className="bg-ground ">
       <script
@@ -112,8 +122,10 @@ export default async function Home({
       />
       <main className="">
         {/* quick access */}
-        <QuickAccess />
-
+        <QuickAccess khatma={khatma} />
+        {/* Random Ayah */}
+        <RandomAyah />
+        {/* <RecentKhatma /> */}
         {/* Featured Surahs */}
         <FeaturedSurahs />
         <Reciters />
