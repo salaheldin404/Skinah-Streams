@@ -5,7 +5,7 @@ import {
   isAnyOf,
   TypedStartListening,
 } from "@reduxjs/toolkit";
-
+import { debounce } from "lodash";
 import { apiSlice } from "./services/apiSlice";
 import { newVersionApiSlice } from "./services/newVersionApiSlice";
 import {
@@ -14,8 +14,8 @@ import {
   setLastPlay,
   setVolume,
   initialState as initialAudioState,
+  hydrateAudio,
 } from "./slices/audio-slice";
-
 import {
   wishlistReducer,
   addReciterToWishlist,
@@ -23,21 +23,21 @@ import {
   removeReciterFromWishlist,
   removeSurahFromWishlist,
   initialState as initialWishlistState,
+  hydrateWishlist,
 } from "./slices/wishlist-slice";
-
 import {
   surahReducer,
   setLastRead,
   initialState as initialSurahState,
+  hydrateSurah,
 } from "./slices/surah-slice";
-
 import fontReducer, {
   setQuranFont,
   incrementSize,
   decrementSize,
   setAyahNumberStyle,
+  hydrateFont,
 } from "./slices/font-slice";
-
 import athkarReducer, {
   initialState as initialAthkarState,
   resetAthkar,
@@ -45,9 +45,35 @@ import athkarReducer, {
   checkAndResetIfExpired,
   resetCustomAthkar,
   resetCustomCardAthkar,
+  AthkarState,
+  hydrateAthkar,
 } from "./slices/athkar-slice";
+import {
+  syncReducer,
+  setSyncStatus,
+  setSyncError,
+  initialState as initialSyncState,
+} from "./slices/sync-slice";
+import { DatabaseState, LocalStorageState } from "@/types/settings";
+import { transformReduxToDB } from "../utils/setting";
+import { resetToDefaultState } from "./root-actions";
 
-const rootReducer = combineReducers({
+import khatmaReducer from "./slices/khatma-slice";
+// Constants
+const isBrowser = typeof window !== "undefined";
+
+const ATHKAR_KEYS = [
+  "morning-athkar",
+  "evening-athkar",
+  "post-prayer-athkar",
+  "tasabih",
+  "sleep-athkar",
+  "waking-up-athkar",
+  "quranic-duas",
+  "prophets-duas",
+] as const;
+
+const appReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
   [newVersionApiSlice.reducerPath]: newVersionApiSlice.reducer,
   audio: audioReducer,
@@ -55,15 +81,96 @@ const rootReducer = combineReducers({
   surah: surahReducer,
   wishlist: wishlistReducer,
   athkar: athkarReducer,
+  sync: syncReducer,
+  khatma: khatmaReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+const rootReducer: typeof appReducer = (state, action) => {
+  if (action.type === resetToDefaultState.type) {
+    return appReducer(undefined, action);
+  }
+  return appReducer(state, action);
+};
+
+export type RootState = ReturnType<typeof appReducer>;
 export type AppDispatch = ReturnType<typeof makeStore>["dispatch"];
+
+// Debounced function to save settings to database with sync status
+const saveToDatabase = debounce(
+  async (stateToPersist: DatabaseState, dispatch: AppDispatch) => {
+    try {
+      dispatch(setSyncStatus("syncing"));
+      const response = await fetch("/api/user/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(stateToPersist),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      dispatch(setSyncStatus("synced"));
+    } catch (e) {
+      console.warn("Could not save state to database", e);
+      dispatch(setSyncError(e instanceof Error ? e.message : "Sync failed"));
+    }
+  },
+  2000,
+);
+
+// Save to localStorage for guest users or as fallback
+const saveToLocalStorage = (stateToPersist: LocalStorageState) => {
+  if (!isBrowser) return;
+  try {
+    localStorage.setItem("userSettings", JSON.stringify(stateToPersist));
+  } catch (e) {
+    console.warn("Could not save state to localStorage", e);
+  }
+};
+
+// Helper to extract athkar data from state
+const extractAthkarData = (athkar: AthkarState) =>
+  ATHKAR_KEYS.reduce(
+    (acc, key) => ({ ...acc, [key]: athkar[key] }),
+    {} as Omit<AthkarState, "expirationDate">,
+  );
+
+const getLocalStorageState = (state: RootState) => {
+  const athkarData = extractAthkarData(state.athkar);
+
+  // Don't persist a specific reciter (custom source) — fall back to the default.
+  // Play history is always saved as-is.
+  const safeReciter = state.audio.reciter.source
+    ? { id: 7, name: "مشاري راشد العفاسي" }
+    : state.audio.reciter;
+
+  return {
+    font: state.font,
+    audio: {
+      reciter: safeReciter,
+      lastPlay: state.audio.lastPlay,
+      volume: state.audio.volume,
+    },
+    surah: {
+      lastRead: state.surah.lastRead,
+    },
+    wishlist: {
+      reciters: state.wishlist.reciters,
+      surahs: state.wishlist.surahs,
+    },
+    athkar: {
+      expirationDate: state.athkar.expirationDate,
+      ...athkarData,
+    },
+  };
+};
 
 const listenerMiddleware = createListenerMiddleware();
 type AppStartListening = TypedStartListening<RootState, AppDispatch>;
 const startAppListening =
   listenerMiddleware.startListening as AppStartListening;
+
 startAppListening({
   matcher: isAnyOf(
     setQuranFont,
@@ -82,100 +189,94 @@ startAppListening({
     setAthkarCount,
     checkAndResetIfExpired,
     resetCustomAthkar,
-    resetCustomCardAthkar
+    resetCustomCardAthkar,
   ),
   effect: (action, listenerApi) => {
-    console.log(`Action matched: ${action.type}. Persisting state...`);
-    try {
-      const state = listenerApi.getState(); // Get the latest state
+    const state = listenerApi.getState();
 
-      // Create an object with only the state slices you want to persist.
-      const stateToPersist = {
-        font: state.font,
-        audio: {
-          reciter: state.audio.reciter,
-          lastPlay: state.audio.lastPlay,
-          volume: state.audio.volume,
-        },
-        surah: {
-          lastRead: state.surah.lastRead,
-        },
-        wishlist: {
-          reciters: state.wishlist.reciters,
-          surahs: state.wishlist.surahs,
-        },
-        athkar: {
-          expirationDate: state.athkar.expirationDate,
-          "morning-athkar": state.athkar["morning-athkar"],
-          "evening-athkar": state.athkar["evening-athkar"],
-          "post-prayer-athkar": state.athkar["post-prayer-athkar"],
-          tasabih: state.athkar.tasabih,
-          "sleep-athkar": state.athkar["sleep-athkar"],
-          "waking-up-athkar": state.athkar["waking-up-athkar"],
-          "quranic-duas": state.athkar["quranic-duas"],
-          "prophets-duas": state.athkar["prophets-duas"],
-        },
-      };
+    // Increment pending changes for optimistic UI
+    // listenerApi.dispatch(incrementPendingChanges());
 
-      const serializedState = JSON.stringify(stateToPersist);
-      if (typeof window !== "undefined") {
-        localStorage.setItem("userSettings", serializedState);
-      }
-    } catch (e) {
-      console.warn("Could not save state to localStorage", e);
+    // Skip ALL persisting when setReciter is dispatched for a specific reciter
+    // (one with a custom source URL). Play history is always saved normally.
+    if (setReciter.match(action) && !!action.payload.source) {
+      return;
+    }
+
+    // Create state for localStorage (nested structure for backward compatibility)
+    const localStorageState = getLocalStorageState(state);
+
+    // Always save to localStorage as fallback for guest users
+    saveToLocalStorage(localStorageState);
+
+    // Create state for database (flat structure matching UserSettings model)
+    const stateData = {
+      font: state.font,
+      audio: state.audio,
+      surah: state.surah,
+      wishlist: state.wishlist,
+      athkar: state.athkar,
+    };
+    const stateForDB = transformReduxToDB(stateData);
+
+    // Try to save to database (will fail gracefully if not authenticated)
+    if (isBrowser && state.sync.isAuthenticated) {
+      saveToDatabase(stateForDB, listenerApi.dispatch);
     }
   },
 });
 
+// Separate listener for hydrate actions - only saves to localStorage, NOT to database
+// This prevents re-saving to DB immediately after fetching settings from DB
+startAppListening({
+  matcher: isAnyOf(
+    hydrateAudio,
+    hydrateFont,
+    hydrateSurah,
+    hydrateWishlist,
+    hydrateAthkar,
+  ),
+  effect: (action, listenerApi) => {
+    const state = listenerApi.getState();
+
+    // Save to localStorage only (not to database)
+    const localStorageState = getLocalStorageState(state);
+
+    saveToLocalStorage(localStorageState);
+  },
+});
+
+// Merge loaded state with initial state defaults
+const mergeWithDefaults = <T extends object>(
+  loaded: T | undefined,
+  initial: T,
+): T | undefined => (loaded ? { ...initial, ...loaded } : undefined);
+
 const reHydrateStore = (): Partial<RootState> | undefined => {
-  if (typeof window === "undefined") {
-    return undefined;
-  }
+  if (!isBrowser) return undefined;
 
   try {
     const serializedState = localStorage.getItem("userSettings");
+    if (!serializedState) return undefined;
 
-    if (serializedState === null) {
-      return undefined;
-    }
     const loadedState = JSON.parse(serializedState) as Partial<RootState>;
 
-    if (loadedState.audio) {
-      loadedState.audio = {
-        ...initialAudioState, // Start with the complete default state
-        ...loadedState.audio, // Override with the loaded 'reciter'
-      };
-    }
-
-    if (loadedState.surah) {
-      loadedState.surah = {
-        ...initialSurahState, // Start with the complete default state
-        ...loadedState.surah, // Override with the loaded 'reciter'
-      };
-    }
-
-    if (loadedState.wishlist) {
-      loadedState.wishlist = {
-        ...initialWishlistState, // Start with the complete default state
-        ...loadedState.wishlist, // Override with the loaded 'reciter'
-      };
-    }
-    if (loadedState.athkar) {
-      loadedState.athkar = {
-        ...initialAthkarState, // Start with the complete default state
-        ...loadedState.athkar, // Override with the loaded 'reciter'
-      };
-    }
-
-    return loadedState;
+    return {
+      ...loadedState,
+      audio: mergeWithDefaults(loadedState.audio, initialAudioState),
+      surah: mergeWithDefaults(loadedState.surah, initialSurahState),
+      wishlist: mergeWithDefaults(loadedState.wishlist, initialWishlistState),
+      athkar: mergeWithDefaults(loadedState.athkar, initialAthkarState),
+      sync: initialSyncState,
+    };
   } catch (e) {
     console.warn("Could not load state from localStorage", e);
     return undefined;
   }
 };
 
-export const makeStore = () => {
-  return configureStore({
+export const makeStore = () =>
+  configureStore({
     reducer: rootReducer,
     preloadedState: reHydrateStore(),
     middleware: (getDefaultMiddleware) =>
@@ -183,10 +284,14 @@ export const makeStore = () => {
         .concat(apiSlice.middleware)
         .concat(newVersionApiSlice.middleware)
         .prepend(listenerMiddleware.middleware),
-    devTools: process.env.NODE_ENV !== "production",
+    // devTools: process.env.NODE_ENV !== "production",
   });
-};
 
 export const store = makeStore();
-// export type RootState = ReturnType<typeof store.getState>;
-// export type AppDispatch = typeof store.dispatch;
+
+/**
+ * Cancel any pending debounced save-to-database call.
+ * Must be called on logout to prevent stale data from overwriting
+ * the user's persisted settings after sign-out.
+ */
+export const cancelPendingSave = () => saveToDatabase.cancel();

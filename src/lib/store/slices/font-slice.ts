@@ -32,6 +32,25 @@ const fontSlice = createSlice({
     setAyahNumberStyle: (state, action: PayloadAction<string>) => {
       state.ayahNumberStyle = action.payload;
     },
+    hydrateFont(
+      state,
+      action: PayloadAction<{
+        fontStyle?: string;
+        fontSize?: number;
+        ayahNumberStyle?: string;
+      }>,
+    ) {
+      const { fontStyle, fontSize, ayahNumberStyle } = action.payload;
+      if (fontStyle !== undefined) {
+        state.quranFont.style = fontStyle;
+      }
+      if (fontSize !== undefined) {
+        state.quranFont.size = fontSize;
+      }
+      if (ayahNumberStyle !== undefined) {
+        state.ayahNumberStyle = ayahNumberStyle;
+      }
+    },
   },
 });
 
@@ -40,5 +59,6 @@ export const {
   incrementSize,
   decrementSize,
   setAyahNumberStyle,
+  hydrateFont,
 } = fontSlice.actions;
 export default fontSlice.reducer;

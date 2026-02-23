@@ -22,7 +22,7 @@ const wishlistSlice = createSlice({
       const existReciter = reciters.find(
         (reciter) =>
           reciter.reciter_id === newReciter.reciter_id &&
-          reciter.mushaf_id === newReciter.mushaf_id
+          reciter.mushaf_id === newReciter.mushaf_id,
       );
       if (!existReciter) {
         state.reciters.push(newReciter);
@@ -34,7 +34,8 @@ const wishlistSlice = createSlice({
       const existSurah = surahs.find(
         (surah) =>
           surah.number === newSurah.number &&
-          surah.reciterId === newSurah.reciterId
+          surah.reciterId === newSurah.reciterId &&
+          surah.mushafId === newSurah.mushafId,
       );
       if (!existSurah) {
         state.surahs.push(newSurah);
@@ -42,12 +43,12 @@ const wishlistSlice = createSlice({
     },
     removeReciterFromWishlist: (
       state,
-      action: PayloadAction<{ reciterId: number; mushafId: number | string }>
+      action: PayloadAction<{ reciterId: number; mushafId: number | string }>,
     ) => {
       const existIndex = state.reciters.findIndex(
         (reciter) =>
           reciter.reciter_id === action.payload.reciterId &&
-          reciter.mushaf_id === action.payload.mushafId
+          reciter.mushaf_id === action.payload.mushafId,
       );
       if (existIndex !== -1) {
         state.reciters.splice(existIndex, 1);
@@ -59,16 +60,31 @@ const wishlistSlice = createSlice({
         surahId: number;
         reciterId: number;
         mushafId: number | string;
-      }>
+      }>,
     ) => {
       const existIndex = state.surahs.findIndex(
         (surah) =>
           surah.number === action.payload.surahId &&
           surah.reciterId === action.payload.reciterId &&
-          surah.mushafId === action.payload.mushafId
+          surah.mushafId === action.payload.mushafId,
       );
       if (existIndex !== -1) {
         state.surahs.splice(existIndex, 1);
+      }
+    },
+    hydrateWishlist(
+      state,
+      action: PayloadAction<{
+        wishlistReciters?: ReciterWishlist[];
+        wishlistSurahs?: Surah[];
+      }>,
+    ) {
+      const { wishlistReciters, wishlistSurahs } = action.payload;
+      if (wishlistReciters !== undefined) {
+        state.reciters = wishlistReciters;
+      }
+      if (wishlistSurahs !== undefined) {
+        state.surahs = wishlistSurahs;
       }
     },
   },
@@ -79,5 +95,6 @@ export const {
   addSurahToWishlist,
   removeReciterFromWishlist,
   removeSurahFromWishlist,
+  hydrateWishlist,
 } = wishlistSlice.actions;
 export const wishlistReducer = wishlistSlice.reducer;
