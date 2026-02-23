@@ -257,6 +257,11 @@ export default function RandomAyah() {
     }, 600);
   }, [animating]);
 
+  useEffect(() => {
+    const interval = setInterval(nextAyah, 15000);
+    return () => clearInterval(interval);
+  }, [nextAyah]);
+
   if (!isClient) return <RandomAyahSkeleton />;
   return (
     <section className="py-10">
