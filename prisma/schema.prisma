@@ -1,0 +1,167 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String        @id @default(cuid())
+  email         String        @unique
+  name          String?
+  image         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  emailVerified DateTime?
+  accounts      Account[]
+  khatmaPlans   KhatmaPlan[]
+  sessions      Session[]
+  settings      UserSettings?
+}
+
+model UserSettings {
+  id                String            @id @default(uuid())
+  userId            String            @unique
+  reciterId         Int               @default(7)
+  reciterName       String            @default("مشاري راشد العفاسي")
+  volume            Float             @default(0.5)
+  fontStyle         String            @default("uthmani")
+  fontSize          Int               @default(3)
+  ayahNumberStyle   String            @default("ayah-2")
+  lastReadAt        DateTime?
+  lastPlayedSurahId Int?
+  lastPlayedAt      DateTime?
+  athkarData        Json              @default("{}")
+  athkarExpiration  DateTime?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  lastRead          Json?
+  playHistory       PlayHistory[]
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wishlistReciters  WishlistReciter[]
+  wishlistSurahs    WishlistSurah[]
+
+  @@index([userId])
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model WishlistSurah {
+  id                     String       @id @default(uuid())
+  surahId                Int
+  settingsId             String
+  createdAt              DateTime     @default(now())
+  updatedAt              DateTime     @updatedAt
+  englishName            String
+  englishNameTranslation String
+  mushafName             String
+  numberOfAyahs          Int
+  reciterId              Int
+  reciterName            String
+  revelationType         String
+  shortName              String
+  surahName              String
+  url                    String
+  mushafId               Int
+  settings               UserSettings @relation(fields: [settingsId], references: [id], onDelete: Cascade)
+
+  @@unique([settingsId, surahId, mushafId])
+  @@index([settingsId])
+  @@index([surahId])
+}
+
+model WishlistReciter {
+  id           String       @id @default(uuid())
+  reciterId    Int
+  settingsId   String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  mushafId     Int
+  mushafName   String
+  reciterImage String
+  reciterName  String
+  settings     UserSettings @relation(fields: [settingsId], references: [id], onDelete: Cascade)
+
+  @@unique([settingsId, reciterId, mushafId])
+  @@index([settingsId])
+  @@index([reciterId])
+}
+
+model PlayHistory {
+  id                     String       @id @default(uuid())
+  settingsId             String
+  surahId                Int
+  reciterId              Int
+  createdAt              DateTime     @default(now())
+  updatedAt              DateTime     @updatedAt
+  englishName            String
+  englishNameTranslation String
+  mushafId               Int
+  mushafName             String
+  numberOfAyahs          Int
+  reciterName            String
+  revelationType         String
+  shortName              String
+  surahName              String
+  url                    String
+  settings               UserSettings @relation(fields: [settingsId], references: [id], onDelete: Cascade)
+
+  @@unique([settingsId, surahId, reciterId, mushafId])
+  @@index([settingsId])
+  @@index([settingsId, surahId])
+  @@index([surahId])
+}
+
+model KhatmaPlan {
+  id              String    @id @default(uuid())
+  userId          String
+  pagesPerDay     Int       @default(20)
+  totalPages      Int       @default(604)
+  startDate       DateTime  @default(now())
+  targetEndDate   DateTime
+  currentPage     Int       @default(1)
+  completedPages  Int       @default(0)
+  isActive        Boolean   @default(true)
+  isCompleted     Boolean   @default(false)
+  completedAt     DateTime?
+  title           String?
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  pausedAt        DateTime?
+  bookMarkIndex   Int?
+  totalPausedDays Int       @default(0)
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, isActive])
+}
