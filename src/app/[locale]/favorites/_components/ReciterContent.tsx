@@ -1,4 +1,5 @@
 import ReciterCard from "@/components/reciter/ReciterCard";
+import { Reciter } from "@/types/reciter";
 import { ReciterWishlist } from "@/types/wishlist";
 
 interface ReciterContentProps {
@@ -17,12 +18,12 @@ const ReciterContent = ({ reciters, reciterText }: ReciterContentProps) => {
   return (
     <div className="grid min-[370px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
       {reciters?.map((reciter) => {
-        const reciterData = {
+        const reciterData: Reciter = {
           name: reciter.reciter_name,
           id: reciter.reciter_id,
           moshaf: [
             {
-              id: reciter.mushaf_id,
+              id: (reciter.mushaf_id as number) || 0,
               name: reciter.mushaf_name,
             },
           ],
@@ -30,7 +31,7 @@ const ReciterContent = ({ reciters, reciterText }: ReciterContentProps) => {
         return (
           <ReciterCard
             reciter={reciterData}
-            key={`reciter-${reciter.reciter_id}`}
+            key={`reciter-${reciter.reciter_id}-${reciter.mushaf_id}`}
           />
         );
       })}
