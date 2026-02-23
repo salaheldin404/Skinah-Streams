@@ -58,6 +58,12 @@ const surahSlice = createSlice({
     ) {
       state.currentVerseLocation = action.payload;
     },
+    hydrateSurah(state, action: PayloadAction<{ lastRead?: LastRead  }>) {
+      const { lastRead } = action.payload;
+      if (lastRead !== undefined) {
+        state.lastRead = lastRead;
+      }
+    },
   },
 });
 
@@ -68,5 +74,6 @@ export const {
   setSaveMarkRead,
   setGoToVerse,
   setCurrentVerseLocation,
+  hydrateSurah,
 } = surahSlice.actions;
 export const surahReducer = surahSlice.reducer;

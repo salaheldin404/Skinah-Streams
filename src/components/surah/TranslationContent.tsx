@@ -13,7 +13,7 @@ import {
 } from "@/lib/store/slices/surah-slice";
 
 import TranslationDisplay from "./TranslationDisplay";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import LazyRender from "../verse/LazyRender";
 import { Surah } from "@/types/surah";
 interface TranslationContentProps {
@@ -26,7 +26,7 @@ const TranslationContent = ({ verses, surah }: TranslationContentProps) => {
 
   const {
     currentVerse,
-    reciter,
+ 
     isOpen: isAudioPlayerOpen,
   } = useAppSelector((state) => state.audio);
 
@@ -50,7 +50,6 @@ const TranslationContent = ({ verses, surah }: TranslationContentProps) => {
     navigator.clipboard.writeText(verse.qpc_uthmani_hafs);
   }, []);
 
-  const isReciterDisabled = useMemo(() => reciter.id === 0, [reciter.id]);
 
   const handleVerseView = useCallback(
     (data: {
@@ -122,7 +121,7 @@ const TranslationContent = ({ verses, surah }: TranslationContentProps) => {
               isHighlighted={currentVerse?.verse_key === verse.verse_key}
               handleClickVerse={handleClickVerse}
               handleClickCopy={handleClickCopy}
-              isReciterDisabled={isReciterDisabled}
+              
               scrollId={scrollId}
             />
           </LazyRender>

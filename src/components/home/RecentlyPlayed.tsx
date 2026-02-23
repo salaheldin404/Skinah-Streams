@@ -25,7 +25,10 @@ const RecentlyPlayed = () => {
           <div className=" grid gap-3 md:grid-cols-2 lg:grid-cols-3">
             {lastPlay.length &&
               lastPlay.map((surah) => (
-                <RecentlyCard key={surah.number} surah={surah} />
+                <RecentlyCard
+                  key={`${surah.number}-${surah.reciterId}-${surah.mushafId}`}
+                  surah={surah}
+                />
               ))}
           </div>
         )}

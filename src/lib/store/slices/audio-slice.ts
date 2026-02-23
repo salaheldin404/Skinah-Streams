@@ -7,6 +7,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type ReciterData = {
   id: number;
   name: string;
+  source?: string;
 };
 
 interface AudioState {
@@ -90,7 +91,10 @@ const audioSlice = createSlice({
       }
       const surah = action.payload;
       const existIndex = state.lastPlay.findIndex(
-        (item) => item.number === surah.number
+        (item) =>
+          item.number === surah.number &&
+          item.reciterId === surah.reciterId &&
+          item?.mushafId === surah?.mushafId,
       );
       if (existIndex === -1) {
         state.lastPlay.unshift(surah);
@@ -101,6 +105,26 @@ const audioSlice = createSlice({
     },
     setVolume(state, action: PayloadAction<number>) {
       state.volume = action.payload;
+    },
+    hydrateAudio(
+      state,
+      action: PayloadAction<{
+        reciterId?: number;
+        reciterName?: string;
+        volume?: number;
+        lastPlay?: Surah[];
+      }>,
+    ) {
+      const { reciterId, reciterName, volume, lastPlay } = action.payload;
+      if (reciterId !== undefined && reciterName !== undefined) {
+        state.reciter = { id: reciterId, name: reciterName };
+      }
+      if (volume !== undefined) {
+        state.volume = volume;
+      }
+      if (lastPlay !== undefined) {
+        state.lastPlay = lastPlay;
+      }
     },
   },
 });
@@ -116,9 +140,9 @@ export const {
   setOpenRadioPlayer,
   setRadioPlaying,
   setRadioName,
-
   setLastPlay,
   setVolume,
+  hydrateAudio,
 } = audioSlice.actions;
 
 export const audioReducer = audioSlice.reducer;

@@ -8,7 +8,6 @@ interface TranslationDisplayProps {
   isHighlighted: boolean;
   handleClickVerse: (verse: Verse) => void;
   handleClickCopy: (verse: Verse) => void;
-  isReciterDisabled: boolean;
   scrollId?: string;
 }
 const TranslationDisplay = ({
@@ -16,7 +15,6 @@ const TranslationDisplay = ({
   isHighlighted,
   handleClickVerse,
   handleClickCopy,
-  isReciterDisabled,
   scrollId,
 }: TranslationDisplayProps) => {
   const { fontFamily, fontSize, ayahNumberStyle } = useFont();
@@ -63,7 +61,6 @@ const TranslationDisplay = ({
       </div>
       <VerseAction
         onClickCopy={handleClickCopy}
-        isReciterDisabled={isReciterDisabled}
         verse={verse}
         onClickVerse={handleClickVerse}
         className="flex-col text-gray-500"

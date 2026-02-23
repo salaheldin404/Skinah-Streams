@@ -1,7 +1,7 @@
 import { getNextExpirationDate, isAthkarExpired } from "@/lib/utils/hisn";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface AthkarState {
+export interface AthkarState {
   expirationDate: string;
   "morning-athkar": (number | undefined)[];
   "evening-athkar": (number | undefined)[];
@@ -32,7 +32,7 @@ const athkarSlice = createSlice({
   reducers: {
     setAthkarCount: (
       state,
-      action: PayloadAction<{ slug: AthkarSlug; index: number; count: number }>
+      action: PayloadAction<{ slug: AthkarSlug; index: number; count: number }>,
     ) => {
       const { slug, index, count } = action.payload;
       // This check ensures we don't try to access a non-existent key.
@@ -60,10 +60,25 @@ const athkarSlice = createSlice({
     },
     resetCustomCardAthkar: (
       state,
-      action: PayloadAction<{ slug: AthkarSlug; index: number }>
+      action: PayloadAction<{ slug: AthkarSlug; index: number }>,
     ) => {
       const { slug, index } = action.payload;
       state[slug][index] = undefined;
+    },
+    hydrateAthkar(
+      state,
+      action: PayloadAction<{
+        athkarData?: Partial<Omit<AthkarState, "expirationDate">>;
+        athkarExpiration?: string;
+      }>,
+    ) {
+      const { athkarData, athkarExpiration } = action.payload;
+      if (athkarExpiration) {
+        state.expirationDate = athkarExpiration;
+      }
+      if (athkarData) {
+        Object.assign(state, athkarData);
+      }
     },
   },
 });
@@ -74,6 +89,7 @@ export const {
   resetAthkar,
   resetCustomAthkar,
   resetCustomCardAthkar,
+  hydrateAthkar,
 } = athkarSlice.actions;
 
 export default athkarSlice.reducer;

@@ -3,23 +3,19 @@ import { Link } from "@/i18n/navigation";
 import { memo, useCallback, useMemo } from "react";
 
 import { useLocale, useTranslations } from "next-intl";
-import { getGradientClass } from "@/lib/utils/surah";
+import { getGradientClass, getGradientOverlayClass } from "@/lib/utils/surah";
 import { Surah } from "@/types/surah";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import {
-  setIsPlaying,
-  setOpenAudioPlayer,
-  setAudioData,
-  setReciter,
-  setCurrentVerse,
-  setLastPlay,
-} from "@/lib/store/slices/audio-slice";
-import { setSurahInfo } from "@/lib/store/slices/surah-slice";
+import { setLastPlay } from "@/lib/store/slices/audio-slice";
 
 import { Badge } from "../ui/badge";
 import SurahPlayButton from "./SurahPlayButton";
 import WishlistButton from "../WishlistButton";
 import { useWishlist } from "@/hooks/useWishlist";
+import useIsSpecificReciter from "@/hooks/useIsSpecificReciter";
+import useAudio from "@/hooks/useAudio";
+import AudioPlayerService from "@/lib/utils/audio";
+import BackgroundOverlay from "../common/BackgroundOverlay";
 interface SurahCardProps {
   surah: Surah;
   isWishlistShow?: boolean;
@@ -30,82 +26,131 @@ const SurahCard = memo(({ surah, isWishlistShow }: SurahCardProps) => {
   const t = useTranslations("Surah");
   const locale = useLocale();
   const dispatch = useAppDispatch();
-  const { isPlaying, audio_url, isOpen, isAudioLoading } = useAppSelector(
-    (state) => state.audio
+  const { isPlaying, isAudioLoading, reciter } = useAppSelector(
+    (state) => state.audio,
   );
   const { surahInfo } = useAppSelector((state) => state.surah);
+  const { play } = useAudio();
+  const isSpecificReciter = useIsSpecificReciter();
   const currentSurah = useMemo(
     () => surahInfo?.id === surah.number,
-    [surahInfo?.id, surah.number]
+    [surahInfo?.id, surah.number],
   );
+
+  // Check if same reciter
+  const isSameReciter = useMemo(() => {
+    return !surah.reciterId || reciter.id === surah.reciterId;
+  }, [surah.reciterId, reciter.id]);
+
   const { handleToggleAddSurahToWishlist, isSurahInWishlist, surahText } =
     useWishlist({
       surah,
     });
+  // const isSpecificReciter = useIsSpecificReciter();
 
-  const playNewSurah = useCallback(() => {
-    dispatch(setSurahInfo({ name: surah.name, id: surah.number }));
-    if (!isOpen) {
-      dispatch(setOpenAudioPlayer(true));
-    }
-    dispatch(setIsPlaying(false));
+  // const playNewSurah = useCallback(() => {
+  //   dispatch(setSurahInfo({ name: surah.name, id: surah.number }));
 
-    // If the surah has a specific server link (e.g., from a search result)
-    if (surah.serverLink && surah.reciterName) {
-      dispatch(
-        setAudioData({
-          audio_url: surah.serverLink,
-          timestamps: [],
-          chapter_id: surah.number,
-        })
-      );
-      dispatch(setReciter({ id: 0, name: surah.reciterName }));
-      dispatch(setCurrentVerse(null));
-      // dispatch(setIsPlaying(true)); // Start playing the new source
-    } else {
-      dispatch(setReciter({ id: 7, name: "مشاري راشد العفاسي" }));
-    }
-    dispatch(setLastPlay(surah));
-  }, [dispatch, surah, isOpen]);
+  //   if (!isOpen) {
+  //     dispatch(setOpenAudioPlayer(true));
+  //   }
+  //   dispatch(setIsPlaying(false));
 
-  const toggleCurrentSurah = useCallback(() => {
-    // Edge case: If the current surah is selected, but the audio source is different
-    // (e.g., user clicks a different reciter's version of the same surah).
-    if (surah.serverLink && surah.serverLink !== audio_url) {
-      dispatch(
-        setAudioData({
-          audio_url: surah.serverLink,
-          timestamps: [],
-          chapter_id: surah.number,
-        })
-      );
-      if (surah.reciterName) {
-        dispatch(setReciter({ id: 0, name: surah.reciterName }));
-      }
-      dispatch(setCurrentVerse(null));
-    } else {
-      // Standard play/pause toggle
-      dispatch(setIsPlaying(!isPlaying));
-    }
-    if (!isOpen) {
-      dispatch(setOpenAudioPlayer(true));
-    }
-  }, [dispatch, isPlaying, surah, audio_url, isOpen]);
+  //   // Determine reciter data to use (priority: surah's reciter > default > current)
+  //   const hasCustomReciter = !!(surah.serverLink && surah.reciterName && surah.reciterId);
+  //   const reciterData = hasCustomReciter
+  //     ? { id: surah.reciterId!, name: surah.reciterName! }
+  //     : isSpecificReciter
+  //       ? { id: 7, name: "مشاري راشد العفاسي" }
+  //       : { id: reciter.id, name: reciter.name };
 
-  const handleTogglePlay = useCallback(() => {
-    if (currentSurah) {
-      toggleCurrentSurah();
-    } else {
-      playNewSurah();
+  //   // Set audio data if surah has a specific server link
+  //   if (hasCustomReciter) {
+  //     dispatch(
+  //       setAudioData({
+  //         audio_url: surah.serverLink!,
+  //         timestamps: [],
+  //         chapter_id: surah.number,
+  //       }),
+  //     );
+  //     dispatch(setCurrentVerse(null));
+  //   }
+
+  //   dispatch(setReciter(reciterData));
+  //   dispatch(setLastPlay({ ...surah, reciterName: reciterData.name, reciterId: reciterData.id }));
+  // }, [dispatch, surah, isOpen, isSpecificReciter, reciter]);
+
+  // const toggleCurrentSurah = useCallback(() => {
+  //   // Edge case: If the current surah is selected, but the reciter is different
+  //   // (e.g., user clicks a different reciter's version of the same surah).
+  //   if (!isSameReciter && surah.serverLink && surah.reciterName && surah.reciterId) {
+  //     dispatch(
+  //       setAudioData({
+  //         audio_url: surah.serverLink,
+  //         timestamps: [],
+  //         chapter_id: surah.number,
+  //       }),
+  //     );
+  //     dispatch(setReciter({ id: surah.reciterId, name: surah.reciterName }));
+  //     dispatch(setCurrentVerse(null));
+  //   } else {
+  //     // Standard play/pause toggle (same reciter or no reciter info)
+  //     dispatch(setIsPlaying(!isPlaying));
+  //   }
+  //   if (!isOpen) {
+  //     dispatch(setOpenAudioPlayer(true));
+  //   }
+  // }, [dispatch, isPlaying, surah, isSameReciter, isOpen]);
+
+  // const handleTogglePlay = useCallback(() => {
+  //   if (currentSurah) {
+  //     toggleCurrentSurah();
+  //   } else {
+  //     playNewSurah();
+  //   }
+  // }, [toggleCurrentSurah, playNewSurah, currentSurah]);
+
+  // Build the URL with optional query params for serverLink and reciter info
+
+  const handlePlay = useCallback(() => {
+    play(surah);
+    const reciterData = AudioPlayerService.resolveReciterData(
+      surah,
+      reciter,
+      isSpecificReciter,
+    );
+    dispatch(
+      setLastPlay({
+        ...surah,
+        reciterName: reciterData.name,
+        reciterId: reciterData.id,
+      }),
+    );
+  }, [dispatch, play, surah, reciter, isSpecificReciter]);
+  const surahUrl = useMemo(() => {
+    const baseUrl = `/surahs/${surah.number}`;
+    if (surah.serverLink && surah.reciterName && surah.reciterId) {
+      const params = new URLSearchParams({
+        serverLink: surah.serverLink,
+        reciterId: surah.reciterId.toString(),
+        reciterName: surah.reciterName,
+      });
+      return `${baseUrl}?${params.toString()}`;
     }
-  }, [toggleCurrentSurah, playNewSurah, currentSurah]);
+    return baseUrl;
+  }, [surah.number, surah.serverLink, surah.reciterName, surah.reciterId]);
 
   return (
-    <div className="surah-card group relative">
-      <Link href={`/surahs/${surah.number}`} className="">
+    <div className="surah-card group relative overflow-hidden">
+      {/* Per-gradient shimmer on hover */}
+
+      <BackgroundOverlay
+        className={`bg-gradient-to-br ${getGradientOverlayClass(surah.number)} to-transparent`}
+      />
+      <Link href={surahUrl} className="">
         <div
           className={`w-full h-32 ${getGradientClass(
-            surah.number
+            surah.number,
           )} rounded-lg mb-4 flex items-center justify-center relative`}
         >
           <div className="text-center">
@@ -147,10 +192,11 @@ const SurahCard = memo(({ surah, isWishlistShow }: SurahCardProps) => {
         <Badge variant={"secondary"}>{t(revelationTypeKey)}</Badge>
         <div className="flex items-center gap-2">
           <SurahPlayButton
-            handleTogglePlay={handleTogglePlay}
+            handleTogglePlay={handlePlay}
             currentSurah={currentSurah}
             isPlaying={isPlaying}
             isLoading={isAudioLoading}
+            isSameReciter={isSameReciter}
           />
 
           {isWishlistShow && (

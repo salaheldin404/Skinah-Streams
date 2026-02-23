@@ -9,9 +9,16 @@ import Navbar from "@/components/header/Navbar";
 import NextTopLoader from "nextjs-toploader";
 
 import StoreProvider from "@/lib/store/StoreProvider";
+import AuthProvider from "@/components/AuthProvider";
+// import SettingsHydrator from "@/components/SettingsHydrator";
 
 import PlayerWrapper from "@/components/audio/PlayerWrapper";
 import { Toaster } from "@/components/ui/sonner";
+
+import SettingsHydrator from "@/components/SettingsHydrator";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { getKhatmaPlan } from "@/server/db/khatmaPlan";
 // const notoNaskh = Noto_Naskh_Arabic({
 //   subsets: ["arabic"],
 //   weight: ["400", "500", "600", "700"], // Choose the weights you need
@@ -35,16 +42,16 @@ const tajawal = Tajawal({
 //   variable: "--font-amiri", // The CSS variable we'll use in Tailwind
 // });
 
-export function generateStaticParams() {
+export function generateStaticParams(): { locale: "en" | "ar" }[] {
   return [{ locale: "en" }, { locale: "ar" }];
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: "en" | "ar" }>;
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale } = (await params) as { locale: "en" | "ar" };
   const baseUrl = "https://skinah-streams.vercel.app";
 
   const commonMetadata: Metadata = {
@@ -152,9 +159,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
   modal: React.ReactNode;
-  params: Promise<{ locale: "en" | "ar" }>;
+  params: Promise<{ locale: string }>;
 }>) {
-  const { locale } = await params;
+  const { locale } = (await params) as { locale: "en" | "ar" };
+  const initialSession = await getServerSession(authOptions);
+  let initialkhatma = null;
+
+  if (initialSession?.user?.id) {
+    initialkhatma = await getKhatmaPlan(initialSession.user.id);
+  }
 
   return (
     <html
@@ -165,23 +178,27 @@ export default async function RootLayout({
       <body
         className={`${cairo.variable} ${tajawal.variable} dark:bg-background bg-gray-100`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NextTopLoader color="#7c3aed" showSpinner={false} />
-          <StoreProvider>
-            <NextIntlClientProvider locale={locale}>
-              <Navbar />
-              {children}
-              {modal}
-              <PlayerWrapper />
-            </NextIntlClientProvider>
-          </StoreProvider>
-          <Toaster richColors />
-        </ThemeProvider>
+        <AuthProvider session={initialSession}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NextTopLoader color="#7c3aed" showSpinner={false} />
+            <StoreProvider initialKhatma={initialkhatma}>
+              <SettingsHydrator>
+                <NextIntlClientProvider locale={locale}>
+                  <Navbar />
+                  {children}
+                  {modal}
+                  <PlayerWrapper />
+                </NextIntlClientProvider>
+              </SettingsHydrator>
+            </StoreProvider>
+            <Toaster richColors />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -5,9 +5,11 @@ import quranData from "@/data/all-quran-surah.json";
 import { useTranslations } from "next-intl";
 import SurahCard from "../surah/SurahCard";
 
+const featuredSurahNumbers = [1, 2, 18, 36, 55, 56, 67, 93, 94, 112];
+
 const FeaturedSurahs = () => {
   const t = useTranslations("FeaturedSurahs");
-  const surahs = quranData.data.slice(0, 10);
+  const surahs = quranData.data.filter((surah) => featuredSurahNumbers.includes(surah.number));
 
   return (
     <section className="py-10">

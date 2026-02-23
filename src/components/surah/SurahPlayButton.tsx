@@ -9,6 +9,7 @@ interface SurahPlayButtonProps {
   handleTogglePlay: () => void;
   className?: string;
   children?: React.ReactNode;
+  isSameReciter?: boolean; // If false, show play icon even if currentSurah is true
 }
 
 const SurahPlayButton = ({
@@ -18,14 +19,18 @@ const SurahPlayButton = ({
   handleTogglePlay,
   className,
   children,
+  isSameReciter = true, // Default to true for backward compatibility
 }: SurahPlayButtonProps) => {
+  // Only consider it the "current" playing track if it's the same surah AND same reciter
+  const isCurrentlyPlaying = currentSurah && isSameReciter;
+
   const renderIcon = () => {
     // The loading state has the highest priority.
-    if (currentSurah && isLoading) {
+    if (isCurrentlyPlaying && isLoading) {
       return <ImSpinner2 className="w-6 h-6 animate-spin" />;
     }
 
-    if (currentSurah && isPlaying) {
+    if (isCurrentlyPlaying && isPlaying) {
       return <LuPause size={16} />;
     }
 
@@ -33,9 +38,9 @@ const SurahPlayButton = ({
   };
   return (
     <Button
-      className={`${className} cursor-pointer w-10 h-10 transition-opacity gradient-purple rounded-lg flex items-center justify-center `}
+      className={`${className} z-30 cursor-pointer w-10 h-10 transition-opacity gradient-purple rounded-lg flex items-center justify-center `}
       onClick={handleTogglePlay}
-      aria-label={currentSurah && isPlaying ? "Pause" : "Play"}
+      aria-label={isCurrentlyPlaying && isPlaying ? "Pause" : "Play"}
     >
       {children}
 

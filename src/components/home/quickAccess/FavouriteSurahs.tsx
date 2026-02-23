@@ -5,6 +5,7 @@ import { useAppSelector } from "@/lib/store/hooks";
 import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 import FavoriteSurahsSkeleton from "./loading/FavoriteSurahsSkeleton";
+import BackgroundOverlay from "@/components/common/BackgroundOverlay";
 const FavouriteSurahs = () => {
   const t = useTranslations("QuickAccess");
   const [isClient, setIsClient] = useState(false);
@@ -15,7 +16,11 @@ const FavouriteSurahs = () => {
   const { surahs } = useAppSelector((state) => state.wishlist);
   if (!isClient) return <FavoriteSurahsSkeleton />;
   return (
-    <div className="surah-card group relative">
+    <div className="surah-card group relative overflow-hidden">
+      {/* Per-gradient shimmer on hover */}
+
+      <BackgroundOverlay className="bg-gradient-to-r from-green-500/20 to-transparent" />
+
       <Link href="/favorites" className="absolute inset-0 cursor-pointer" />
       <div className="flex items-center gap-3">
         <div className="w-12 h-12 gradient-green rounded-lg flex items-center justify-center ">

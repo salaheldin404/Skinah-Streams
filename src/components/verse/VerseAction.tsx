@@ -3,6 +3,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import useIsSpecificReciter from "@/hooks/useIsSpecificReciter";
 import { Link } from "@/i18n/navigation";
 import { Verse } from "@/types/verse";
 import { useTranslations } from "next-intl";
@@ -11,40 +12,45 @@ import { toast } from "sonner";
 
 interface VerseActionProps {
   verse: Verse;
-  isReciterDisabled: boolean;
   className?: string;
   onClickVerse: (verse: Verse) => void;
   onClickCopy: (verse: Verse) => void;
 }
 const VerseAction = ({
   verse,
-  isReciterDisabled,
   className,
   onClickVerse,
   onClickCopy,
 }: VerseActionProps) => {
   const t = useTranslations("VerseAction");
-
+  const isSpecificReciter = useIsSpecificReciter();
   const handleClickCopy = () => {
     onClickCopy(verse);
     toast.success(t("copy-message"));
+  };
+  const handleClickVerse = () => {
+    if (isSpecificReciter) {
+      toast.error(t("no-play"));
+      return;
+    }
+    onClickVerse(verse);
   };
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <Tooltip delayDuration={100}>
         <TooltipTrigger
-          onClick={() => onClickVerse(verse)}
+          onClick={handleClickVerse}
           className={`${
-            isReciterDisabled
+            isSpecificReciter
               ? "cursor-not-allowed opacity-50"
               : "cursor-pointer"
           }  grid place-content-center w-8 h-8 rounded-full hover:bg-secondary transition-colors`}
-          disabled={isReciterDisabled}
+          // disabled={isSpecificReciter}
         >
           <LuPlay />
         </TooltipTrigger>
         <TooltipContent>
-          <p>{isReciterDisabled ? t("no-play") : t("play")}</p>
+          <p>{isSpecificReciter ? t("no-play") : t("play")}</p>
         </TooltipContent>
       </Tooltip>
       <Tooltip delayDuration={100}>

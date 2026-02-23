@@ -6,6 +6,7 @@ import { Surah } from "@/types/surah";
 import { CurrentVerseLocation } from "@/types/verse";
 import { useLocale, useTranslations } from "next-intl";
 import { useMemo } from "react";
+import Setting from "../header/Setting";
 
 interface SurahTopBarProps {
   surah: Surah;
@@ -36,10 +37,10 @@ const SurahTopBar = ({ surah, currentVerseLocation }: SurahTopBarProps) => {
   return (
     <div
       className={` fixed z-40 border-t ${
-        scrollDirection === "down" ? "top-0" : "top-[70px]"
-      }  left-0 w-full h-[30px] shadow-md bg-white dark:bg-muted  transition-all `}
+        scrollDirection === "down" ? "top-0" : "top-14 sm:top-16 md:top-[70px]"
+      }  left-0 w-full h-[40px] shadow-md bg-white dark:bg-muted  transition-all `}
     >
-      <div className="main-container flex justify-between">
+      <div className="main-container h-full flex justify-between items-center">
         <h1 className="text-lg ">
           {locale === "ar" ? surah.shortName : surah.englishName}
         </h1>
@@ -54,6 +55,7 @@ const SurahTopBar = ({ surah, currentVerseLocation }: SurahTopBarProps) => {
             {t("page")} {formattedLocation.page}
           </p>
         </div>
+        <Setting />
       </div>
     </div>
   );

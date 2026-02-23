@@ -12,6 +12,7 @@ import { Surah } from "@/types/surah";
 import { ReciterWishlist } from "@/types/wishlist";
 import { useTranslations } from "next-intl";
 import { useCallback, useMemo } from "react";
+import { toast } from "sonner";
 
 interface WishlistProps {
   reciter?: Reciter;
@@ -32,17 +33,17 @@ export const useWishlist = ({
 
   const isReciterInWishlist = useMemo(() => {
     return reciters.some(
-      (reciterItem) =>
+      (reciterItem: ReciterWishlist) =>
         reciterItem.reciter_id === reciter?.id &&
-        reciterItem.mushaf_id === selectedMoshaf?.id
+        reciterItem.mushaf_id === selectedMoshaf?.id,
     );
   }, [reciters, reciter?.id, selectedMoshaf?.id]);
 
   const isSurahInWishlist = useMemo(() => {
     return surahs.some(
-      (surahItem) =>
+      (surahItem: Surah) =>
         surahItem.number === surah?.number &&
-        surahItem.mushafId === surah?.mushafId
+        surahItem.mushafId === surah?.mushafId,
     );
   }, [surahs, surah]);
 
@@ -70,16 +71,19 @@ export const useWishlist = ({
 
       if (!isReciterInWishlist) {
         dispatch(addReciterToWishlist(reciterWishlist));
+        toast.success(t("added-to-wishlist"));
       } else {
         dispatch(
           removeReciterFromWishlist({
             reciterId: reciterWishlist.reciter_id,
-            mushafId: reciterWishlist.mushaf_id,
-          })
+            mushafId: reciterWishlist.mushaf_id as number,
+          }),
         );
+
+        toast.success(t("removed-from-wishlist"));
       }
     }
-  }, [dispatch, reciter, selectedMoshaf, reciterImage, isReciterInWishlist]);
+  }, [dispatch, reciter, selectedMoshaf, reciterImage, isReciterInWishlist, t]);
 
   const handleToggleAddSurahToWishlist = useCallback(() => {
     if (
@@ -89,28 +93,21 @@ export const useWishlist = ({
       surah.mushafId &&
       surah.mushafName
     ) {
-      // const surahWishlist: SurahWishlist = {
-      //   surah_id: surah.number,
-      //   surah_name: surah.name,
-      //   mushaf_id: surah.mushafId,
-      //   mushaf_name: surah.mushafName,
-      //   reciter_id: surah.reciterId,
-      //   reciter_name: surah.reciterName,
-      // };
-
       if (!isSurahInWishlist) {
         dispatch(addSurahToWishlist(surah));
+        toast.success(t("added-to-wishlist"));
       } else {
         dispatch(
           removeSurahFromWishlist({
             surahId: surah.number,
             mushafId: surah.mushafId,
             reciterId: surah.reciterId,
-          })
+          }),
         );
+        toast.success(t("removed-from-wishlist"));
       }
     }
-  }, [dispatch, surah, isSurahInWishlist]);
+  }, [dispatch, surah, isSurahInWishlist, t]);
 
   return {
     isReciterInWishlist,
