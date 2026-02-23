@@ -280,6 +280,54 @@ body {
   scrollbar-width: none; /* Firefox */
 }
 
+/* ── Khatma Carousel ─────────────────────────────────── */
+
+.khatma-carousel {
+  -webkit-overflow-scrolling: touch;
+}
+
+.khatma-carousel__container {
+  backface-visibility: hidden;
+  touch-action: pan-y pinch-zoom;
+}
+
+.khatma-carousel__slide {
+  backface-visibility: hidden;
+}
+
+/* Smooth scrollbar inside each slide's verse content */
+.khatma-slide-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
+}
+
+.khatma-slide-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.khatma-slide-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.khatma-slide-scroll::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 9999px;
+}
+
+.khatma-slide-scroll::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.4);
+}
+
+/* On mobile, hide the scrollbar for a cleaner look */
+@media (max-width: 640px) {
+  .khatma-slide-scroll {
+    scrollbar-width: none;
+  }
+  .khatma-slide-scroll::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

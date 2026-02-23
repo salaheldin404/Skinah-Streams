@@ -37,14 +37,13 @@ const ReciterCard = memo(({ reciter }: { reciter: Reciter }) => {
     recitationTypes,
   });
   return (
-    <div
-      className=" group relative w-full cursor-pointer transition-all duration-300"
-      aria-label={`Listen to ${reciter.name}`}
-    >
+    <div className=" group relative w-full cursor-pointer transition-all duration-300">
       <Link
         href={`/reciters/${reciter.id}`}
-        className="absolute inset-0 w-full h-full z-10"
-      />
+        className="absolute inset-0 w-full h-full z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl"
+      >
+        <span className="sr-only">Listen to {reciter.name}</span>
+      </Link>
 
       {/* Glossy background with border that appears on hover */}
       <div className="absolute inset-0 bg-card backdrop-blur-lg rounded-2xl border border-transparent group-hover:border-primary transition-all duration-300 -z-10"></div>

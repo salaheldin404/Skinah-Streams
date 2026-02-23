@@ -70,7 +70,15 @@ const SideNav = () => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild className="cursor-pointer">
-        <FaBars size={20} />
+        <button
+          type="button"
+          aria-label="Open menu"
+          className="cursor-pointer rounded-md 
+               focus:outline-none focus-visible:ring-2 
+               focus-visible:ring-primary"
+        >
+          <FaBars size={20} aria-hidden="true" />
+        </button>
       </SheetTrigger>
       <SheetContent
         className={` pt-7 px-4`}

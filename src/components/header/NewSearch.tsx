@@ -139,7 +139,15 @@ const NewSearch = () => {
       <div className="md:hidden">
         <Dialog open={isMobileOpen} onOpenChange={setIsMobileOpen}>
           <DialogTrigger asChild className="cursor-pointer">
-            <LuSearch />
+            <button
+              type="button"
+              aria-label="Open search"
+              className="cursor-pointer rounded-md 
+                   focus:outline-none focus-visible:ring-2 
+                   focus-visible:ring-primary"
+            >
+              <LuSearch size={18} aria-hidden="true" />
+            </button>
           </DialogTrigger>
           <DialogContent
             className="min-h-[50vh] block"
