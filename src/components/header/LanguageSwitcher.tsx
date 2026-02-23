@@ -1,54 +1,41 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { LuGlobe } from "react-icons/lu";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useTransition } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
-const LANGUAGES = [
-  { code: "en", labelKey: "English" },
-  { code: "ar", labelKey: "عربي" },
-] as const;
 
 const LanguageSwitcher = () => {
   const locale = useLocale();
   const router = useRouter();
   const [, startTransition] = useTransition();
   const pathname = usePathname();
-  const onSelect = useCallback(
-    (lang: (typeof LANGUAGES)[number]["code"]) => {
-      startTransition(() => {
-        router.replace(pathname, { locale: lang });
-      });
-    },
-    [pathname, router, startTransition]
-  );
+  const tSettings = useTranslations("Settings");
+
+  const handleLanguageSwitch = useCallback(() => {
+    const nextLocale = locale === "ar" ? "en" : "ar";
+    startTransition(() => {
+      router.replace(pathname, { locale: nextLocale });
+    });
+  }, [locale, pathname, router, startTransition]);
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild className="cursor-pointer">
-        <Button variant="outline" size="icon">
-          <LuGlobe className="h-[1.2rem] w-[1.2rem]" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        {LANGUAGES.map(({ code, labelKey }) => (
-          <DropdownMenuItem
-            key={code}
-            onClick={() => onSelect(code)}
-            disabled={code === locale}
-            className={`cursor-pointer`}
-          >
-            {labelKey}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="space-y-2">
+      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+        {tSettings("language")}
+      </p>
+      <Button
+        variant="outline"
+        size="sm"
+        className="w-full gap-2 cursor-pointer"
+        onClick={handleLanguageSwitch}
+      >
+        <LuGlobe className="h-4 w-4" />
+        {locale === "ar" ? "English" : "عربي"}
+      </Button>
+    </div>
   );
 };
 

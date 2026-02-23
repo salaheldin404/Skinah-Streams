@@ -17,7 +17,11 @@ import { FaHeart } from "react-icons/fa";
 import { Link, usePathname } from "@/i18n/navigation";
 import { FaRadio } from "react-icons/fa6";
 import { GiSoundWaves } from "react-icons/gi";
+import { BookOpen } from "lucide-react";
 import { useEffect, useState } from "react";
+
+import { ModeToggle } from "./mode-toggle";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const LINKS = [
   {
@@ -41,6 +45,11 @@ const LINKS = [
     icon: FaRadio,
   },
   {
+    title: "khatma",
+    href: "/khatma",
+    icon: BookOpen,
+  },
+  {
     title: "hisn-muslim",
     href: "/hisn-muslim",
     icon: FaPrayingHands,
@@ -50,39 +59,59 @@ const LINKS = [
 const SideNav = () => {
   const locale = useLocale();
   const pathname = usePathname();
+
   const t = useTranslations("SideNav");
+
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
-
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild className="cursor-pointer">
         <FaBars size={20} />
       </SheetTrigger>
       <SheetContent
-        className={` py-7 px-4`}
+        className={` pt-7 px-4`}
         side={locale === "en" ? "left" : "right"}
         aria-describedby={undefined}
       >
         <SheetHeader>
           <SheetTitle>{t("title")}</SheetTitle>
         </SheetHeader>
-        <ul className="space-y-2">
-          {LINKS.map(({ title, href, icon: Icon }) => (
-            <li key={title} className="w-full">
-              <Link
-                href={href}
-                className="flex items-center gap-3 py-3 px-4 rounded-lg transition-colors text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-card"
-              >
-                <Icon />
-                {t(title)}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {/* Navigation Links */}
+        <nav className="flex-1 overflow-auto py-2">
+          <ul className="space-y-1">
+            {LINKS.map(({ title, href, icon: Icon }) => {
+              const isActive = pathname === href;
+              return (
+                <li key={title} className="w-full">
+                  <Link
+                    href={href}
+                    className={`
+                      flex items-center gap-3 py-3 px-4 rounded-lg 
+                      transition-all duration-200
+                      text-base font-medium
+                      min-h-[44px]
+                      ${
+                        isActive
+                          ? "bg-primary/10 text-primary dark:bg-primary/20"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-card"
+                      }
+                      active:scale-[0.98]
+                      focus-visible:outline-none focus-visible:ring-2 
+                      focus-visible:ring-primary focus-visible:ring-offset-2
+                    `}
+                  >
+                    <Icon className="h-5 w-5 flex-shrink-0" />
+                    <span>{t(title)}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
         <SheetClose
           asChild
@@ -92,10 +121,21 @@ const SideNav = () => {
         >
           <LuX size={30} />
         </SheetClose>
-        <SheetFooter className="text-center">
-          <Link href="https://www.linkedin.com/in/salah-eldin-ahmed-389471221/">
-            Built with ❤️ by Salah Eldin
-          </Link>
+        <SheetFooter className=" border-t pt-4  space-y-4 ">
+          {/* Theme */}
+          <ModeToggle />
+
+          {/* Language */}
+          <LanguageSwitcher />
+          {/* Attribution */}
+          <div className="border-t pt-4 mb-2  text-center">
+            <Link
+              className=" text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+              href="https://www.linkedin.com/in/salah-eldin-ahmed-389471221/"
+            >
+              Built with ❤️ by Salah Eldin
+            </Link>
+          </div>
         </SheetFooter>
       </SheetContent>
     </Sheet>
