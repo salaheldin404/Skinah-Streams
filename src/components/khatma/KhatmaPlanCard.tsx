@@ -134,10 +134,9 @@ export function KhatmaPlanCard({ plan }: KhatmaPlanCardProps) {
     });
   };
 
-
   return (
     <Card className={plan.isActive ? "border-primary" : "opacity-75"}>
-      <CardHeader>
+      <CardHeader className="px-4 md:px-6">
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <CardTitle className="flex items-center gap-2">
@@ -151,6 +150,11 @@ export function KhatmaPlanCard({ plan }: KhatmaPlanCardProps) {
               {plan.isActive && !plan.isCompleted && (
                 <Badge variant="default">{t("active")}</Badge>
               )}
+              {!plan.isActive && !plan.isCompleted && (
+                <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-yellow-500/10 text-yellow-500 dark:text-white shrink-0">
+                  {t("paused")}
+                </span>
+              )}
             </CardTitle>
             <CardDescription className="mt-1">
               {t("startedOn")} {formatDate(plan.startDate, locale)}
@@ -163,6 +167,7 @@ export function KhatmaPlanCard({ plan }: KhatmaPlanCardProps) {
               size="icon"
               onClick={handleToggleActive}
               disabled={isPending || plan.isCompleted}
+              className="cursor-pointer"
             >
               {plan.isActive ? (
                 <Pause className="h-4 w-4" />
@@ -175,6 +180,7 @@ export function KhatmaPlanCard({ plan }: KhatmaPlanCardProps) {
               size="icon"
               onClick={handleDelete}
               disabled={isPending}
+              className="cursor-pointer"
             >
               <Trash2 className="h-4 w-4 text-destructive" />
             </Button>
@@ -182,7 +188,7 @@ export function KhatmaPlanCard({ plan }: KhatmaPlanCardProps) {
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-6">
+      <CardContent className="px-4 md:px-6 space-y-6">
         {/* Progress */}
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
@@ -202,19 +208,19 @@ export function KhatmaPlanCard({ plan }: KhatmaPlanCardProps) {
 
         {/* Stats */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-primary/5">
+          <div className="flex items-center gap-3 p-2 md:p-3 rounded-lg bg-primary/5">
             <BookOpen className="h-5 w-5 text-primary" />
             <div className="text-center">
-              <p className="text-xs text-muted-foreground">
+              <p className="text-[10px] md:text-xs text-muted-foreground">
                 {t("pagesPerDay")}
               </p>
               <p className="text-lg font-bold">{plan.pagesPerDay}</p>
             </div>
           </div>
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-500/5">
+          <div className="flex items-center gap-3 p-2 md:p-3 rounded-lg bg-blue-500/5">
             <Calendar className="h-5 w-5 text-blue-500" />
             <div className="text-center">
-              <p className="text-xs text-muted-foreground">
+              <p className="text-[10px] md:text-xs text-muted-foreground">
                 {t("daysElapsed")}
               </p>
               <p className="text-lg font-bold">
@@ -244,28 +250,31 @@ export function KhatmaPlanCard({ plan }: KhatmaPlanCardProps) {
       </CardContent>
 
       {!plan.isCompleted && plan.isActive && (
-        <CardFooter className="flex gap-2">
+        <CardFooter className="flex flex-wrap gap-2 px-4 md:px-6">
           <Button
-            className="cursor-pointer"
+            className="cursor-pointer flex-1"
             disabled={isPending}
             // onClick={() => router.push(`/KhatmaReaderPage`)}
           >
             <Link href="/KhatmaReaderPage">{t("readWird")}</Link>
           </Button>
-          <Button
-            onClick={() => handleMarkProgress(plan.pagesPerDay)}
-            disabled={isPending}
-            className="flex-1"
-          >
-            {t("markTodayComplete")}
-          </Button>
-          <Button
-            onClick={() => handleMarkProgress(1)}
-            disabled={isPending}
-            variant="outline"
-          >
-            +1
-          </Button>
+          <div className="w-full lg:w-auto flex gap-2 justify-between ">
+            <Button
+              onClick={() => handleMarkProgress(plan.pagesPerDay)}
+              disabled={isPending}
+              className="cursor-pointer flex-1"
+            >
+              {t("markTodayComplete")}
+            </Button>
+            <Button
+              onClick={() => handleMarkProgress(1)}
+              disabled={isPending}
+              variant="outline"
+              className="cursor-pointer"
+            >
+              +1
+            </Button>
+          </div>
         </CardFooter>
       )}
     </Card>
