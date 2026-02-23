@@ -9,11 +9,11 @@ import {
   setOpenAudioPlayer,
   setOpenRadioPlayer,
 } from "@/lib/store/slices/audio-slice";
+import useIsSpecificReciter from "@/hooks/useIsSpecificReciter";
 
 const PlayerWrapper = () => {
-  const { isRadioPlayerOpen, isOpen, reciter } = useAppSelector(
-    (state) => state.audio
-  );
+  const { isRadioPlayerOpen, isOpen } = useAppSelector((state) => state.audio);
+  const isSpecificReciter = useIsSpecificReciter();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const PlayerWrapper = () => {
   if (isRadioPlayerOpen) {
     return <RadioPlayer />;
   }
-  if (isOpen) return <AudioPlayer isSpecificReciters={reciter.id == 0} />;
+  if (isOpen) return <AudioPlayer isSpecificReciters={isSpecificReciter} />;
   return null;
 };
 
