@@ -58,7 +58,7 @@ export async function generateMetadata({
     metadataBase: new URL(baseUrl),
     authors: [{ name: "Salah Eldin" }],
     publisher: "Salah Eldin",
-
+    applicationName: "Sakinah Streams",
     robots: {
       index: true,
       follow: true,
@@ -168,13 +168,24 @@ export default async function RootLayout({
   if (initialSession?.user?.id) {
     initialkhatma = await getKhatmaPlan(initialSession.user.id);
   }
-
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Sakinah Streams",
+    url: "https://skinah-streams.vercel.app",
+  };
   return (
     <html
       lang={locale}
       dir={locale === "ar" ? "rtl" : "ltr"}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${cairo.variable} ${tajawal.variable} dark:bg-background bg-gray-100`}
       >
