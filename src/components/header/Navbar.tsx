@@ -48,7 +48,7 @@ const Navbar = () => {
             </Badge> */}
             <Badge
               variant="outline"
-              className="text-[9px] sm:text-[10px] px-1.5 py-0.5 text-primary border-primary/40 bg-primary/10  dark:text-emerald-400  dark:border-emerald-500/30 dark:bg-emerald-500/10 font-semibold rounded-full leading-none tracking-wide"
+              className="text-[9px] sm:text-[10px] px-1.5 py-0.5 text-primary border-primary/40 bg-primary/10  dark:text-violet-400  dark:border-violet-500/30 dark:bg-violet-500/10 font-semibold rounded-full leading-none tracking-wide"
             >
               beta
             </Badge>
