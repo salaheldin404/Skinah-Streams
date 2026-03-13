@@ -55,6 +55,13 @@ export async function generateMetadata({
       description,
       url: canonical,
       siteName: "Sakinah Streams",
+      images: ["/og/surahs.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/og/surahs.png"],
     },
   };
 }
