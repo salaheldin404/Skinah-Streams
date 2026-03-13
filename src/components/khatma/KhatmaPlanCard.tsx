@@ -32,7 +32,7 @@ import {
 import type { KhatmaPlan } from "@/types/khatma";
 import { deleteKhatmaPlan, updateKhatma } from "@/server/khatma";
 
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 
 interface KhatmaPlanCardProps {
   plan: KhatmaPlan;
@@ -41,6 +41,7 @@ interface KhatmaPlanCardProps {
 export function KhatmaPlanCard({ plan }: KhatmaPlanCardProps) {
   const t = useTranslations("Khatma");
   const locale = useLocale();
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const progressPercentage = (plan.completedPages / plan.totalPages) * 100;
   const remainingPages = plan.totalPages - plan.completedPages;
@@ -57,16 +58,19 @@ export function KhatmaPlanCard({ plan }: KhatmaPlanCardProps) {
           plan.totalPages,
           plan.currentPage + pagesToAdd,
         );
-
+        const isCompleted = newCompletedPages >= plan.totalPages;
         const result = await updateKhatma(plan.id, {
           completedPages: newCompletedPages,
           currentPage: newCurrentPage,
-          isCompleted: newCompletedPages >= plan.totalPages,
+          isCompleted,
           bookMarkIndex: null,
         });
 
         if (result.status === 200) {
           toast.success(result.message);
+          if (isCompleted) {
+            router.push("/khatma/finish");
+          }
         } else {
           toast.error(result.message);
         }

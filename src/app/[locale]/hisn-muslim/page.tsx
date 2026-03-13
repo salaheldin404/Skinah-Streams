@@ -60,6 +60,13 @@ export async function generateMetadata({
       siteName: "Sakinah Streams",
       locale: locale,
       type: "website",
+      images: ['/og/hisn-muslim.png'],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ['/og/hisn-muslim.png'],
     },
   };
 }

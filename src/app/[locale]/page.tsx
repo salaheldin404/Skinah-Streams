@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import FeaturedSurahs from "@/components/home/FeaturedSurahs";
+import SalahAlanNabiDialog from "@/components/home/SalahAlanNabiDialog";
 import QuickAccess from "@/components/home/quickAccess/index";
 import RandomAyah from "@/components/home/RandomAyah";
 import RecentlyPlayed from "@/components/home/RecentlyPlayed";
@@ -64,12 +65,14 @@ export async function generateMetadata({
       url: canonical,
       siteName: "Sakinah Streams",
       type: "website",
-      locale: isArabic ? "ar_SA" : "en_US",
+      locale: isArabic ? "ar_EG" : "en_US",
+      images: ["/og/home.png"],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: ["/og/home.png"],
     },
   };
 }
@@ -87,7 +90,7 @@ export default async function Home({
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Sakinah Streams",
-    alternateName: isArabic ? "سكينة ستريمز" : "Sakinah Streams",
+    alternateName: "Sakinah Streams",
     url: baseUrl,
     description: isArabic
       ? "استمع لتلاوات القرآن الكريم بجودة عالية تبعث السكينة والطمأنينة في قلبك."
@@ -116,6 +119,7 @@ export default async function Home({
   }
   return (
     <div className="bg-ground ">
+      <SalahAlanNabiDialog />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -56,6 +56,13 @@ export async function generateMetadata({
       description,
       url: `/${locale}/reciters`,
       siteName: "Sakinah Streams",
+      images: ["/og/reciters.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/og/reciters.png"],
     },
   };
 }
