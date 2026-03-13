@@ -11,7 +11,7 @@ import { setKhatmaBookmark } from "@/lib/store/slices/khatma-slice";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { findOwnedPlan, updateKhatma } from "@/server/khatma";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
 import Setting from "../header/Setting";
@@ -22,8 +22,6 @@ interface KhatmaReaderCarouselProps {
   start: number;
   end: number;
 }
-
-
 
 const KhatmaReaderCarousel = ({ start, end }: KhatmaReaderCarouselProps) => {
   const locale = useLocale();
@@ -38,8 +36,8 @@ const KhatmaReaderCarousel = ({ start, end }: KhatmaReaderCarouselProps) => {
   const [isUpdatingProgress, setIsUpdatingProgress] = useState(false);
   const isInitialScrollDone = useRef(false);
 
-    const { data: session, } = useSession();
-   
+  const { data: session } = useSession();
+
   const khatmaId = useAppSelector((state) => state.khatma.khatmaId);
 
   const storeSlideIndex = useAppSelector(
@@ -72,13 +70,11 @@ const KhatmaReaderCarousel = ({ start, end }: KhatmaReaderCarouselProps) => {
     [],
   );
 
-  
   // Track fetched slides so we never un-fetch them
   const [fetchedSlides, setFetchedSlides] = useState<Set<number>>(
     () => new Set([0]),
   );
   useEffect(() => {
-    
     setFetchedSlides((prev) => {
       const next = new Set(prev);
       next.add(selectedIndex);
@@ -143,6 +139,7 @@ const KhatmaReaderCarousel = ({ start, end }: KhatmaReaderCarouselProps) => {
     const khatmaPlan = await findOwnedPlan(khatmaId!, userId);
     if (!khatmaPlan) {
       toast.error(t("noActiveKhatma"));
+      setIsUpdatingProgress(false);
       return;
     }
     const newCompletedPages = Math.min(
@@ -153,15 +150,17 @@ const KhatmaReaderCarousel = ({ start, end }: KhatmaReaderCarouselProps) => {
       khatmaPlan.totalPages,
       khatmaPlan.currentPage + khatmaPlan.pagesPerDay,
     );
+    const isCompleted = newCompletedPages >= khatmaPlan.totalPages;
     const result = await updateKhatma(khatmaPlan.id, {
       completedPages: newCompletedPages,
       currentPage: newCurrentPage,
-      isCompleted: newCompletedPages >= khatmaPlan.totalPages,
+      isCompleted,
       bookMarkIndex: null,
     });
     if (result.status === 200) {
       toast.success(t("progressUpdated"));
-      router.push("/khatma");
+
+      router.push(isCompleted ? "/khatma/finish" : "/khatma");
     } else {
       toast.error(result.message);
       setIsUpdatingProgress(false);
@@ -215,10 +214,9 @@ const KhatmaReaderCarousel = ({ start, end }: KhatmaReaderCarouselProps) => {
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
         <p className="text-sm text-muted-foreground">{t("updatingProgress")}</p>
       </div>
-    )
+    );
   }
   return (
-
     <div className="flex flex-col h-[calc(100dvh-8rem)] max-h-[900px]">
       {/* Top bar with page info */}
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-border/40 bg-card/80 backdrop-blur-sm shrink-0 rounded-t-xl">
@@ -228,7 +226,7 @@ const KhatmaReaderCarousel = ({ start, end }: KhatmaReaderCarouselProps) => {
             <span className="text-primary/50">/</span>
             <span>{totalLabel}</span>
           </div>
-          <Setting/>
+          <Setting />
         </div>
 
         <div className="flex gap-2 items-center">

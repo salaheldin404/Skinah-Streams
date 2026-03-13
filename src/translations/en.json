@@ -306,5 +306,14 @@
     "updatingProgress": "Updating progress...",
     "pageLoadError": "Failed to load page data. Please try again.",
     "tryRefreshing": "Try refreshing the page or check your internet connection."
+  },
+  "KhatmaFinish": {
+    "title": "Khatma Completion",
+    "achievement": "Achievement Unlocked",
+    "congratulations": "MashaAllah! Khatma Completed",
+    "subtitle": "May Allah accept this Khatma and reward you abundantly",
+    "duaTitle": "Dua al-Khatm al-Quran",
+    "startNewKhatma": "Start a New Khatma",
+    "backHome": "Back to Home"
   }
 }
