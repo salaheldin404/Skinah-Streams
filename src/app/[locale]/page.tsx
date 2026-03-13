@@ -47,6 +47,8 @@ export async function generateMetadata({
       ].join(", ");
 
   const canonical = isArabic ? "/ar" : "/en";
+  const ogLocale = isArabic ? "ar_EG" : "en_US";
+  const alternateOgLocale = isArabic ? "en_US" : "ar_EG";
 
   return {
     title,
@@ -65,7 +67,8 @@ export async function generateMetadata({
       url: canonical,
       siteName: "Sakinah Streams",
       type: "website",
-      locale: isArabic ? "ar_EG" : "en_US",
+      locale: ogLocale,
+      alternateLocale: alternateOgLocale,
       images: ["/og/home.png"],
     },
     twitter: {

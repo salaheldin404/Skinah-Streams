@@ -110,6 +110,7 @@ export async function generateMetadata({
           "تجربة روحانية عبر الاستماع لتلاوات القرآن الكريم المهدئة للنفس.",
         url: `${baseUrl}/${locale}`,
         siteName: "Sakinah Streams",
+        images: ["/og/home.png"],
       },
     };
   }
@@ -148,6 +149,7 @@ export async function generateMetadata({
         "Listen to the Holy Quran recited beautifully to bring calm and spiritual peace to your day.",
       url: `${baseUrl}/en`,
       siteName: "Sakinah Streams",
+      images: ["/og/home.png"],
     },
   };
 }
