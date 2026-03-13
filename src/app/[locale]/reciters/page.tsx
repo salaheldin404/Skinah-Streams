@@ -38,13 +38,15 @@ export async function generateMetadata({
         "Free Quran",
         "Quran MP3",
       ].join(", ");
-
+  const canonicalPath = `/${locale}/reciters`;
+  const ogLocale = isArabic ? "ar_EG" : "en_US";
+  const alternateOgLocale = isArabic ? "en_US" : "ar_EG";
   return {
     title,
     description,
     keywords,
     alternates: {
-      canonical: isArabic ? `/ar/reciters` : `/en/reciters`,
+      canonical: canonicalPath,
       languages: {
         en: `/en/reciters`,
         ar: `/ar/reciters`,
@@ -54,6 +56,8 @@ export async function generateMetadata({
       type: "website",
       title,
       description,
+      locale: ogLocale,
+      alternateLocale: alternateOgLocale,
       url: `/${locale}/reciters`,
       siteName: "Sakinah Streams",
       images: ["/og/reciters.png"],
