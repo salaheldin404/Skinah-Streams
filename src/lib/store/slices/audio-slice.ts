@@ -86,21 +86,48 @@ const audioSlice = createSlice({
     },
 
     setLastPlay(state, action: PayloadAction<Surah>) {
-      if (state.lastPlay.length >= 6) {
-        state.lastPlay.pop();
-      }
+      // if (state.lastPlay.length >= 6) {
+      //   state.lastPlay.pop();
+      // }
+      // const surah = action.payload;
+      // const existIndex = state.lastPlay.findIndex(
+      //   (item) =>
+      //     item.number === surah.number &&
+      //     item.reciterId === surah.reciterId &&
+      //     (item.mushafId ?? null) === (surah.mushafId ?? null)
+      // );
+      // console.log("Exist index:", existIndex);
+      // if (existIndex === -1) {
+      //   state.lastPlay.unshift(surah);
+      // } else {
+      //   state.lastPlay.splice(existIndex, 1);
+      //   state.lastPlay.unshift(surah);
+      // }
+      const MAX_ITEMS = 6;
       const surah = action.payload;
-      const existIndex = state.lastPlay.findIndex(
-        (item) =>
-          item.number === surah.number &&
-          item.reciterId === surah.reciterId &&
-          item?.mushafId === surah?.mushafId,
-      );
-      if (existIndex === -1) {
-        state.lastPlay.unshift(surah);
-      } else {
+
+      const match = (item: Surah) =>
+        item.number === surah.number &&
+        item.reciterId === surah.reciterId &&
+        // normalize undefined to null for stable comparison
+        (item.mushafId ?? null) === (surah.mushafId ?? null);
+
+      const existIndex = state.lastPlay.findIndex(match);
+      console.log({ existIndex, surah });
+      // If it's already the most recent, nothing to do
+      if (existIndex === 0) return;
+
+      // If exists somewhere else, remove it
+      if (existIndex > -1) {
         state.lastPlay.splice(existIndex, 1);
-        state.lastPlay.unshift(surah);
+      }
+
+      // Insert at front
+      state.lastPlay.unshift(surah);
+
+      // Trim to MAX_ITEMS if needed
+      if (state.lastPlay.length > MAX_ITEMS) {
+        state.lastPlay.pop();
       }
     },
     setVolume(state, action: PayloadAction<number>) {
