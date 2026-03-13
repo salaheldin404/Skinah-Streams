@@ -155,10 +155,12 @@ export async function generateMetadata({
 export default async function RootLayout({
   children,
   modal,
+  khatma,
   params,
 }: Readonly<{
   children: React.ReactNode;
   modal: React.ReactNode;
+  khatma: React.ReactNode;
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = (await params) as { locale: "en" | "ar" };
@@ -203,6 +205,7 @@ export default async function RootLayout({
                   <Navbar />
                   {children}
                   {modal}
+                  {khatma}
                   <PlayerWrapper />
                 </NextIntlClientProvider>
               </SettingsHydrator>
