@@ -16,19 +16,44 @@ export async function generateMetadata({
   const { locale } = await params;
   const isArabic = locale === "ar";
 
-  const title = isArabic
-    ? "مخطط الختمة"
-    : "Khatma Planner";
+  const title = isArabic ? "مخطط الختمة" : "Khatma Planner";
 
   const description = isArabic
     ? "خطط وتابع رحلتك لإتمام القرآن الكريم. حدد أهداف القراءة اليومية وابقَ متحفزًا لإتمام ختمتك."
     : "Plan and track your journey to complete the Holy Quran. Set daily reading goals and stay motivated to finish your Khatma.";
 
   const keywords = isArabic
-    ? ["ختمة القرآن", "مخطط الختمة", "قراءة القرآن", "خطة يومية", "إتمام القرآن", "سكينة ستريمز"].join(", ")
-    : ["Khatma planner", "Quran completion", "daily reading plan", "finish Quran", "Khatma tracker", "Sakinah Streams"].join(", ");
+    ? [
+        "ختمة القرآن",
+        "مخطط الختمة",
+        "قراءة القرآن",
+        "خطة يومية",
+        "إتمام القرآن",
+      "سكينة ستريمز",
+        "ورد يومي للقرآن",
+        "تتبع الختمة",
+        "تخطيط ختمة القرآن",
+        "تحديد أهداف القراءة اليومية",
+        "متابعة التقدم في قراءة القرآن",
+        "تنظيم قراءة القرآن اليومية",
+      ].join(", ")
+    : [
+        "Khatma planner",
+        "Quran completion",
+        "daily reading plan",
+        "finish Quran",
+        "Khatma tracker",
+      "Sakinah Streams",
+        "daily Quran reading",
+        "Quran completion planning",
+        "daily Quran reading goals",
+        "track Quran reading progress",
+        "organize Quran reading schedule",
+      ].join(", ");
 
   const canonical = `/${locale}/khatma`;
+  const ogLocale = isArabic ? "ar_EG" : "en_US";
+  const alternateOgLocale = isArabic ? "en_US" : "ar_EG";
 
   return {
     title,
@@ -41,7 +66,7 @@ export async function generateMetadata({
         ar: "/ar/khatma",
       },
     },
-    robots:{
+    robots: {
       index: true,
       follow: true,
     },
@@ -51,7 +76,8 @@ export async function generateMetadata({
       url: canonical,
       siteName: "Sakinah Streams",
       type: "website",
-      locale: isArabic ? "ar_EG" : "en_US",
+      locale: ogLocale,
+      alternateLocale: alternateOgLocale,
       images: ["/og/khatma.png"],
     },
     twitter: {
@@ -63,17 +89,65 @@ export async function generateMetadata({
   };
 }
 
-export default async function KhatmaPage() {
+export default async function KhatmaPage({
+  params,
+}: {
+  params: Promise<{ locale: "en" | "ar" }>;
+}) {
+  const { locale } = await params;
+  const isArabic = locale === "ar";
   const session = await getServerSession(authOptions);
   const t = await getTranslations("Khatma");
-  
-  // Get plans only if user is authenticated
-  const plans = session?.user?.id 
-    ? await getKhatmaPlans(session.user.id)
-    : [] as KhatmaPlan[];
 
+  // Get plans only if user is authenticated
+  const plans = session?.user?.id
+    ? await getKhatmaPlans(session.user.id)
+    : ([] as KhatmaPlan[]);
+  const baseUrl = "https://skinah-streams.vercel.app";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: isArabic ? "مخطط ختمة القرآن" : "Quran Khatma Planner",
+    alternateName: isArabic ? "Quran Khatma Planner" : "مخطط ختمة القرآن",
+    applicationCategory: "LifestyleApplication",
+    operatingSystem: "Any", // "Any" is the standard Schema.org convention for web apps
+    url: `${baseUrl}/${locale}/khatma`,
+    description: isArabic
+      ? "أداة لمساعدتك على التخطيط لإتمام ختمة القرآن الكريم عبر تحديد أهداف القراءة اليومية ومتابعة التقدم."
+      : "A web tool that helps you plan and track your Quran completion with daily reading goals.",
+    inLanguage: locale,
+    image: "/og/khatma.png",
+    publisher: {
+      "@type": "Organization",
+      name: "Sakinah Streams",
+      url: `${baseUrl}`,
+    },
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: isArabic
+      ? [
+          "تخطيط ختمة القرآن",
+          "تحديد أهداف القراءة اليومية",
+          "متابعة التقدم في قراءة القرآن",
+        "تنظيم قراءة القرآن اليومية",
+        ]
+      : [
+          "Quran completion planning",
+          "Daily Quran reading goals",
+          "Track Quran reading progress",
+          "Organize Quran reading schedule",
+        ],
+  };
   return (
     <div className="main-container py-8 space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Header Section */}
       <header className="text-center space-y-4">
         <div className="flex items-center justify-center">

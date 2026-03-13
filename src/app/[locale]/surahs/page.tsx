@@ -37,7 +37,9 @@ export async function generateMetadata({
         "Mushaf",
       ].join(", ");
 
-  const canonical = isArabic ? `/ar/surahs` : `/en/surahs`;
+  const canonical = `/${locale}/surahs`;
+  const ogLocale = isArabic ? "ar_EG" : "en_US";
+  const alternateOgLocale = isArabic ? "en_US" : "ar_EG";
   return {
     title,
     description,
@@ -56,6 +58,8 @@ export async function generateMetadata({
       url: canonical,
       siteName: "Sakinah Streams",
       images: ["/og/surahs.png"],
+      locale: ogLocale,
+      alternateLocale: alternateOgLocale,
     },
     twitter: {
       card: "summary_large_image",
