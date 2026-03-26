@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cairo, Tajawal } from "next/font/google";
 import "../globals.css";
 
@@ -19,6 +19,7 @@ import SettingsHydrator from "@/components/SettingsHydrator";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getKhatmaPlan } from "@/server/db/khatmaPlan";
+import PWAInstallPrompt from "@/components/pwa/PWAInstallPrompt";
 // const notoNaskh = Noto_Naskh_Arabic({
 //   subsets: ["arabic"],
 //   weight: ["400", "500", "600", "700"], // Choose the weights you need
@@ -46,6 +47,16 @@ export function generateStaticParams(): { locale: "en" | "ar" }[] {
   return [{ locale: "en" }, { locale: "ar" }];
 }
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#7c3aed" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -59,6 +70,7 @@ export async function generateMetadata({
     authors: [{ name: "Salah Eldin" }],
     publisher: "Salah Eldin",
     applicationName: "Sakinah Streams",
+    manifest: `/${locale}/manifest.webmanifest`,
     robots: {
       index: true,
       follow: true,
@@ -208,6 +220,7 @@ export default async function RootLayout({
                   {children}
                   {modal}
                   {khatma}
+                  <PWAInstallPrompt />
                   <PlayerWrapper />
                 </NextIntlClientProvider>
               </SettingsHydrator>
