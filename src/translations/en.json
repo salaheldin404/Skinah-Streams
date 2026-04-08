@@ -26,6 +26,7 @@
     "radio": "Radio",
     "title": "Menu",
     "khatma": "Khatma Planner",
+    "profile": "Profile",
     "hisn-muslim": "Hisn Muslim"
   },
   "QuickAccess": {
@@ -229,7 +230,8 @@
   },
   "AuthButton": {
     "sign-in": "Sign In",
-    "sign-out": "Sign Out"
+    "sign-out": "Sign Out",
+    "profile": "Profile"
   },
   "sync": {
     "idle": "Ready to sync",
@@ -345,5 +347,119 @@
     ],
     "cardTitle": "Offline access works best for",
     "cardItems": ["Visited pages", "Cached images", "Saved API content"]
+  },
+  "ProfilePage": {
+    "locale": "en-US",
+    "metaTitle": "Profile & Reminders",
+    "metaDescription": "Manage your Quran and Khatma reminder preferences, connected devices, and profile details.",
+    "eyebrow": "Personal space",
+    "title": "Your profile",
+    "description": "Keep your reading rhythm gentle and consistent. Set one custom Quran reminder and one daily Khatma reminder in a calm, distraction-free space.",
+    "common": {
+      "on": "On",
+      "off": "Off"
+    },
+    "profile": {
+      "title": "Profile info",
+      "description": "A quick snapshot of your account and notification setup.",
+      "memberSince": "Member since",
+      "connectedDevices": "Connected devices",
+      "reminders": "Active reminders",
+      "nameLabel": "Name",
+      "nameFallback": "No name added yet",
+      "emailLabel": "Email"
+    },
+    "permission": {
+      "title": "Notification access",
+      "enableAction": "Enable notifications",
+      "enabledToast": "Notifications are ready on this device.",
+      "defaultDescription": "Your reminders are saved, but you still need to allow browser notifications on this device.",
+      "deniedDescription": "Notifications are blocked in the browser. Turn them back on in your browser settings to receive reminders.",
+      "connectedCount": "{count, plural, =0 {No connected devices yet} =1 {1 connected device} other {# connected devices}}",
+      "status": {
+        "granted": "Notifications are enabled for this device.",
+        "default": "Notifications are not enabled yet.",
+        "denied": "Notifications are currently blocked for this device."
+      }
+    },
+    "quranReminder": {
+      "title": "Quran reminder",
+      "description": "Build a small set of Surah reminders that match your week and keep your reading rhythm gentle.",
+      "enableTitle": "Enable Quran reminder",
+      "enabledHint": "We’ll send your selected Surah reminder on the days you picked.",
+      "disabledHint": "Your selections stay saved, but this reminder will stay paused.",
+      "activeCount": "{count, plural, =0 {No active reminders} =1 {1 active reminder} other {# active reminders}}",
+      "limitCount": "{count} of {max} surah reminders",
+      "editorTitleCreate": "Create a reminder",
+      "editorTitleEdit": "Edit reminder",
+      "editorDescription": "Pick a Surah, choose the days, set a time, then add it to your reminder list.",
+      "limitHint": "Up to 5 Surahs can be reminded",
+      "limitReachedBadge": "5 of 5 used",
+      "limitReached": "You can add up to 5 Quran reminders.",
+      "duplicateSurah": "This Surah is already in your reminder list.",
+      "timeRequired": "Choose a time before adding this reminder.",
+      "daysRequired": "Choose at least one day before adding this reminder.",
+      "searchLabel": "Find a Surah",
+      "searchPlaceholder": "Search by Arabic or English name",
+      "noSearchResults": "No Surahs match your search",
+      "surahLabel": "Surah",
+      "surahPlaceholder": "Select a Surah",
+      "selectedSurah": "Selected: {surah}",
+      "daysLabel": "Days",
+      "timeLabel": "Reminder time",
+      "previewTitle": "Preview",
+      "previewBody": "You’ll receive a Quran reminder for {summary} on the selected days.",
+      "cancelEdit": "Cancel",
+      "addAction": "Add reminder",
+      "updateAction": "Update reminder",
+      "remindersTitle": "Reminder cards",
+      "remindersDescription": "Review each Surah reminder below before saving your changes.",
+      "emptyTitle": "No Quran reminders yet",
+      "emptyDescription": "Add up to 5 Surah reminders and each one will appear here as a quick card.",
+      "reminderCardLabel": "Reminder {number}",
+      "activeLabel": "Active",
+      "pausedLabel": "Paused",
+      "toggleReminder": "Toggle Quran reminder",
+      "editAction": "Edit",
+      "removeAction": "Remove"
+    },
+    "khatmaReminder": {
+      "title": "Khatma reminder",
+      "description": "A simple daily nudge to continue your Khatma without extra setup.",
+      "enableTitle": "Enable daily Khatma reminder",
+      "enabledHint": "A daily reminder will help you return to your Khatma plan.",
+      "disabledHint": "Your preferred time stays saved until you want it active again.",
+      "timeLabel": "Daily time",
+      "previewTitle": "Daily reminder",
+      "previewBody": "You’ll get one reminder every day at {time} to continue your Khatma.",
+      "link": "Open Khatma planner"
+    },
+    "days": {
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday"
+    },
+    "save": {
+      "title": "Save changes",
+      "description": "Store your preferences in Prisma and keep the reminder schedule in sync.",
+      "action": "Save reminder settings",
+      "saving": "Saving settings...",
+      "success": "Your reminder settings have been saved.",
+      "successToast": "Reminder settings saved successfully.",
+      "error": "We couldn't save your reminder settings. Please try again.",
+      "noQuranReminders": "No Quran reminders yet",
+      "summary": "Quran reminders: {quran}. Khatma reminder: {khatma}."
+    },
+    "validation": {
+      "quranTime": "Choose a time for the Quran reminder.",
+      "days": "Select at least one day for the Quran reminder.",
+      "quranLimit": "You can save up to 5 Quran reminders.",
+      "quranDuplicate": "Choose a different Surah for each reminder.",
+      "khatmaTime": "Choose a time for the Khatma reminder."
+    }
   }
 }
