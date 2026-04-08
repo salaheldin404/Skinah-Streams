@@ -9,6 +9,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getKhatmaPlan } from "@/server/db/khatmaPlan";
 import { KhatmaPlan } from "@/types/khatma";
+import NotificationPermissionRequest from "@/components/notifications/NotificationPermissionRequest";
 
 export async function generateMetadata({
   params,
@@ -122,6 +123,7 @@ export default async function Home({
   }
   return (
     <div className="bg-ground ">
+      <NotificationPermissionRequest />
       <SalahAlanNabiDialog />
       <script
         type="application/ld+json"
