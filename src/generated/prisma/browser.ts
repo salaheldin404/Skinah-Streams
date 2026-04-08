@@ -23,6 +23,21 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
+ * Model PushSubscription
+ * 
+ */
+export type PushSubscription = Prisma.PushSubscriptionModel
+/**
+ * Model Reminder
+ * 
+ */
+export type Reminder = Prisma.ReminderModel
+/**
+ * Model KhatmaReminder
+ * 
+ */
+export type KhatmaReminder = Prisma.KhatmaReminderModel
+/**
  * Model UserSettings
  * 
  */

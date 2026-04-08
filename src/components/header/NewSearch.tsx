@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { LuSearch, LuX } from "react-icons/lu";
 import { IoIosArrowBack } from "react-icons/io";
@@ -18,11 +18,9 @@ import { useClickAway } from "@uidotdev/usehooks";
 import { Link, usePathname } from "@/i18n/navigation";
 import BodyScrollLocker from "../common/BodyScrollLocker";
 import quranData from "@/data/all-quran-surah.json";
-import { Surah } from "@/types/surah";
+import { Surah, SurahSearchResult } from "@/types/surah";
+import { useSurahSearch } from "@/hooks/useSurahSearch";
 
-interface SurahSearchResult extends Surah {
-  matchType: "name" | "englishName" | "translation" | "number";
-}
 
 const NewSearch = () => {
   const t = useTranslations("SearchBar");
@@ -38,53 +36,11 @@ const NewSearch = () => {
   });
 
   // Search logic
-  const searchResults = useMemo(() => {
-    if (!debouncedSearchTerm.trim()) return [];
-
-    const searchTerm = debouncedSearchTerm.trim().toLowerCase();
-    const surahs = quranData.data as Surah[];
-
-    return surahs
-      .map((surah) => {
-        let matchType: SurahSearchResult["matchType"] | null = null;
-
-        // Search by number
-        if (surah.number.toString() === searchTerm) {
-          matchType = "number";
-        }
-        // Search by Arabic name (full or short)
-        else if (
-          surah.name.toLowerCase().includes(searchTerm) ||
-          surah.shortName.toLowerCase().includes(searchTerm)
-        ) {
-          matchType = "name";
-        }
-        // Search by English name
-        else if (surah.englishName.toLowerCase().includes(searchTerm)) {
-          matchType = "englishName";
-        }
-        // Search by English translation
-        else if (
-          surah.englishNameTranslation.toLowerCase().includes(searchTerm)
-        ) {
-          matchType = "translation";
-        }
-
-        if (matchType) {
-          return { ...surah, matchType } as SurahSearchResult;
-        }
-        return null;
-      })
-      .filter((item): item is SurahSearchResult => item !== null)
-      .sort((a, b) => {
-        // Prioritize exact number matches
-        if (a.matchType === "number") return -1;
-        if (b.matchType === "number") return 1;
-        // Then sort by surah number
-        return a.number - b.number;
-      })
-      .slice(0, 10); // Limit to 10 results
-  }, [debouncedSearchTerm]);
+  const searchResults = useSurahSearch({
+    searchTerm: debouncedSearchTerm.trim().toLowerCase(),
+    surahs: quranData.data as Surah[],
+    limit: 10,
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);

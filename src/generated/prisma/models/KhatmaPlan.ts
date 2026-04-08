@@ -719,10 +719,6 @@ export type KhatmaPlanUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.KhatmaPlanScalarWhereInput | Prisma.KhatmaPlanScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type KhatmaPlanCreateWithoutUserInput = {
   id?: string
   pagesPerDay?: number

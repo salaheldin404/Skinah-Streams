@@ -9,12 +9,13 @@ import AuthButton from "./AuthButton";
 import { useLocale } from "next-intl";
 import NewSearch from "./NewSearch";
 import { Badge } from "../ui/badge";
+import { useNotifications } from "@/hooks/useNotifications";
 
 const Navbar = () => {
   const scrollDirection = useScrollDirection();
   const locale = useLocale();
   const isRTL = locale === "ar";
-
+  useNotifications();
   return (
     <header
       className={`${scrollDirection === "down" ? "-top-20 md:-top-24" : "top-0"}

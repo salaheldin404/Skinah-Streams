@@ -52,6 +52,9 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  PushSubscription: 'PushSubscription',
+  Reminder: 'Reminder',
+  KhatmaReminder: 'KhatmaReminder',
   UserSettings: 'UserSettings',
   Account: 'Account',
   Session: 'Session',
@@ -88,6 +91,46 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const PushSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PushSubscriptionScalarFieldEnum = (typeof PushSubscriptionScalarFieldEnum)[keyof typeof PushSubscriptionScalarFieldEnum]
+
+
+export const ReminderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  surahId: 'surahId',
+  time: 'time',
+  timezone: 'timezone',
+  days: 'days',
+  isEnabled: 'isEnabled',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReminderScalarFieldEnum = (typeof ReminderScalarFieldEnum)[keyof typeof ReminderScalarFieldEnum]
+
+
+export const KhatmaReminderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  time: 'time',
+  timezone: 'timezone',
+  isEnabled: 'isEnabled',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type KhatmaReminderScalarFieldEnum = (typeof KhatmaReminderScalarFieldEnum)[keyof typeof KhatmaReminderScalarFieldEnum]
 
 
 export const UserSettingsScalarFieldEnum = {

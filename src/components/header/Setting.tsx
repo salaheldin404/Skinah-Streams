@@ -62,25 +62,7 @@ const Setting = () => {
           </SheetClose>
         </SheetHeader>
 
-        {/* <div className="space-y-4">
-          <div className="space-y-4  px-4 border-b pb-3">
-            <h2 className="text-lg font-bold">{t("theme")}</h2>
-            <ModeToggle />
-          </div>
-          <div className="space-y-4  px-4 border-b pb-3">
-            <h2 className="text-lg font-bold">{t("language")}</h2>
-            <LanguageSwitcher />
-          </div>
-        </div> */}
         <FontControl />
-        {/* <SheetClose
-          asChild
-          className={`absolute cursor-pointer top-3 ${
-            locale === "en" ? "right-3" : "left-3"
-          } text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors`}
-        >
-          <LuX size={30} />
-        </SheetClose> */}
       </SheetContent>
     </Sheet>
   );

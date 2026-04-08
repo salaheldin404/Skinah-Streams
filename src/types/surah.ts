@@ -20,3 +20,7 @@ export interface LastRead {
   page_number: number;
   qpc_uthmani_hafs: string;
 }
+
+export interface SurahSearchResult extends Surah {
+  matchType: "name" | "englishName" | "translation" | "number";
+}
