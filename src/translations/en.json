@@ -315,5 +315,35 @@
     "duaTitle": "Dua al-Khatm al-Quran",
     "startNewKhatma": "Start a New Khatma",
     "backHome": "Back to Home"
+  },
+  "Pwa": {
+    "badge": "Install App",
+    "title": "Keep Sakinah Streams one tap away",
+    "description": "Install the app for a faster, more immersive Quran listening experience with offline-friendly access.",
+    "install": "Install Now",
+    "dismiss": "Maybe Later",
+    "iosTitle": "Install on iPhone",
+    "iosDescription": "Tap the Share button in Safari, then choose Add to Home Screen.",
+    "iosStepOne": "Tap Share",
+    "iosStepTwo": "Choose Add to Home Screen",
+    "closeLabel": "Close install prompt"
+  },
+  "Offline": {
+    "badge": "Offline Mode",
+    "title": "You are offline, and this page is not cached yet.",
+    "description": "Sakinah Streams can still open pages you visited before, but this one needs an internet connection at least once before it becomes available offline.",
+    "statusOnline": "Connection restored. You can try again now.",
+    "statusOffline": "No internet connection detected.",
+    "primaryAction": "Try Again",
+    "secondaryAction": "Open Home",
+    "tertiaryAction": "Go Back",
+    "tipsTitle": "What you can do right now",
+    "tips": [
+      "Return to the home page and open previously visited recitations or surahs.",
+      "Reconnect briefly so this page can be downloaded and saved for offline use.",
+      "Keep audio or surah pages open once online so they stay available later."
+    ],
+    "cardTitle": "Offline access works best for",
+    "cardItems": ["Visited pages", "Cached images", "Saved API content"]
   }
 }

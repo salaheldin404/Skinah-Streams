@@ -1,7 +1,108 @@
 import type { NextConfig } from "next";
+import withPWAInit from "@ducanh2912/next-pwa";
 import createNextIntlPlugin from "next-intl/plugin";
 
 const nextIntlPlugin = createNextIntlPlugin();
+const withPWA = withPWAInit({
+  dest: "public",
+  disable: process.env.NODE_ENV === "development",
+  fallbacks: {
+    document: "/ar/offline",
+  },
+  reloadOnOnline: true,
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: false,
+  extendDefaultRuntimeCaching: true,
+  workboxOptions: {
+    exclude: [
+      /middleware-manifest\.json$/,
+      /_app-build-manifest\.json$/,
+      /.*\/@.*\/.*/i, // Ignores chunks from parallel/intercepting routes
+    ],
+
+    runtimeCaching: [
+      {
+        urlPattern: /^\/api\/v4\/.*/i,
+        handler: "NetworkFirst",
+        method: "GET",
+        options: {
+          cacheName: "surah-content-v4",
+          networkTimeoutSeconds: 8,
+          expiration: {
+            maxEntries: 100,
+            maxAgeSeconds: 14 * 24 * 60 * 60,
+          },
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
+      {
+        urlPattern: /.*(\?|&)_rsc=.*/i,
+        handler: "NetworkFirst",
+        method: "GET",
+        options: {
+          cacheName: "rsc-payload-cache",
+          expiration: { maxEntries: 100, maxAgeSeconds: 7 * 24 * 60 * 60 },
+          networkTimeoutSeconds: 3,
+        },
+      },
+      {
+        urlPattern: /\/_next\/image\?url=.+/i,
+        handler: "StaleWhileRevalidate",
+        method: "GET",
+        options: {
+          cacheName: "next-image-cache",
+          expiration: { maxEntries: 50, maxAgeSeconds: 30 * 24 * 60 * 60 },
+        },
+      },
+      {
+        urlPattern: /^https?:\/\/.*\.(png|jpg|jpeg|svg|webp|gif)$/i,
+        handler: "StaleWhileRevalidate",
+        method: "GET",
+        options: {
+          cacheName: "static-image-cache",
+          expiration: { maxEntries: 50, maxAgeSeconds: 30 * 24 * 60 * 60 },
+          cacheableResponse: { statuses: [0, 200] }, // For external images
+        },
+      },
+      {
+        urlPattern: /\/api\/(?:khatma(?:\/.*)?|user\/settings(?:\/.*)?)$/i,
+        handler: "NetworkFirst",
+        method: "GET",
+        options: {
+          cacheName: "dynamic-user-data",
+          networkTimeoutSeconds: 5,
+          expiration: {
+            maxEntries: 50,
+            maxAgeSeconds: 3 * 24 * 60 * 60,
+          },
+          cacheableResponse: { statuses: [200] },
+        },
+      },
+      {
+        urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+        handler: "StaleWhileRevalidate",
+        method: "GET",
+        options: {
+          cacheName: "google-fonts-stylesheets",
+          expiration: { maxEntries: 5, maxAgeSeconds: 365 * 24 * 60 * 60 },
+        },
+      },
+      {
+        urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+        handler: "CacheFirst",
+        method: "GET",
+        options: {
+          cacheName: "google-fonts-webfonts",
+          expiration: { maxEntries: 10, maxAgeSeconds: 365 * 24 * 60 * 60 },
+          cacheableResponse: { statuses: [0, 200] },
+        },
+      },
+    ],
+  },
+});
+
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
@@ -31,4 +132,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextIntlPlugin(nextConfig);
+export default withPWA(nextIntlPlugin(nextConfig));
