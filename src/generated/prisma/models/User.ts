@@ -202,6 +202,9 @@ export type UserWhereInput = {
   khatmaPlans?: Prisma.KhatmaPlanListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   settings?: Prisma.XOR<Prisma.UserSettingsNullableScalarRelationFilter, Prisma.UserSettingsWhereInput> | null
+  pushSubscriptions?: Prisma.PushSubscriptionListRelationFilter
+  reminders?: Prisma.ReminderListRelationFilter
+  khatmaReminders?: Prisma.KhatmaReminderListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -216,6 +219,9 @@ export type UserOrderByWithRelationInput = {
   khatmaPlans?: Prisma.KhatmaPlanOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   settings?: Prisma.UserSettingsOrderByWithRelationInput
+  pushSubscriptions?: Prisma.PushSubscriptionOrderByRelationAggregateInput
+  reminders?: Prisma.ReminderOrderByRelationAggregateInput
+  khatmaReminders?: Prisma.KhatmaReminderOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -233,6 +239,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   khatmaPlans?: Prisma.KhatmaPlanListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   settings?: Prisma.XOR<Prisma.UserSettingsNullableScalarRelationFilter, Prisma.UserSettingsWhereInput> | null
+  pushSubscriptions?: Prisma.PushSubscriptionListRelationFilter
+  reminders?: Prisma.ReminderListRelationFilter
+  khatmaReminders?: Prisma.KhatmaReminderListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -273,6 +282,9 @@ export type UserCreateInput = {
   khatmaPlans?: Prisma.KhatmaPlanCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  reminders?: Prisma.ReminderCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -287,6 +299,9 @@ export type UserUncheckedCreateInput = {
   khatmaPlans?: Prisma.KhatmaPlanUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  reminders?: Prisma.ReminderUncheckedCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -301,6 +316,9 @@ export type UserUpdateInput = {
   khatmaPlans?: Prisma.KhatmaPlanUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  reminders?: Prisma.ReminderUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -315,6 +333,9 @@ export type UserUncheckedUpdateInput = {
   khatmaPlans?: Prisma.KhatmaPlanUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  reminders?: Prisma.ReminderUncheckedUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -398,6 +419,48 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type UserCreateNestedOneWithoutPushSubscriptionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPushSubscriptionsInput, Prisma.UserUncheckedCreateWithoutPushSubscriptionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPushSubscriptionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPushSubscriptionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPushSubscriptionsInput, Prisma.UserUncheckedCreateWithoutPushSubscriptionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPushSubscriptionsInput
+  upsert?: Prisma.UserUpsertWithoutPushSubscriptionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPushSubscriptionsInput, Prisma.UserUpdateWithoutPushSubscriptionsInput>, Prisma.UserUncheckedUpdateWithoutPushSubscriptionsInput>
+}
+
+export type UserCreateNestedOneWithoutRemindersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRemindersInput, Prisma.UserUncheckedCreateWithoutRemindersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRemindersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRemindersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRemindersInput, Prisma.UserUncheckedCreateWithoutRemindersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRemindersInput
+  upsert?: Prisma.UserUpsertWithoutRemindersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRemindersInput, Prisma.UserUpdateWithoutRemindersInput>, Prisma.UserUncheckedUpdateWithoutRemindersInput>
+}
+
+export type UserCreateNestedOneWithoutKhatmaRemindersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutKhatmaRemindersInput, Prisma.UserUncheckedCreateWithoutKhatmaRemindersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutKhatmaRemindersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutKhatmaRemindersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutKhatmaRemindersInput, Prisma.UserUncheckedCreateWithoutKhatmaRemindersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutKhatmaRemindersInput
+  upsert?: Prisma.UserUpsertWithoutKhatmaRemindersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutKhatmaRemindersInput, Prisma.UserUpdateWithoutKhatmaRemindersInput>, Prisma.UserUncheckedUpdateWithoutKhatmaRemindersInput>
+}
+
 export type UserCreateNestedOneWithoutSettingsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutSettingsInput, Prisma.UserUncheckedCreateWithoutSettingsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutSettingsInput
@@ -454,6 +517,246 @@ export type UserUpdateOneRequiredWithoutKhatmaPlansNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutKhatmaPlansInput, Prisma.UserUpdateWithoutKhatmaPlansInput>, Prisma.UserUncheckedUpdateWithoutKhatmaPlansInput>
 }
 
+export type UserCreateWithoutPushSubscriptionsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerified?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  khatmaPlans?: Prisma.KhatmaPlanCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  reminders?: Prisma.ReminderCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerified?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  khatmaPlans?: Prisma.KhatmaPlanUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  reminders?: Prisma.ReminderUncheckedCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPushSubscriptionsInput, Prisma.UserUncheckedCreateWithoutPushSubscriptionsInput>
+}
+
+export type UserUpsertWithoutPushSubscriptionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPushSubscriptionsInput, Prisma.UserUncheckedUpdateWithoutPushSubscriptionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPushSubscriptionsInput, Prisma.UserUncheckedCreateWithoutPushSubscriptionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPushSubscriptionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPushSubscriptionsInput, Prisma.UserUncheckedUpdateWithoutPushSubscriptionsInput>
+}
+
+export type UserUpdateWithoutPushSubscriptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  khatmaPlans?: Prisma.KhatmaPlanUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  reminders?: Prisma.ReminderUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  khatmaPlans?: Prisma.KhatmaPlanUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  reminders?: Prisma.ReminderUncheckedUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutRemindersInput = {
+  id?: string
+  email: string
+  name?: string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerified?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  khatmaPlans?: Prisma.KhatmaPlanCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutRemindersInput = {
+  id?: string
+  email: string
+  name?: string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerified?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  khatmaPlans?: Prisma.KhatmaPlanUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutRemindersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRemindersInput, Prisma.UserUncheckedCreateWithoutRemindersInput>
+}
+
+export type UserUpsertWithoutRemindersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRemindersInput, Prisma.UserUncheckedUpdateWithoutRemindersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRemindersInput, Prisma.UserUncheckedCreateWithoutRemindersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRemindersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRemindersInput, Prisma.UserUncheckedUpdateWithoutRemindersInput>
+}
+
+export type UserUpdateWithoutRemindersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  khatmaPlans?: Prisma.KhatmaPlanUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRemindersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  khatmaPlans?: Prisma.KhatmaPlanUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutKhatmaRemindersInput = {
+  id?: string
+  email: string
+  name?: string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerified?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  khatmaPlans?: Prisma.KhatmaPlanCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  reminders?: Prisma.ReminderCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutKhatmaRemindersInput = {
+  id?: string
+  email: string
+  name?: string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerified?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  khatmaPlans?: Prisma.KhatmaPlanUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  reminders?: Prisma.ReminderUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutKhatmaRemindersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutKhatmaRemindersInput, Prisma.UserUncheckedCreateWithoutKhatmaRemindersInput>
+}
+
+export type UserUpsertWithoutKhatmaRemindersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutKhatmaRemindersInput, Prisma.UserUncheckedUpdateWithoutKhatmaRemindersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutKhatmaRemindersInput, Prisma.UserUncheckedCreateWithoutKhatmaRemindersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutKhatmaRemindersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutKhatmaRemindersInput, Prisma.UserUncheckedUpdateWithoutKhatmaRemindersInput>
+}
+
+export type UserUpdateWithoutKhatmaRemindersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  khatmaPlans?: Prisma.KhatmaPlanUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  reminders?: Prisma.ReminderUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutKhatmaRemindersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  khatmaPlans?: Prisma.KhatmaPlanUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  reminders?: Prisma.ReminderUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutSettingsInput = {
   id?: string
   email: string
@@ -465,6 +768,9 @@ export type UserCreateWithoutSettingsInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   khatmaPlans?: Prisma.KhatmaPlanCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  reminders?: Prisma.ReminderCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSettingsInput = {
@@ -478,6 +784,9 @@ export type UserUncheckedCreateWithoutSettingsInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   khatmaPlans?: Prisma.KhatmaPlanUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  reminders?: Prisma.ReminderUncheckedCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSettingsInput = {
@@ -507,6 +816,9 @@ export type UserUpdateWithoutSettingsInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   khatmaPlans?: Prisma.KhatmaPlanUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  reminders?: Prisma.ReminderUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSettingsInput = {
@@ -520,6 +832,9 @@ export type UserUncheckedUpdateWithoutSettingsInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   khatmaPlans?: Prisma.KhatmaPlanUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  reminders?: Prisma.ReminderUncheckedUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -533,6 +848,9 @@ export type UserCreateWithoutAccountsInput = {
   khatmaPlans?: Prisma.KhatmaPlanCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  reminders?: Prisma.ReminderCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -546,6 +864,9 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   khatmaPlans?: Prisma.KhatmaPlanUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  reminders?: Prisma.ReminderUncheckedCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -575,6 +896,9 @@ export type UserUpdateWithoutAccountsInput = {
   khatmaPlans?: Prisma.KhatmaPlanUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  reminders?: Prisma.ReminderUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -588,6 +912,9 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   khatmaPlans?: Prisma.KhatmaPlanUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  reminders?: Prisma.ReminderUncheckedUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -601,6 +928,9 @@ export type UserCreateWithoutSessionsInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   khatmaPlans?: Prisma.KhatmaPlanCreateNestedManyWithoutUserInput
   settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  reminders?: Prisma.ReminderCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -614,6 +944,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   khatmaPlans?: Prisma.KhatmaPlanUncheckedCreateNestedManyWithoutUserInput
   settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  reminders?: Prisma.ReminderUncheckedCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -643,6 +976,9 @@ export type UserUpdateWithoutSessionsInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   khatmaPlans?: Prisma.KhatmaPlanUpdateManyWithoutUserNestedInput
   settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  reminders?: Prisma.ReminderUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -656,6 +992,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   khatmaPlans?: Prisma.KhatmaPlanUncheckedUpdateManyWithoutUserNestedInput
   settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  reminders?: Prisma.ReminderUncheckedUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutKhatmaPlansInput = {
@@ -669,6 +1008,9 @@ export type UserCreateWithoutKhatmaPlansInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  reminders?: Prisma.ReminderCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutKhatmaPlansInput = {
@@ -682,6 +1024,9 @@ export type UserUncheckedCreateWithoutKhatmaPlansInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  reminders?: Prisma.ReminderUncheckedCreateNestedManyWithoutUserInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutKhatmaPlansInput = {
@@ -711,6 +1056,9 @@ export type UserUpdateWithoutKhatmaPlansInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  reminders?: Prisma.ReminderUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutKhatmaPlansInput = {
@@ -724,6 +1072,9 @@ export type UserUncheckedUpdateWithoutKhatmaPlansInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  reminders?: Prisma.ReminderUncheckedUpdateManyWithoutUserNestedInput
+  khatmaReminders?: Prisma.KhatmaReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -735,12 +1086,18 @@ export type UserCountOutputType = {
   accounts: number
   khatmaPlans: number
   sessions: number
+  pushSubscriptions: number
+  reminders: number
+  khatmaReminders: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   khatmaPlans?: boolean | UserCountOutputTypeCountKhatmaPlansArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+  pushSubscriptions?: boolean | UserCountOutputTypeCountPushSubscriptionsArgs
+  reminders?: boolean | UserCountOutputTypeCountRemindersArgs
+  khatmaReminders?: boolean | UserCountOutputTypeCountKhatmaRemindersArgs
 }
 
 /**
@@ -774,6 +1131,27 @@ export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.SessionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPushSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PushSubscriptionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRemindersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReminderWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountKhatmaRemindersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.KhatmaReminderWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -787,6 +1165,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   khatmaPlans?: boolean | Prisma.User$khatmaPlansArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   settings?: boolean | Prisma.User$settingsArgs<ExtArgs>
+  pushSubscriptions?: boolean | Prisma.User$pushSubscriptionsArgs<ExtArgs>
+  reminders?: boolean | Prisma.User$remindersArgs<ExtArgs>
+  khatmaReminders?: boolean | Prisma.User$khatmaRemindersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -826,6 +1207,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   khatmaPlans?: boolean | Prisma.User$khatmaPlansArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   settings?: boolean | Prisma.User$settingsArgs<ExtArgs>
+  pushSubscriptions?: boolean | Prisma.User$pushSubscriptionsArgs<ExtArgs>
+  reminders?: boolean | Prisma.User$remindersArgs<ExtArgs>
+  khatmaReminders?: boolean | Prisma.User$khatmaRemindersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -838,6 +1222,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     khatmaPlans: Prisma.$KhatmaPlanPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     settings: Prisma.$UserSettingsPayload<ExtArgs> | null
+    pushSubscriptions: Prisma.$PushSubscriptionPayload<ExtArgs>[]
+    reminders: Prisma.$ReminderPayload<ExtArgs>[]
+    khatmaReminders: Prisma.$KhatmaReminderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1245,6 +1632,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   khatmaPlans<T extends Prisma.User$khatmaPlansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$khatmaPlansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$KhatmaPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   settings<T extends Prisma.User$settingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$settingsArgs<ExtArgs>>): Prisma.Prisma__UserSettingsClient<runtime.Types.Result.GetResult<Prisma.$UserSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  pushSubscriptions<T extends Prisma.User$pushSubscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$pushSubscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reminders<T extends Prisma.User$remindersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$remindersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  khatmaReminders<T extends Prisma.User$khatmaRemindersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$khatmaRemindersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$KhatmaReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1757,6 +2147,78 @@ export type User$settingsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   include?: Prisma.UserSettingsInclude<ExtArgs> | null
   where?: Prisma.UserSettingsWhereInput
+}
+
+/**
+ * User.pushSubscriptions
+ */
+export type User$pushSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PushSubscription
+   */
+  select?: Prisma.PushSubscriptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PushSubscription
+   */
+  omit?: Prisma.PushSubscriptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PushSubscriptionInclude<ExtArgs> | null
+  where?: Prisma.PushSubscriptionWhereInput
+  orderBy?: Prisma.PushSubscriptionOrderByWithRelationInput | Prisma.PushSubscriptionOrderByWithRelationInput[]
+  cursor?: Prisma.PushSubscriptionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PushSubscriptionScalarFieldEnum | Prisma.PushSubscriptionScalarFieldEnum[]
+}
+
+/**
+ * User.reminders
+ */
+export type User$remindersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reminder
+   */
+  select?: Prisma.ReminderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reminder
+   */
+  omit?: Prisma.ReminderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReminderInclude<ExtArgs> | null
+  where?: Prisma.ReminderWhereInput
+  orderBy?: Prisma.ReminderOrderByWithRelationInput | Prisma.ReminderOrderByWithRelationInput[]
+  cursor?: Prisma.ReminderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReminderScalarFieldEnum | Prisma.ReminderScalarFieldEnum[]
+}
+
+/**
+ * User.khatmaReminders
+ */
+export type User$khatmaRemindersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the KhatmaReminder
+   */
+  select?: Prisma.KhatmaReminderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the KhatmaReminder
+   */
+  omit?: Prisma.KhatmaReminderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KhatmaReminderInclude<ExtArgs> | null
+  where?: Prisma.KhatmaReminderWhereInput
+  orderBy?: Prisma.KhatmaReminderOrderByWithRelationInput | Prisma.KhatmaReminderOrderByWithRelationInput[]
+  cursor?: Prisma.KhatmaReminderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.KhatmaReminderScalarFieldEnum | Prisma.KhatmaReminderScalarFieldEnum[]
 }
 
 /**
