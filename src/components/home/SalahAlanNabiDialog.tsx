@@ -9,7 +9,7 @@ export default function SalahAlanNabiDialog() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setOpen(true), 5000);
+    const timer = setTimeout(() => setOpen(true), 20000);
     return () => clearTimeout(timer);
   }, []);
 
