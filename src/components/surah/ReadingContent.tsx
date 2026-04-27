@@ -1,110 +1,128 @@
 "use client";
-import React, { Fragment, memo, useCallback, useRef } from "react";
+import React, { memo, useEffect, useMemo, useRef } from "react";
 import VerseDisplay from "../verse/VerseDisplay";
 import { Verse } from "@/types/verse";
 import { toArabicNumber } from "@/lib/utils/surah";
-import LazyRender from "../verse/LazyRender";
+// import LazyRender from "../verse/LazyRender";
 import { Surah } from "@/types/surah";
-import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
+import {  useAppSelector } from "@/lib/store/hooks";
 import { useFont } from "@/hooks/useFont";
-import {
-  setCurrentVerseLocation,
-  setLastRead,
-  setSaveMarkRead,
-} from "@/lib/store/slices/surah-slice";
 
 interface ReadingContentProps {
   pageNumber: string;
   verses: Verse[];
   locale: string;
   surah: Surah;
+  showBismillah?: boolean;
+  onVerseHighlighted?: () => void;
 }
 
 const ReadingContent = memo(
-  ({ pageNumber, verses, locale, surah }: ReadingContentProps) => {
-    const { goToVerse, saveMarkRead, currentVerseLocation, lastRead } =
-      useAppSelector((state) => state.surah);
-    const { fontSize } = useFont();
-    const dispatch = useAppDispatch();
-    const isSaveInProgress = useRef(false);
-    const isLastReadPage = lastRead?.page_number === Number(pageNumber);
-
-    const handleVerseView = useCallback(
-      (data: {
-        hizb_number: number;
-        juz_number: number;
-        page_number: number;
-      }) => {
-        if (currentVerseLocation.page_number === data.page_number) return;
-        dispatch(setCurrentVerseLocation(data));
-      },
-      [dispatch, currentVerseLocation.page_number]
+  ({
+    pageNumber,
+    verses,
+    locale,
+    surah,
+    showBismillah = false,
+    onVerseHighlighted,
+  }: ReadingContentProps) => {
+    const { goToVerse } = useAppSelector(
+      (state) => state.surah,
     );
+    const currentVerse = useAppSelector((state) => state.audio.currentVerse);
+    const { fontSize, fontFamily } = useFont();
+    // const isLastReadPage = lastRead?.page_number === Number(pageNumber);
+    const pageLabel =
+      locale === "ar" ? toArabicNumber(Number(pageNumber)) : pageNumber;
 
-    const handleAttemptSave = useCallback(
-      (verseData: Verse) => {
-        if (saveMarkRead && !isSaveInProgress.current) {
-          isSaveInProgress.current = true;
+    const { juzLabel, hizbLabel } = useMemo(() => {
+      const firstVerse = verses[0];
+      const juzNumber = firstVerse?.juz_number;
+      const hizbNumber = firstVerse?.hizb_number;
 
-          const lastReadData = {
-            chapter_id: verseData.chapter_id,
-            verse_number: verseData.verse_number,
-            page_number: verseData.page_number,
-            qpc_uthmani_hafs: verseData.qpc_uthmani_hafs,
-            verse_key: verseData.verse_key,
-          };
+      return {
+        juzLabel:
+          locale === "ar"
+            ? `جزء ${toArabicNumber(Number(juzNumber ?? 0))}`
+            : `Juz ${juzNumber ?? "-"}`,
+        hizbLabel:
+          locale === "ar"
+            ? `حزب ${toArabicNumber(Number(hizbNumber ?? 0))}`
+            : `Hizb ${hizbNumber ?? "-"}`,
+      };
+    }, [locale, verses]);
+    const onVerseHighlightedRef = useRef(onVerseHighlighted);
+    useEffect(() => {
+      onVerseHighlightedRef.current = onVerseHighlighted;
+    }, [onVerseHighlighted]);
 
-          dispatch(setLastRead(lastReadData));
-          dispatch(setSaveMarkRead(false));
-        }
-      },
-      [saveMarkRead, dispatch]
-    );
-
+    useEffect(() => {
+      if (!currentVerse?.verse_key || !verses?.length) return;
+      const isOnThisPage = verses.some(
+        (v) => v.verse_key === currentVerse.verse_key,
+      );
+      if (isOnThisPage) {
+        onVerseHighlightedRef.current?.();
+      }
+    }, [currentVerse?.verse_key, verses]);
+  
     return (
-      <Fragment key={pageNumber}>
-        <div className="py-2" id={`${surah.number}-${pageNumber}`}>
-          <div className="">
-            <div
-              dir="rtl"
-              className={`${fontSize}  leading-relaxed md:leading-loose`}
-            >
-              {verses.map((verse) => {
-                const isVerseTarget = verse.verse_key === goToVerse;
-                const scrollVerseId = isVerseTarget
-                  ? `${verse.verse_key}`
-                  : undefined;
-                return (
-                  <LazyRender
-                    className="inline"
-                    verse={verse}
-                    key={verse.verse_key}
-                    isTarget={isVerseTarget}
-                    onVerseView={handleVerseView}
-                    onAttemptSave={handleAttemptSave}
-                    isLastReadPage={isLastReadPage}
-                  >
-                    <VerseDisplay
-                      key={verse.verse_key}
-                      verse={verse}
-                      surah={surah}
-                      scrollId={scrollVerseId}
-                    />
-                  </LazyRender>
-                );
-              })}
-            </div>
+      <article
+        id={`${surah.number}-${pageNumber}`}
+        className="flex h-full min-h-0 flex-col overflow-hidden rounded-md border border-border/40 bg-background shadow-sm"
+        aria-label={locale === "ar" ? `صفحة ${pageLabel}` : `Page ${pageLabel}`}
+      >
+        <div className="sticky top-0 z-20 flex shrink-0 items-center justify-between gap-3 border-b border-border/40 bg-background/95 px-3 py-2 text-xs text-muted-foreground backdrop-blur sm:px-5">
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="truncate font-cairo font-semibold text-foreground/80">
+              {surah.name}
+            </span>
+            <span className="rounded-md bg-muted/60 px-2 py-0.5 font-cairo">
+              {juzLabel}
+            </span>
           </div>
-        </div>
-
-        <div className="border-b  border-gray-200 dark:border-secondary py-2">
-          <span className="font-cairo text-gray-500 text-sm text-center block font-medium">
-            {locale === "ar" ? toArabicNumber(+pageNumber) : pageNumber}
+          <span className="shrink-0 rounded-md bg-primary/10 px-2 py-0.5 font-cairo font-semibold text-primary">
+            {hizbLabel}
           </span>
         </div>
-      </Fragment>
+
+        <div className="khatma-slide-scroll flex-1 overflow-y-auto px-2 py-4 sm:px-6 sm:py-5">
+          {showBismillah && (
+            <div className="mb-5 grid max-w-full place-content-center overflow-hidden text-center">
+              <p className="mushaf-text text-6xl sm:text-7xl">﷽</p>
+            </div>
+          )}
+
+          <div
+            dir="rtl"
+            className={`${fontSize} ${fontFamily}  leading-relaxed md:leading-loose`}
+          >
+            {verses.map((verse) => {
+              const isVerseTarget = verse.verse_key === goToVerse;
+              const scrollVerseId = isVerseTarget
+                ? `${verse.verse_key}`
+                : undefined;
+              return (
+                <VerseDisplay
+                  key={verse.verse_key}
+                  verse={verse}
+                  surah={surah}
+                  scrollId={scrollVerseId}
+                />
+              );
+            })}
+          </div>
+        </div>
+{/* 
+        <div className="shrink-0 border-t border-border/40 px-4 py-2 text-center">
+          <span className="block font-cairo text-sm font-medium text-muted-foreground">
+            {pageLabel}
+            test
+          </span>
+        </div> */}
+      </article>
     );
-  }
+  },
 );
 
 ReadingContent.displayName = "ReadingContent";

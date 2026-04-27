@@ -13,6 +13,7 @@ import VerseDisplay from "@/components/verse/VerseDisplay";
 import KhatmaSurahHeader from "./KhatmaSurahHeader";
 import PageSkeleton from "./PageSkeleton";
 import PageError from "./PageError";
+import TopInfoReadingBar from "../surah/TopInfoReadingBar";
 
 interface KhatmaPageSlideProps {
   pageNumber: number;
@@ -129,17 +130,11 @@ const KhatmaPageSlide = memo(
     return (
       <div className="flex flex-col h-full overflow-hidden">
         {/* ── Top info bar ─────────────────────────────────── */}
-        <div className="sticky top-0 z-30 flex justify-between items-center px-4 sm:px-6 py-2 border-b border-border/30 bg-card/90 backdrop-blur-sm text-xs text-muted-foreground shrink-0">
-          <div className="flex items-center gap-2">
-            <span className="font-cairo font-semibold">{surahLabel}</span>
-            <span className="font-cairo px-2 py-0.5 rounded-md bg-muted/50">
-              {juzLabel}
-            </span>
-          </div>
-          <span className="text-primary/80 font-semibold font-cairo px-2 py-0.5 rounded-md bg-primary/5">
-            {hizbLabel}
-          </span>
-        </div>
+        <TopInfoReadingBar
+          surahName={surahLabel}
+          juzLabel={juzLabel}
+          hizbLabel={hizbLabel}
+        />
 
         {/* ── Scrollable verse content ─────────────────────── */}
         <div className="flex-1 overflow-y-auto px-2 sm:px-4 pt-2 pb-4 khatma-slide-scroll">
@@ -157,7 +152,7 @@ const KhatmaPageSlide = memo(
                   <KhatmaSurahHeader
                     surahName={surahName}
                     showBismillah={showBismillah}
-                  />  
+                  />
                 )}
 
                 {/* Verses — inline mushaf-style flow with audio + actions */}
