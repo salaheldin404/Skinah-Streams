@@ -6,7 +6,7 @@ importScripts(
 );
 
 firebase.initializeApp({
-  apiKey: "AIzaSyDXgnCdX-rbhhuZS4LkadsarF_rmzPzpDs", 
+  apiKey: "AIzaSyDXgnCdX-rbhhuZS4LkadsarF_rmzPzpDs",
   authDomain: "sakinah-streams.firebaseapp.com",
   projectId: "sakinah-streams",
   storageBucket: "sakinah-streams.firebasestorage.app",
@@ -32,22 +32,40 @@ messaging.onBackgroundMessage((payload) => {
 
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
-
   event.waitUntil(
-    clients
-      .matchAll({ type: "window", includeUncontrolled: true })
-      .then((clientList) => {
-        const targetUrl = event.notification.data?.url;
-        console.log({ targetUrl });
-        if (!targetUrl) return;
-        // Loop through each open tab/window
-        for (const client of clientList) {
-          if (client.url.includes(targetUrl) && "focus" in client) {
-            return client.focus(); // If a matching tab exists, bring it to the front
-          }
+    (async () => {
+      const rawUrl = event.notification.data?.url || "/";
+
+      const targetUrl = new URL(rawUrl, self.location.origin).href;
+
+      const clientList = await clients.matchAll({
+        type: "window",
+        includeUncontrolled: true,
+      });
+
+      let matchedClient = null;
+
+      for (const client of clientList) {
+        const clientUrl = new URL(client.url).href;
+
+        if (clientUrl.startsWith(self.location.origin)) {
+          matchedClient = client;
+          break;
         }
-        // If no matching tab is found, open a new one
-        return clients.openWindow(targetUrl);
-      }),
+      }
+
+      if (matchedClient) {
+        await matchedClient.focus();
+
+        if ("navigate" in matchedClient) {
+          await matchedClient.navigate(targetUrl);
+        }
+
+        return;
+      }
+
+      return clients.openWindow(targetUrl);
+    })(),
   );
+  
 });
