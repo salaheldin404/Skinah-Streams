@@ -73,11 +73,13 @@ export const useNotifications = () => {
               onClick: () => {
                 router.push(link);
               },
-            },
+            }, 
+            duration: 20000,
           });
         } else {
           toast.info(payload.notification?.title || "New Notification", {
             description: payload.notification?.body,
+            duration: 20000,
           });
         }
       });

@@ -111,7 +111,7 @@ const canShow =
 
           <Button
             aria-label={t("closeLabel")}
-            className="cursor-pointer absolute end-4 top-4 inline-flex size-9 items-center justify-center rounded-full border border-zinc-200/70 bg-white/70 text-zinc-600 transition hover:bg-white dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-zinc-300"
+            className="cursor-pointer absolute z-20 end-4 top-4 inline-flex size-9 items-center justify-center rounded-full border border-zinc-200/70 bg-white/70 text-zinc-600 transition hover:bg-white dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-zinc-300"
             onClick={hidePrompt}
           >
             <X className="size-4" />
