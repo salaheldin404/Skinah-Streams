@@ -204,7 +204,7 @@ const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
           currentVerseLocation={currentVerseLocation}
         />
       )}
-      <div className="max-w-4xl mx-auto p-3 md:p-6 pb-32">
+      <div className="max-w-4xl mx-auto p-3 md:p-6 pb-10">
         <SurahInfo surah={surah} locale={locale} t={t} t2={t2} />
         <Tabs
           value={activeTab}
@@ -316,7 +316,7 @@ const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
                   </div>
                 </div> */}
 
-                <div className="h-[calc(100dvh-18rem)] min-h-[380px] max-h-[820px] sm:min-h-[520px]">
+                <div className="h-[calc(100dvh-12rem)]  max-h-[900px] ">
                   <div
                     ref={readingCarouselRef}
                     className="h-full overflow-hidden"
