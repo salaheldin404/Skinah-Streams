@@ -11,6 +11,8 @@ const CACHE_NAMES = {
   fontCss: "google-fonts-stylesheets",
   fontFiles: "google-fonts-webfonts",
   appShell: "next-static-assets",
+  pages: "pages-cache",
+  contentApi: "content-api-cache",
 } as const;
 
 const nextIntlPlugin = createNextIntlPlugin();
@@ -18,7 +20,7 @@ const withPWA = withPWAInit({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
   customWorkerDest: "public",
-  customWorkerSrc: "worker",
+  customWorkerSrc: "src/worker",
 
   fallbacks: {
     document: "/ar/offline",
@@ -28,17 +30,33 @@ const withPWA = withPWAInit({
   aggressiveFrontEndNavCaching: false,
   extendDefaultRuntimeCaching: false,
   workboxOptions: {
+    skipWaiting: true,
+    clientsClaim: true,
     exclude: [
       /middleware-manifest\.json$/,
       /_app-build-manifest\.json$/,
       /.*\/@.*\/.*/i, // Ignores chunks from parallel/intercepting routes
       /\.(mp3|ogg|wav|aac|m4a|webm)$/i,
       /_next\/static\/media\/.*\.(mp3|wav)$/i,
-      /^https:\/\/server\d+\.mp3quran\.net\/.*/i, 
+      /^https:\/\/server\d+\.mp3quran\.net\/.*/i,
       /^https:\/\/download\.quranicaudio\.com\/.*\.mp3$/i,
     ],
 
     runtimeCaching: [
+      {
+        urlPattern: ({ request }) => request.mode === "navigate",
+        handler: "NetworkFirst",
+        options: {
+          cacheName: CACHE_NAMES.pages,
+          expiration: {
+            maxEntries: 50,
+            maxAgeSeconds: 30 * 24 * 60 * 60,
+          },
+          cacheableResponse: {
+            statuses: [200],
+          },
+        },
+      },
       {
         urlPattern: /\/_next\/static\/.*/i,
         handler: "CacheFirst",
@@ -53,20 +71,23 @@ const withPWA = withPWAInit({
         },
       },
       {
-        urlPattern: /^\/api\/v4\/.*/i,
-        handler: "NetworkFirst",
+        urlPattern: /\/api\/v4\/verses\/by_chapter\/.*/i,
+        handler: "StaleWhileRevalidate",
         method: "GET",
         options: {
           cacheName: CACHE_NAMES.surahContent,
-          networkTimeoutSeconds: 8,
           expiration: {
-            maxEntries: 100,
-            maxAgeSeconds: 14 * 24 * 60 * 60,
+            maxEntries: 50,
+            maxAgeSeconds: 7 * 24 * 60 * 60,
           },
           cacheableResponse: {
             statuses: [0, 200],
           },
         },
+      },
+      {
+        urlPattern: /\/api\/v4\/chapter_recitations\/.*/i,
+        handler: "NetworkOnly",
       },
       {
         urlPattern: /.*(\?|&)_rsc=.*/i,
@@ -75,7 +96,7 @@ const withPWA = withPWAInit({
         options: {
           cacheName: CACHE_NAMES.rsc,
           expiration: { maxEntries: 100, maxAgeSeconds: 7 * 24 * 60 * 60 },
-          networkTimeoutSeconds: 8,
+          networkTimeoutSeconds: 3,
         },
       },
       {
@@ -103,7 +124,7 @@ const withPWA = withPWAInit({
         method: "GET",
         options: {
           cacheName: CACHE_NAMES.userData,
-          networkTimeoutSeconds: 5,
+          networkTimeoutSeconds: 3,
           expiration: {
             maxEntries: 50,
             maxAgeSeconds: 3 * 24 * 60 * 60,
