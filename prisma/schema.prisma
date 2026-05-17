@@ -44,14 +44,12 @@ model Reminder {
   timezone   String   // IANA timezone string, e.g., "America/New_York"
   days       Int[]    // Array of days (0-6, where 0 is Sunday)
   isEnabled  Boolean  @default(true)
-  nextReminderAt DateTime?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([time, isEnabled])
-  @@index([isEnabled, nextReminderAt])
 }
 
 model KhatmaReminder {
@@ -62,10 +60,8 @@ model KhatmaReminder {
   isEnabled  Boolean  @default(true)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  nextReminderAt DateTime?
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@index([time, isEnabled])
-  @@index([isEnabled, nextReminderAt])
 }
 
 model UserSettings {
