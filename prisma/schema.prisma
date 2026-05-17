@@ -51,6 +51,7 @@ model Reminder {
 
   @@index([userId])
   @@index([time, isEnabled])
+  @@index([isEnabled, nextReminderAt])
 }
 
 model KhatmaReminder {
@@ -64,6 +65,7 @@ model KhatmaReminder {
   nextReminderAt DateTime?
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@index([time, isEnabled])
+  @@index([isEnabled, nextReminderAt])
 }
 
 model UserSettings {
