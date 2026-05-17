@@ -1,4 +1,8 @@
+"use client";
+
 import { Input } from "../ui/input";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface InputTimeProps {
   id: string;
@@ -20,6 +24,7 @@ function roundTo15Minutes(value: string) {
 }
 
 const InputTime = ({ id, value, onChange }: InputTimeProps) => {
+  const t = useTranslations("ProfilePage");
   return (
     <Input
       id={id}
@@ -31,8 +36,15 @@ const InputTime = ({ id, value, onChange }: InputTimeProps) => {
       }}
       className="h-11 rounded-xl"
       onBlur={(event) => {
-        const roundedValue = roundTo15Minutes(event.target.value);
-        onChange(roundedValue);
+        const original = event.target.value;
+        const minutes = Number(original.split(":")[1] ?? 0);
+        if (minutes % 15 !== 0) {
+          const roundedValue = roundTo15Minutes(original);
+          toast.error(t("validation.timeRounded"));
+          onChange(roundedValue);
+          return;
+        }
+        onChange(original);
       }}
     />
   )
