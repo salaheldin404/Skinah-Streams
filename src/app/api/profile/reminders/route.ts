@@ -8,6 +8,7 @@ import {
   QuranReminderInput,
 } from "@/lib/validations/reminderSchema";
 import { normalizeDays } from "@/lib/utils/profile";
+import { calculateNextReminderAt } from "@/lib/notifications";
 
 const MAX_QURAN_REMINDERS = 5;
 
@@ -32,15 +33,37 @@ function serverError(error: unknown, message: string) {
 }
 
 function buildReminderData(reminder: QuranReminderInput, timezone: string) {
+  const nextReminderAt = reminder.isEnabled
+    ? calculateNextReminderAt(reminder.time, timezone, reminder.days)
+    : null;
   return {
     surahId: reminder.surahId,
     time: reminder.time,
     timezone,
     days: normalizeDays(reminder.days),
     isEnabled: reminder.isEnabled,
+    nextReminderAt,
   };
 }
 
+function buildKhatmaReminderData(
+  reminder: {
+    time: string;
+    isEnabled: boolean;
+  },
+  timezone: string,
+) {
+  const nextReminderAt = reminder.isEnabled
+    ? calculateNextReminderAt(reminder.time, timezone, [])
+    : null;
+
+  return {
+    time: reminder.time,
+    timezone,
+    isEnabled: reminder.isEnabled,
+    nextReminderAt,
+  };
+}
 async function getUserId() {
   const session = await getServerSession(authOptions);
   return session?.user?.id;
@@ -160,11 +183,7 @@ export async function PUT(request: Request) {
         savedQuranReminders.push(saved);
       }
 
-      const khatmaData = {
-        time: khatmaReminder.time,
-        timezone,
-        isEnabled: khatmaReminder.isEnabled,
-      };
+      const khatmaData = buildKhatmaReminderData(khatmaReminder, timezone);
       const savedKhatmaReminder = await tx.khatmaReminder.upsert({
         where: { userId },
         update: khatmaData,
