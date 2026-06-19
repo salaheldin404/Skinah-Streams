@@ -52,6 +52,7 @@ import {
   syncReducer,
   setSyncStatus,
   setSyncError,
+  incrementPendingChanges,
   initialState as initialSyncState,
 } from "./slices/sync-slice";
 import { DatabaseState, LocalStorageState } from "@/types/settings";
@@ -194,9 +195,6 @@ startAppListening({
   effect: (action, listenerApi) => {
     const state = listenerApi.getState();
 
-    // Increment pending changes for optimistic UI
-    // listenerApi.dispatch(incrementPendingChanges());
-
     // Skip ALL persisting when setReciter is dispatched for a specific reciter
     // (one with a custom source URL). Play history is always saved normally.
     if (setReciter.match(action) && !!action.payload.source) {
@@ -209,19 +207,28 @@ startAppListening({
     // Always save to localStorage as fallback for guest users
     saveToLocalStorage(localStorageState);
 
-    // Create state for database (flat structure matching UserSettings model)
-    const stateData = {
-      font: state.font,
-      audio: state.audio,
-      surah: state.surah,
-      wishlist: state.wishlist,
-      athkar: state.athkar,
-    };
-    const stateForDB = transformReduxToDB(stateData);
-
-    // Try to save to database (will fail gracefully if not authenticated)
+    // Handle sync status and database persisting
     if (isBrowser && state.sync.isAuthenticated) {
+      // Increment pending changes for optimistic UI
+      listenerApi.dispatch(incrementPendingChanges());
+
+      // Create state for database (flat structure matching UserSettings model)
+      const stateData = {
+        font: state.font,
+        audio: state.audio,
+        surah: state.surah,
+        wishlist: state.wishlist,
+        athkar: state.athkar,
+      };
+      const stateForDB = transformReduxToDB(stateData);
+
+      // Try to save to database
       saveToDatabase(stateForDB, listenerApi.dispatch);
+    } else if (isBrowser) {
+      // For guest users, if we were in an error state, clear it since local save succeeded
+      if (state.sync.status === "error") {
+        listenerApi.dispatch(setSyncStatus("synced"));
+      }
     }
   },
 });
