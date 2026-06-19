@@ -1,7 +1,7 @@
 "use client";
 
 // React and Next.js imports
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
@@ -23,7 +23,6 @@ import { useGetVersesChapterQuery } from "@/lib/store/features/versesApi";
 import { setGoToVerse, setLastRead } from "@/lib/store/slices/surah-slice";
 
 // Utility, Data, and Type imports
-import { groupVersesByPage } from "@/lib/utils/verse";
 import { Verse } from "@/types/verse";
 import SurahTopBar from "@/components/surah/SurahTopBar";
 import useSurahNavigation from "@/hooks/useSurahNavigation";
@@ -32,10 +31,24 @@ import { toArabicNumber } from "@/lib/utils/surah";
 
 import useReaderCarousel from "@/hooks/useReaderCarousel";
 import ReaderPageHeader from "@/components/surah/ReaderPageHeader";
+import { shallowEqual } from "react-redux";
 
 interface SurahClientPageProps {
   initialSurah: Surah;
   locale: "en" | "ar";
+}
+
+function processVerses(verses: Verse[] = []) {
+  const grouped: Record<string, Verse[]> = {};
+  const versePageMap = new Map<string, number>();
+
+  for (const verse of verses) {
+    const page = String(verse.page_number);
+    (grouped[page] ??= []).push(verse);
+    versePageMap.set(verse.verse_key, verse.page_number);
+  }
+
+  return { grouped, pages: Object.keys(grouped), versePageMap };
 }
 
 const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
@@ -45,16 +58,20 @@ const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
   const verseQuery = searchParams.get("verse");
   const { currentVerseLocation, lastRead } = useAppSelector(
     (state) => state.surah,
+    shallowEqual,
   );
+  const syncStatus = useAppSelector((state) => state.sync.status);
 
   const dispatch = useAppDispatch();
   const t = useTranslations("Surah");
   const t2 = useTranslations("SurahPage");
-  const [groupedVerses, setGroupedVerses] = useState<Record<string, Verse[]>>(
-    {},
-  );
-  const numericId = Number(id);
+  // ── Refs (avoid state-triggered re-renders for internal bookkeeping) ──────────
+  const hasScrolledInitialRef = useRef<number | null>(null);
+  const prevVerseQueryRef = useRef<string | null>(null);
+  const pendingSaveLastReadRef = useRef<typeof lastRead | null>(null);
+  const isWaitingForSyncRef = useRef(false);
 
+  const numericId = Number(id);
   const [activeTab, setActiveTab] = useState("reading");
   const isRTL = locale === "ar";
 
@@ -81,11 +98,12 @@ const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
   );
   const { handleNextSurah, handlePreviousSurah, navigationState } =
     useSurahNavigation(numericId);
+  const {
+    grouped: groupedVerses,
+    pages: readingPages,
+    versePageMap,
+  } = useMemo(() => processVerses(versesData?.verses), [versesData?.verses]);
 
-  const readingPages = useMemo(
-    () => Object.keys(groupedVerses),
-    [groupedVerses],
-  );
   const {
     emblaRef: readingCarouselRef,
     emblaApi: readingCarouselApi,
@@ -102,27 +120,45 @@ const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
   });
 
   const currentReaderPage = readingPages[selectedPageIndex] ?? readingPages[0];
-  const currentPageVerses = currentReaderPage
-    ? (groupedVerses[currentReaderPage] ?? [])
-    : [];
-  const currentPageAnchorVerse = currentPageVerses[0];
-  const isCurrentPageSaved =
-    Number(lastRead?.chapter_id) === numericId &&
-    Number(lastRead?.page_number) === Number(currentReaderPage);
-  const currentReaderPageLabel = currentReaderPage
-    ? locale === "ar"
-      ? toArabicNumber(Number(currentReaderPage))
-      : currentReaderPage
-    : "-";
-  const selectedReaderLabel =
-    locale === "ar"
-      ? toArabicNumber(selectedPageIndex + 1)
-      : String(selectedPageIndex + 1);
-  const totalReaderLabel =
-    locale === "ar" ? toArabicNumber(readingPages.length) : readingPages.length;
+
+  const { currentPageAnchorVerse, isCurrentPageSaved } = useMemo(() => {
+    const verses = currentReaderPage
+      ? (groupedVerses[currentReaderPage] ?? [])
+      : [];
+    return {
+      currentPageAnchorVerse: verses[0],
+      isCurrentPageSaved:
+        Number(lastRead?.chapter_id) === numericId &&
+        Number(lastRead?.page_number) === Number(currentReaderPage),
+    };
+  }, [currentReaderPage, groupedVerses, lastRead, numericId]);
+
+  const { currentReaderPageLabel, selectedReaderLabel, totalReaderLabel } =
+    useMemo(() => {
+      return {
+        currentReaderPageLabel: currentReaderPage
+          ? locale === "ar"
+            ? toArabicNumber(Number(currentReaderPage))
+            : currentReaderPage
+          : "-",
+
+        selectedReaderLabel:
+          locale === "ar"
+            ? toArabicNumber(selectedPageIndex + 1)
+            : String(selectedPageIndex + 1),
+
+        totalReaderLabel:
+          locale === "ar"
+            ? toArabicNumber(readingPages.length)
+            : String(readingPages.length),
+      };
+    }, [locale, currentReaderPage, selectedPageIndex, readingPages.length]);
 
   const handleSaveMark = useCallback(() => {
     if (!currentPageAnchorVerse) return;
+
+    pendingSaveLastReadRef.current = lastRead;
+    isWaitingForSyncRef.current = true;
 
     dispatch(setGoToVerse(null));
     dispatch(
@@ -134,24 +170,36 @@ const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
         verse_key: currentPageAnchorVerse.verse_key,
       }),
     );
-    toast.success(`${t2("marked-saved")}`);
-  }, [currentPageAnchorVerse, dispatch, t2]);
 
-  // Memoize bismillah condition
-  const showBismillah = useMemo(
-    () => surah?.number !== 1 && surah?.number !== 9,
-    [surah?.number],
-  );
+    toast.success(t2("marked-saved"), {
+      action: {
+        label: t2("undo") || "Undo",
+        onClick: () => {
+          dispatch(setLastRead(pendingSaveLastReadRef.current));
+          isWaitingForSyncRef.current = false;
+        },
+      },
+    });
+  }, [currentPageAnchorVerse, dispatch, lastRead, t2]);
 
-  // useScrollToLastRead({ lastRead, isFetching, verseQuery });
-
+  // Handle sync errors specifically for saving marks (automatic rollback)
   useEffect(() => {
-    if (versesData) {
-      const grouped = groupVersesByPage(versesData.verses);
+    if (!isWaitingForSyncRef.current) return;
 
-      setGroupedVerses(grouped);
+    if (syncStatus === "error") {
+      dispatch(setLastRead(pendingSaveLastReadRef.current));
+      toast.error(
+        t2("sync-error-undo") ||
+          "Sync failed. Bookmark reverted to keep your data consistent.",
+        { duration: 5000 },
+      );
+      isWaitingForSyncRef.current = false;
+    } else if (syncStatus === "synced") {
+      isWaitingForSyncRef.current = false;
     }
-  }, [versesData]);
+  }, [syncStatus, dispatch, t2]);
+
+  const showBismillah = surah.number !== 1 && surah.number !== 9;
 
   useEffect(() => {
     if (verseQuery) {
@@ -164,20 +212,23 @@ const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
   useEffect(() => {
     if (!readingCarouselApi || !readingPages.length) return;
 
-    const targetPage = verseQuery
-      ? versesData?.verses?.find(
-          (verse: Verse) => verse.verse_key === `${id}:${verseQuery}`,
-        )?.page_number
-      : lastRead?.chapter_id === numericId
-        ? lastRead.page_number
-        : null;
+    const isNewSurah = hasScrolledInitialRef.current !== numericId;
+    const hasVerseQueryChanged = verseQuery !== prevVerseQueryRef.current;
 
-    if (!targetPage) return;
+    prevVerseQueryRef.current = verseQuery;
+    if (isNewSurah) hasScrolledInitialRef.current = numericId;
+
+    const targetPage =
+      verseQuery && hasVerseQueryChanged
+        ? (versePageMap.get(`${id}:${verseQuery}`) ?? null)
+        : isNewSurah && lastRead?.chapter_id === numericId
+          ? lastRead.page_number
+          : null;
+
+    if (targetPage === null) return;
 
     const targetIndex = readingPages.indexOf(String(targetPage));
-    if (targetIndex >= 0) {
-      readingCarouselApi.scrollTo(targetIndex, true);
-    }
+    if (targetIndex >= 0) readingCarouselApi.scrollTo(targetIndex, true);
   }, [
     id,
     lastRead,
@@ -185,7 +236,7 @@ const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
     readingCarouselApi,
     readingPages,
     verseQuery,
-    versesData?.verses,
+    versePageMap,
   ]);
 
   if (!surah) {
@@ -232,7 +283,10 @@ const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
             {isFetching ? (
               <VersesLoadingSkeleton />
             ) : (
-              <div dir={isRTL ? "rtl" : "ltr"} className="mt-6 overflow-hidden rounded-md rounded-t-xl border border-border/40 dark:bg-card/40">
+              <div
+                dir={isRTL ? "rtl" : "ltr"}
+                className="mt-6 overflow-hidden rounded-md rounded-t-xl border border-border/40 dark:bg-card/40"
+              >
                 <ReaderPageHeader
                   bookmarkLabel={t2("save-mark")}
                   canGoNext={canClickVisualLeft}
@@ -250,71 +304,6 @@ const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
                   }
                   totalItemsLabel={String(totalReaderLabel)}
                 />
-                {/* <div className="flex items-center justify-between gap-3 border-b border-border/40 bg-background/80 px-3 py-2.5 backdrop-blur sm:px-4">
-                  <div className="hidden md:flex  items-center gap-1.5">
-                    <NavButton
-                      onClick={handleVisualLeft}
-                      disabled={!canClickVisualLeft}
-                      direction="next"
-                    />
-                    <NavButton
-                      onClick={handleVisualRight}
-                      disabled={!canClickVisualRight}
-                      direction="prev"
-                    />
-                  </div>
-
-                  <div className="flex md:hidden items-center gap-1">
-                    <MobileNavButton
-                      onClick={handleVisualLeft}
-                      disabled={!canClickVisualLeft}
-                      ariaLabel="Previous"
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </MobileNavButton>
-                    <MobileNavButton
-                      onClick={handleVisualRight}
-                      disabled={!canClickVisualRight}
-                      ariaLabel="Next"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                    </MobileNavButton>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={handleSaveMark}
-                      disabled={!currentPageAnchorVerse}
-                      className={`grid h-8 w-8 cursor-pointer place-content-center rounded-md transition-colors disabled:cursor-not-allowed disabled:opacity-30 ${
-                        isCurrentPageSaved
-                          ? "bg-primary/10 text-primary"
-                          : "text-muted-foreground hover:bg-secondary"
-                      }`}
-                      aria-label={t2("save-mark")}
-                      aria-pressed={isCurrentPageSaved}
-                    >
-                      <LuBookmark
-                        className={`h-4 w-4 ${
-                          isCurrentPageSaved ? "fill-current" : ""
-                        }`}
-                      />
-                    </button>
-                    <p className="font-cairo text-sm font-medium text-foreground/80">
-                      {locale === "ar"
-                        ? `صفحة ${currentReaderPageLabel}`
-                        : `Page ${currentReaderPageLabel}`}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Setting />
-
-                    <span className="rounded-full bg-primary/10 px-2.5 py-1 font-cairo text-xs font-semibold text-primary">
-                      {selectedReaderLabel}
-                      <span className="mx-1 text-primary/50">/</span>
-                      {totalReaderLabel}
-                    </span>
-                  </div>
-                </div> */}
 
                 <div className="h-[calc(100dvh-12rem)]  max-h-[900px] ">
                   <div
