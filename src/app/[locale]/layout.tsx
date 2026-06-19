@@ -1,6 +1,6 @@
+import "../globals.css";
 import type { Metadata, Viewport } from "next";
 import { Cairo, Tajawal } from "next/font/google";
-import "../globals.css";
 
 import { NextIntlClientProvider } from "next-intl";
 
@@ -214,16 +214,16 @@ export default async function RootLayout({
           >
             <NextTopLoader color="#7c3aed" showSpinner={false} />
             <StoreProvider initialKhatma={initialkhatma}>
-              <SettingsHydrator>
-                <NextIntlClientProvider locale={locale}>
+              <NextIntlClientProvider locale={locale}>
+                <SettingsHydrator>
                   <Navbar />
                   {children}
                   {modal}
                   {khatma}
                   <PWAInstallPrompt />
                   <PlayerWrapper />
-                </NextIntlClientProvider>
-              </SettingsHydrator>
+                </SettingsHydrator>
+              </NextIntlClientProvider>
             </StoreProvider>
             <Toaster richColors />
           </ThemeProvider>

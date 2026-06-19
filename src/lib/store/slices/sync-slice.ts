@@ -40,9 +40,8 @@ const syncSlice = createSlice({
     },
     incrementPendingChanges: (state) => {
       state.pendingChanges += 1;
-      if (state.status === "idle" || state.status === "synced") {
-        state.status = "pending";
-      }
+      state.status = "pending";
+      state.error = null;
     },
     resetSync: (state) => {
       state.status = "idle";
