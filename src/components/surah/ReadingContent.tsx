@@ -113,13 +113,6 @@ const ReadingContent = memo(
             })}
           </div>
         </div>
-{/* 
-        <div className="shrink-0 border-t border-border/40 px-4 py-2 text-center">
-          <span className="block font-cairo text-sm font-medium text-muted-foreground">
-            {pageLabel}
-            test
-          </span>
-        </div> */}
       </article>
     );
   },
