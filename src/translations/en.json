@@ -63,7 +63,9 @@
     "marked-saved": "Marked has been saved for this page",
     "juz": "Juz",
     "page": "Page",
-    "hizb": "Hizb"
+    "hizb": "Hizb",
+    "undo": "Undo",
+    "sync-error-undo": "Failed to save mark. Your previous mark has been restored."
   },
   "RandomAyah": {
     "title": "Ayah of the Moment",
@@ -238,7 +240,7 @@
     "pending": "{count} changes pending",
     "syncing": "Syncing...",
     "synced": "All changes saved",
-    "error": "Sync failed",
+    "error": "Sync failed - please try again",
     "offline": "Offline",
     "errorOccurred": "Sync Error",
     "lastSynced": "Last synced"
