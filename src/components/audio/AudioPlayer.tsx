@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/popover";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { LuUser, LuX } from "react-icons/lu";
+import { LuUser, LuX, LuSettings } from "react-icons/lu";
 
 // import { MdPlaylistPlay } from "react-icons/md";
 import { useAppSelector, useAppDispatch } from "@/lib/store/hooks";
@@ -62,6 +62,27 @@ const AudioPlayer = memo(
     const [isReciterChanging, setIsReciterChanging] = useState(false);
     const savedVerseRef = useRef<VerseTiming | null>(null);
     const pendingSeekRef = useRef<VerseTiming | null>(null); // New ref for pending seek operations
+
+    // const [repeatMode, setRepeatMode] = useState<"off" | "verse" | "surah">(
+    //   "off",
+    // );
+    const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
+    const [settingsOpen, setSettingsOpen] = useState(false);
+    const speeds = [0.5, 0.75, 1.0, 1.25, 1.5, 2.0];
+
+    // const getRepeatModeLabel = useCallback(
+    //   (mode: "off" | "surah" | "verse") => {
+    //     switch (mode) {
+    //       case "off":
+    //         return locale === "ar" ? "مغلق" : "Off";
+    //       case "surah":
+    //         return locale === "ar" ? "سورة" : "Surah";
+    //       case "verse":
+    //         return locale === "ar" ? "آية" : "Verse";
+    //     }
+    //   },
+    //   [locale],
+    // );
 
     const {
       reciter,
@@ -103,7 +124,11 @@ const AudioPlayer = memo(
       src: audio_url || null,
       isPlaying,
       onEnded: () => dispatch(setIsPlaying(false)),
-      setPlaying: (isPlaying) => dispatch(setIsPlaying(isPlaying)),
+
+      setPlaying: useCallback(
+        (isPlaying) => dispatch(setIsPlaying(isPlaying)),
+        [dispatch],
+      ),
       onSeeked: useCallback(() => {
         setIsSeeking(false);
         if (isReciterChanging) {
@@ -273,6 +298,25 @@ const AudioPlayer = memo(
     }, [audioRef, volume]);
 
     useEffect(() => {
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      const handleRateChange = () => {
+        if (audio.playbackRate !== playbackSpeed) {
+          audio.playbackRate = playbackSpeed;
+        }
+      };
+
+      // Apply initial speed
+      audio.playbackRate = playbackSpeed;
+
+      audio.addEventListener("ratechange", handleRateChange);
+      return () => {
+        audio.removeEventListener("ratechange", handleRateChange);
+      };
+    }, [playbackSpeed, audioRef]);
+
+    useEffect(() => {
       if (
         !isSeeking &&
         !isReciterChanging &&
@@ -439,7 +483,7 @@ const AudioPlayer = memo(
               </p>
             </div>
           </div>
-          <div className="md:basis-1/2 flex justify-center items-center space-x-2 md:space-x-4">
+          <div className="md:basis-1/2 flex justify-center items-center space-x-1 md:space-x-4">
             {/* {locale === "ar" ? <SkipForwardButton /> : <SkipBackButton />} */}
 
             <PlayButton
@@ -458,10 +502,10 @@ const AudioPlayer = memo(
               <LuX className="w-5 h-5" />
             </Button>
           </div>
-          <div className=" md:basis-[25%]  flex items-center space-x-2 md:space-x-3">
+          <div className=" md:basis-[25%]  flex items-center space-x-1 md:space-x-3">
             <Popover open={reciterListOpen} onOpenChange={setReciterListOpen}>
-              <PopoverTrigger className="cursor-pointer p-2 rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-secondary transition-colors">
-                <LuUser className="w-5 h-5" />
+              <PopoverTrigger className="cursor-pointer p-1 md:p-2 rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-secondary transition-colors">
+                <LuUser className="w-4 h-4 md:w-5 md:h-5" />
               </PopoverTrigger>
               <PopoverContent className="w-80 h-80 overflow-y-auto space-y-2">
                 {reciterList}
@@ -473,14 +517,64 @@ const AudioPlayer = memo(
               VolumeIcon={VolumeIcon}
               handleVolumeChange={handleVolumeChange}
             />
-            {/* <Popover>
-              <PopoverTrigger className="cursor-pointer p-2 rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-secondary transition-colors">
-                <MdPlaylistPlay className="w-5 h-5" />
+
+            {/* Settings Control (Repeat & Speed) */}
+            <Popover open={settingsOpen} onOpenChange={setSettingsOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="cursor-pointer p-1 md:p-2 rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-secondary transition-colors"
+                  title={locale === "ar" ? "الإعدادات" : "Settings"}
+                >
+                  <LuSettings className="w-4 h-4 md:w-5 md:h-5" />
+                </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-80" align="end">
-                playlist
+              <PopoverContent className="w-64 p-4 space-y-4" align="end">
+                {/* Repeat Control Section */}
+                {/* <div className="space-y-2">
+                  <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+                    {locale === "ar" ? "التكرار" : "Repeat"}
+                  </h4>
+                  <div className="flex gap-1.5 bg-muted p-1 rounded-lg">
+                    {(["off", "surah", "verse"] as const).map((mode) => (
+                      <button
+                        key={mode}
+                        className={`flex-1 py-1.5 text-[11px] font-medium rounded-md cursor-pointer transition-colors text-center ${
+                          repeatMode === mode
+                            ? "bg-background text-foreground font-semibold shadow-sm"
+                            : "text-gray-500 dark:text-gray-400 hover:text-foreground"
+                        }`}
+                        onClick={() => setRepeatMode(mode)}
+                      >
+                        {getRepeatModeLabel(mode)}
+                      </button>
+                    ))}
+                  </div>
+                </div> */}
+
+                {/* Speed Control Section */}
+                <div className="space-y-2">
+                  <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+                    {t("speed")}
+                  </h4>
+                  <div className="grid grid-cols-3 gap-1.5 bg-muted p-1 rounded-lg">
+                    {speeds.map((speed) => (
+                      <button
+                        key={speed}
+                        className={`py-1.5 text-[11px] font-medium rounded-md cursor-pointer transition-colors text-center ${
+                          playbackSpeed === speed
+                            ? "bg-background text-foreground font-semibold shadow-sm"
+                            : "text-gray-500 dark:text-gray-400 hover:text-foreground"
+                        }`}
+                        onClick={() => setPlaybackSpeed(speed)}
+                      >
+                        {speed === 1.0 ? `1.0x` : `${speed}x`}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </PopoverContent>
-            </Popover> */}
+            </Popover>
           </div>
         </div>
       </div>

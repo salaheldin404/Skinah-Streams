@@ -66,7 +66,8 @@ const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
   const t = useTranslations("Surah");
   const t2 = useTranslations("SurahPage");
   // ── Refs (avoid state-triggered re-renders for internal bookkeeping) ──────────
-  const hasScrolledInitialRef = useRef<number | null>(null);
+  const hasRestoredScrollRef = useRef(false);
+  const initialLastReadRef = useRef(lastRead);
   const prevVerseQueryRef = useRef<string | null>(null);
   const pendingSaveLastReadRef = useRef<typeof lastRead | null>(null);
   const isWaitingForSyncRef = useRef(false);
@@ -210,34 +211,50 @@ const SurahClientPage = ({ initialSurah, locale }: SurahClientPageProps) => {
   }, [verseQuery, dispatch, id]);
 
   useEffect(() => {
-    if (!readingCarouselApi || !readingPages.length) return;
+    if (
+      !readingCarouselApi ||
+      !readingPages.length ||
+      hasRestoredScrollRef.current
+    )
+      return;
 
-    const isNewSurah = hasScrolledInitialRef.current !== numericId;
+    const initialLastRead = initialLastReadRef.current;
+    if (!initialLastRead) {
+      hasRestoredScrollRef.current = true;
+      return;
+    }
+    if (initialLastRead.chapter_id !== numericId) {
+      hasRestoredScrollRef.current = true;
+      return;
+    }
+
+    const targetIndex = readingPages.indexOf(
+      String(initialLastRead.page_number),
+    );
+    if (targetIndex >= 0) readingCarouselApi.scrollTo(targetIndex, true);
+  }, [
+    id,
+    numericId,
+    readingCarouselApi,
+    readingPages,
+    versePageMap,
+  ]);
+
+  useEffect(() => {
+    if (!readingCarouselApi || !readingPages.length) return;
     const hasVerseQueryChanged = verseQuery !== prevVerseQueryRef.current;
 
     prevVerseQueryRef.current = verseQuery;
-    if (isNewSurah) hasScrolledInitialRef.current = numericId;
-
     const targetPage =
       verseQuery && hasVerseQueryChanged
         ? (versePageMap.get(`${id}:${verseQuery}`) ?? null)
-        : isNewSurah && lastRead?.chapter_id === numericId
-          ? lastRead.page_number
-          : null;
+        : null;
 
     if (targetPage === null) return;
 
     const targetIndex = readingPages.indexOf(String(targetPage));
     if (targetIndex >= 0) readingCarouselApi.scrollTo(targetIndex, true);
-  }, [
-    id,
-    lastRead,
-    numericId,
-    readingCarouselApi,
-    readingPages,
-    verseQuery,
-    versePageMap,
-  ]);
+  }, [readingCarouselApi, verseQuery, id, readingPages, versePageMap]);
 
   if (!surah) {
     return (

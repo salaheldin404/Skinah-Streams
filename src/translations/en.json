@@ -159,7 +159,11 @@
     "removed-from-wishlist": "Removed from wishlist"
   },
   "AudioPlayer": {
-    "audio-player-error": "Unfortunately, we were unable to play the audio clip. Please try another reader."
+    "audio-player-error": "Unfortunately, we were unable to play the audio clip. Please try another reader.",
+    "repeat-off": "Repeat Off",
+    "repeat-verse": "Repeat Verse",
+    "repeat-surah": "Repeat Surah",
+    "speed": "Speed"
   },
   "RadioPlayer": {
     "radio-player-error": "Unfortunately, we were unable to play the audio clip. Please try another station."
